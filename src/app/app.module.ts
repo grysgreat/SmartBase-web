@@ -61,7 +61,9 @@ import {
   ReloadOutline,
   DownloadOutline,
   ShrinkOutline,
-  PicCenterOutline
+  PicCenterOutline,
+  DatabaseOutline
+  
 } from '@ant-design/icons-angular/icons';
 import { NzAlertModule } from 'ng-zorro-antd/alert';
 import { NzBadgeModule } from 'ng-zorro-antd/badge';
@@ -117,6 +119,7 @@ const ngZorroConfig: NzConfig = {
     NzDrawerModule,
     NzAlertModule,
     NzNotificationModule
+ 
   ],
   /**
    * 定义的服务
@@ -167,7 +170,8 @@ const ngZorroConfig: NzConfig = {
         FullscreenOutline,
         ArrowsAltOutline,
         ShrinkOutline,
-        PicCenterOutline
+        PicCenterOutline,
+        DatabaseOutline
       ]
     },
     {

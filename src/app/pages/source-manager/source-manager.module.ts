@@ -3,15 +3,21 @@ import { CommonModule } from '@angular/common';
 
 import { SourceManagerRoutingModule } from './source-manager-routing.module';
 import { SourceManagerComponent } from './source-manager.component';
-
-
+import { NzFormModule } from 'ng-zorro-antd/form';
+import { NzInputModule } from 'ng-zorro-antd/input';
+import { NzInputNumberModule } from 'ng-zorro-antd/input-number';
+import { FormsModule } from '@angular/forms';
 @NgModule({
   declarations: [
     SourceManagerComponent
   ],
   imports: [
     CommonModule,
-    SourceManagerRoutingModule
+    SourceManagerRoutingModule,
+    NzFormModule,
+    NzInputModule,
+    NzInputNumberModule,
+    FormsModule
   ]
 })
 export class SourceManagerModule { }

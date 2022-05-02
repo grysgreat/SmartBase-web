@@ -1,5 +1,74 @@
 <p>source-manager works!</p>
-<div>
+<form nz-form  class="login-form">
 
-    顾鸿耀星是我儿子！！！！！！！！！！！
-</div>
+  <nz-form-item>
+   
+      <nz-input-group>
+        <input  class ="form-item" name="sorceIp"  type="text" nz-input [(ngModel)]="jobinfo.sorceIp"  placeholder="sorceIp" />
+      </nz-input-group>
+    
+  </nz-form-item>
+
+  <nz-form-item>
+    
+      <nz-input-group>
+        <nz-input-number class ="form-item"  name="sorcePort" 
+         [nzMin]="0" [nzMax]="55000" [nzStep]="1" [(ngModel)]="jobinfo.sorcePort" placeholder="sorcePort"></nz-input-number>
+      </nz-input-group>
+  </nz-form-item>
+
+  <nz-form-item>
+  
+      <nz-input-group>
+        <input type="text" class ="form-item" name="destUrl"
+         nz-input   [(ngModel)]="jobinfo.destUrl"  placeholder="destUrl" />
+      </nz-input-group>
+   
+  </nz-form-item>
+  <nz-form-item>
+
+    
+      <nz-input-group>
+        <input type="text" class ="form-item" name="saveUrl" 
+        nz-input [(ngModel)]="jobinfo.saveUrl" placeholder="saveUrl" />
+      </nz-input-group>
+   
+  </nz-form-item>
+
+  <nz-form-item>
+      <nz-input-group>
+        <input type="text" class ="form-item" name="sorceUserName"  
+        nz-input [(ngModel)]="jobinfo.sorceUserName" placeholder="sorceUserName" />
+      </nz-input-group>
+  </nz-form-item>
+
+  <nz-form-item>
+  
+      <nz-input-group>
+        <input type="text" class ="form-item" nz-input name="sorceUserPwd"
+         [(ngModel)]="jobinfo.sorceUserPwd" placeholder="sorceUserPwd" />
+      </nz-input-group>
+    
+  </nz-form-item>
+
+  <nz-form-item>
+      <nz-input-group>
+        <input type="text" class ="form-item" nz-input nz-input name="sorceBase"
+         [(ngModel)]="jobinfo.sorceBase" placeholder="sorceBase" />
+      </nz-input-group>
+  </nz-form-item>
+
+  <nz-form-item>
+      <nz-input-group>
+        <input type="text" class ="form-item" name="sourceTable"
+        nz-input [(ngModel)]="jobinfo.sourceTable" placeholder="sourceTable" />
+      </nz-input-group>
+  </nz-form-item>
+
+
+  <button nz-button class="login-form-button login-form-margin" (click)="submitForm()">SubMit A Job
+    <br>
+    mysql -> hdfs
+  </button>
+
+</form>
