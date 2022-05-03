@@ -22,3 +22,6 @@ import {
   ,...
 } from '@ant-design/icons-angular/icons';
 ```
+
+### 隐藏bug 
+1. 关于Cancel job小按钮 在添加一些小的其他功能后出现了消失的情况 ，但更改下业务逻辑后得到改善 但只是权衡之计 可以在做完后再研究一下
