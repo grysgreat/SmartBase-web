@@ -1,0 +1,113 @@
+<p>sql-sql works!</p>
+
+<div nz-row>
+    <div nz-col nzSpan="12"><!-- source -->
+        <nz-card [nzBordered]="false" [nzTitle]="'the job of sql->sql'" [nzLoading]="false">
+        
+        
+            <form nz-form class="login-form">
+        
+                <nz-form-item>
+                    <nz-input-group>
+                        <input class="form-item" name="sorceIp" type="text" nz-input [(ngModel)]="jobinfo.sorceIp"
+                            placeholder="sorceIp" />
+                    </nz-input-group>
+                </nz-form-item>
+        
+                <nz-form-item>
+                    <nz-input-group>
+                        <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired>Source Port</nz-form-label>
+                        <nz-input-number class="form-item form-item-count" name="sorcePort" [nzMin]="0" [nzMax]="55000" [nzStep]="1"
+                            [(ngModel)]="jobinfo.sorcePort" placeholder="sorcePort"></nz-input-number>
+                    </nz-input-group>
+                </nz-form-item>
+        
+        
+                <nz-form-item>
+                    <nz-input-group>
+                        <input type="text" class="form-item" name="sorceUserName" nz-input [(ngModel)]="jobinfo.sorceUserName"
+                            placeholder="sorceUserName" />
+                    </nz-input-group>
+                </nz-form-item>
+        
+                <nz-form-item>
+                    <nz-input-group>
+                        <input type="password" class="form-item" nz-input name="sorceUserPwd" [(ngModel)]="jobinfo.sorceUserPwd"
+                            placeholder="sorceUserPwd" />
+                    </nz-input-group>
+                </nz-form-item>
+        
+        
+                <nz-form-item>
+                    <nz-input-group>
+                        <input type="text" class="form-item" nz-input nz-input name="sorceBase" [(ngModel)]="jobinfo.sorceBase"
+                            placeholder="sorceBase" />
+                    </nz-input-group>
+                </nz-form-item>
+        
+                <nz-form-item>
+                    <nz-input-group>
+                        <input type="text" class="form-item" name="sourceTable" nz-input [(ngModel)]="jobinfo.sourceTable"
+                            placeholder="sourceTable" />
+                    </nz-input-group>
+                </nz-form-item>       
+            </form>
+            <p class ="margin-blank"></p>
+        
+        </nz-card></div>
+    <div nz-col nzSpan="12"><!-- dest -->
+        <nz-card [nzBordered]="false" [nzTitle]="' | '" [nzLoading]="false">
+        
+            <form nz-form class="login-form">
+                <nz-form-item>
+                    <nz-input-group>
+                        <input type="text" class="form-item" name="destIP" nz-input [(ngModel)]="jobinfo.destIP"
+                            placeholder="destIP" />
+                    </nz-input-group>
+                </nz-form-item>
+                <nz-form-item>
+                    <nz-input-group>
+                        <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired>Dest Port</nz-form-label>
+                        <nz-input-number class="form-item form-item-count" name="DestPort" [nzMin]="0" [nzMax]="55000" [nzStep]="1"
+                            [(ngModel)]="jobinfo.destPort" placeholder="destPort"></nz-input-number>
+                    </nz-input-group>
+                </nz-form-item>
+                <nz-form-item>
+                    <nz-input-group>
+                        <input type="text" class="form-item" name="destUserName" nz-input [(ngModel)]="jobinfo.destUserName"
+                            placeholder="destUserName" />
+                    </nz-input-group>
+                </nz-form-item>
+        
+                <nz-form-item>
+                    <nz-input-group>
+                        <input type="password" class="form-item" nz-input name="destUserPwd" [(ngModel)]="jobinfo.destUserPwd"
+                            placeholder="sorceUserPwd" />
+                    </nz-input-group>
+        
+                </nz-form-item>
+        
+                <nz-form-item>
+                    <nz-input-group>
+                        <input type="text" class="form-item" nz-input nz-input name="destBase" [(ngModel)]="jobinfo.destBase"
+                            placeholder="destBase" />
+                    </nz-input-group>
+                </nz-form-item>
+                <nz-form-item>
+                    <nz-input-group>
+                        <input type="text" class="form-item" name="destTable" nz-input [(ngModel)]="jobinfo.destTable"
+                            placeholder="destTable" />
+                    </nz-input-group>
+                </nz-form-item>
+                <button nz-button nzType="dashed" class="login-form-button login-form-margin" (click)="submitForm()">
+                    <i nz-icon nzType="download"></i>SubMit A Job
+                    <br>
+                    sql -> sql
+                </button>
+        
+            </form>
+        
+        </nz-card></div>
+</div>
+
+

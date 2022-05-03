@@ -1,6 +1,7 @@
 import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { JarService } from 'services';
 import { Router } from '@angular/router';
+
 @Component({
   selector: 'flink-source-manager',
   templateUrl: './source-manager.component.html',

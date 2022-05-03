@@ -1,4 +1,8 @@
 <p>source-manager works!</p>
+
+<nz-card [nzBordered]="false" [nzTitle]="'the job of mysql->hdfs'" [nzLoading]="false">
+
+
 <form nz-form  class="login-form">
 
   <nz-form-item>
@@ -12,7 +16,8 @@
   <nz-form-item>
     
       <nz-input-group>
-        <nz-input-number class ="form-item"  name="sorcePort" 
+        <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired >Mysql Port</nz-form-label>
+        <nz-input-number class ="form-item"  name="sorcePort"  
          [nzMin]="0" [nzMax]="55000" [nzStep]="1" [(ngModel)]="jobinfo.sorcePort" placeholder="sorcePort"></nz-input-number>
       </nz-input-group>
   </nz-form-item>
@@ -66,9 +71,12 @@
   </nz-form-item>
 
 
-  <button nz-button class="login-form-button login-form-margin" (click)="submitForm()">SubMit A Job
+  <button nz-button nzType="dashed" class="login-form-button login-form-margin" (click)="submitForm()">
+    <i nz-icon nzType="download"></i>SubMit A Job
     <br>
     mysql -> hdfs
   </button>
 
-</form>
+</form> 
+
+</nz-card>
