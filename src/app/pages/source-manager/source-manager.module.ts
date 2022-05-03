@@ -7,9 +7,11 @@ import { NzFormModule } from 'ng-zorro-antd/form';
 import { NzInputModule } from 'ng-zorro-antd/input';
 import { NzInputNumberModule } from 'ng-zorro-antd/input-number';
 import { FormsModule } from '@angular/forms';
+import { SourceConfigComponent } from './source-config/source-config.component';
 @NgModule({
   declarations: [
-    SourceManagerComponent
+    SourceManagerComponent,
+    SourceConfigComponent
   ],
   imports: [
     CommonModule,

@@ -85,6 +85,9 @@ export class JobStatusComponent implements OnInit, OnDestroy {
     jobDetail$.pipe(distinctUntilKeyChanged('state')).subscribe(() => {
       this.statusTips = '';
     });
+    
+    if(!this.statusTips)this.statusTips = '';
+    console.log(this.statusTips)
   }
 
   public ngOnDestroy(): void {

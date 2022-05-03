@@ -1,5 +1,6 @@
 import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { JarService } from 'services';
+import { Router } from '@angular/router';
 @Component({
   selector: 'flink-source-manager',
   templateUrl: './source-manager.component.html',
@@ -8,7 +9,10 @@ import { JarService } from 'services';
 })
 export class SourceManagerComponent implements OnInit {
 //
-  constructor(private readonly jarService: JarService) {
+  constructor(
+    private readonly jarService: JarService,
+    private readonly router: Router
+    ) {
   }
 
   /**
@@ -50,8 +54,7 @@ export class SourceManagerComponent implements OnInit {
       ""
     )
     .subscribe(data => {
-      alert( data.jobid +"is running ")
-      //this.router.navigate(['job', data.jobid]).then();
+      this.router.navigate(['job', data.jobid]).then();
     });
   }
 

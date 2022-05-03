@@ -50,7 +50,7 @@
   <flink-navigation [listOfNavigation]="listOfNavigation"></flink-navigation>
   <div class="operate">
     <span *ngIf="statusTips">{{ statusTips }}</span>
-    <ng-container *ngIf="!statusTips">
+    <ng-container>
       <a
         nz-popconfirm
         nzPopconfirmTitle="Cancel Job?"
@@ -58,7 +58,7 @@
         nzCancelText="No"
         (nzOnConfirm)="cancelJob()"
         *ngIf="
-          webCancelEnabled &&
+          
           (jobDetail.state === 'RUNNING' ||
             jobDetail.state === 'CREATED' ||
             jobDetail.state === 'RESTARTING')

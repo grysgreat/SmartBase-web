@@ -20,16 +20,18 @@
     <div class="logo">
       <a href="#/">
         <img src="assets/images/flink.svg" />
-        <h1>Apache Flink Dashboard</h1>//TODO： 修改这里 对应左上角标题
+        <h1>Apache Flink Dashboard</h1>//
       </a>
     </div>
     <ul nz-menu [nzTheme]="'dark'" [nzMode]="'inline'" [nzInlineCollapsed]="collapsed" class="menu">
+    
       <li nz-menu-item routerLinkActive="ant-menu-item-selected" [routerLink]="['/overview']">
         <span>
           <i nz-icon nzType="dashboard" nzSpin="true"></i>
           <span>Overview</span>
         </span>
       </li>
+
       <li nz-submenu [nzOpen]="true">
         <span title>
           <i nz-icon nzType="bars"></i>
@@ -58,6 +60,8 @@
           </li>
         </ul>
       </li>
+
+
       <li nz-menu-item routerLinkActive="ant-menu-item-selected" [routerLink]="['/task-manager']">
         <span>
           <i nz-icon nzType="schedule"></i>
@@ -70,12 +74,42 @@
           <span>Job Manager 任务管理器</span>
         </span>
       </li>
-      <li nz-menu-item routerLinkActive="ant-menu-item-selected" [routerLink]="['/source-manager']">
-        <span>
-          <i nz-icon nzType="database"></i>
+
+
+      <li nz-submenu [nzOpen]="true">
+        <span title>
+          <i nz-icon nzType="bars"></i>
           <span>Source Manager</span>
         </span>
+        <ul>
+          <li
+            nz-menu-item
+            routerLinkActive="ant-menu-item-selected"
+            [routerLink]="['/source-manager']"
+          >
+            <span>
+              <i nz-icon nzType="play-circle"></i>
+              <span>Mysql -> Hdfs</span>
+            </span>
+          </li>
+          <li
+            nz-menu-item
+            routerLinkActive="ant-menu-item-selected"
+            [routerLink]="['/source-manager/source-config']"
+          >
+            <span>
+              <i nz-icon nzType="check-circle"></i>
+              <span>Source Config
+              </span>
+            </span>
+          </li>
+        </ul>
       </li>
+
+
+
+
+
       <li
         *ngIf="webSubmitEnabled"
         nz-menu-item
