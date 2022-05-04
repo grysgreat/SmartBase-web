@@ -9,6 +9,7 @@ import { NzInputNumberModule } from 'ng-zorro-antd/input-number';
 import { FormsModule } from '@angular/forms';
 import { SourceConfigComponent } from './source-config/source-config.component';
 import { SqlSqlComponent } from './sql-sql/sql-sql.component';
+import { NzCollapseModule } from 'ng-zorro-antd/collapse';
 @NgModule({
   declarations: [
     SourceManagerComponent,
@@ -22,7 +23,8 @@ import { SqlSqlComponent } from './sql-sql/sql-sql.component';
     NzInputModule,
     NzInputNumberModule,
     FormsModule,
-    NzCardModule
+    NzCardModule,
+    NzCollapseModule
   ]
 })
 export class SourceManagerModule { }

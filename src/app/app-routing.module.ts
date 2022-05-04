@@ -32,7 +32,8 @@ const routes: Routes = [
   },
   { path: 'job', loadChildren: () => import('./pages/job/job.module').then(m => m.JobModule) },
   { path:'source-manager',   loadChildren: () => import('./pages/source-manager/source-manager.module').then(m => m.SourceManagerModule)},
-  { path: '**', redirectTo: 'overview', pathMatch: 'full' }
+ {path:'sql-console' , loadChildren:()=> import('./pages/sql-console/sql-console.module').then(m => m.SqlConsoleModule)}
+  ,{ path: '**', redirectTo: 'overview', pathMatch: 'full' }
 ];
 
 @NgModule({

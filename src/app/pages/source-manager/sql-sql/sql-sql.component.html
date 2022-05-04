@@ -9,7 +9,7 @@
         
                 <nz-form-item>
                     <nz-input-group>
-                        <input class="form-item" name="sorceIp" type="text" nz-input [(ngModel)]="jobinfo.sorceIp"
+                        <input class="form-item" name="sorceIp" type="text" nz-input [(ngModel)]="sourceinfo.IP"
                             placeholder="sorceIp" />
                     </nz-input-group>
                 </nz-form-item>
@@ -18,21 +18,21 @@
                     <nz-input-group>
                         <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired>Source Port</nz-form-label>
                         <nz-input-number class="form-item form-item-count" name="sorcePort" [nzMin]="0" [nzMax]="55000" [nzStep]="1"
-                            [(ngModel)]="jobinfo.sorcePort" placeholder="sorcePort"></nz-input-number>
+                            [(ngModel)]="sourceinfo.Port" placeholder="sorcePort"></nz-input-number>
                     </nz-input-group>
                 </nz-form-item>
         
         
                 <nz-form-item>
                     <nz-input-group>
-                        <input type="text" class="form-item" name="sorceUserName" nz-input [(ngModel)]="jobinfo.sorceUserName"
+                        <input type="text" class="form-item" name="sorceUserName" nz-input [(ngModel)]="sourceinfo.UserName"
                             placeholder="sorceUserName" />
                     </nz-input-group>
                 </nz-form-item>
         
                 <nz-form-item>
                     <nz-input-group>
-                        <input type="password" class="form-item" nz-input name="sorceUserPwd" [(ngModel)]="jobinfo.sorceUserPwd"
+                        <input type="password" class="form-item" nz-input name="sorceUserPwd" [(ngModel)]="sourceinfo.UserPwd"
                             placeholder="sorceUserPwd" />
                     </nz-input-group>
                 </nz-form-item>
@@ -40,19 +40,43 @@
         
                 <nz-form-item>
                     <nz-input-group>
-                        <input type="text" class="form-item" nz-input nz-input name="sorceBase" [(ngModel)]="jobinfo.sorceBase"
+                        <input type="text" class="form-item" nz-input nz-input name="sorceBase" [(ngModel)]="sourceinfo.Base"
                             placeholder="sorceBase" />
                     </nz-input-group>
                 </nz-form-item>
         
                 <nz-form-item>
                     <nz-input-group>
-                        <input type="text" class="form-item" name="sourceTable" nz-input [(ngModel)]="jobinfo.sourceTable"
+                        <input type="text" class="form-item" name="source Table" nz-input [(ngModel)]="sourceinfo.Table"
                             placeholder="sourceTable" />
                     </nz-input-group>
-                </nz-form-item>       
+                </nz-form-item> 
+                <nz-form-item>
+                    <nz-input-group>
+                        <input type="text" class="form-item" name="source Kafka Topic" nz-input [(ngModel)]="this.sourceinfo.Kafka.Topic"
+                            placeholder="sourceKafka" />
+                    </nz-input-group>
+                </nz-form-item>
+                <nz-form-item>
+                    <nz-input-group>
+                        <input type="text" class="form-item" name="sourceKafkaUrl" nz-input [(ngModel)]="sourceinfo.Kafka.Url"
+                            placeholder="sourceKafkaUrl" />
+                    </nz-input-group>
+                </nz-form-item>
+                <nz-form-item>
+                    <nz-input-group>
+                        <input type="text" class="form-item" name="sourceSaveUrl" nz-input [(ngModel)]="sourceinfo.HdfsUrl"
+                            placeholder="sourceSaveUrl" />
+                    </nz-input-group>
+                </nz-form-item>
+                <button nz-button nzType="dashed" class="login-form-button login-form-margin" (click)="submitSqlKafka()">
+                    <i nz-icon nzType="download"></i>SubMit A Job
+                    <br>
+                    sql -> kafka
+                </button>
+                
             </form>
-            <p class ="margin-blank"></p>
+            
         
         </nz-card></div>
     <div nz-col nzSpan="12"><!-- dest -->
@@ -61,7 +85,7 @@
             <form nz-form class="login-form">
                 <nz-form-item>
                     <nz-input-group>
-                        <input type="text" class="form-item" name="destIP" nz-input [(ngModel)]="jobinfo.destIP"
+                        <input type="text" class="form-item" name="destIP" nz-input [(ngModel)]="destinfo.IP"
                             placeholder="destIP" />
                     </nz-input-group>
                 </nz-form-item>
@@ -69,19 +93,19 @@
                     <nz-input-group>
                         <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired>Dest Port</nz-form-label>
                         <nz-input-number class="form-item form-item-count" name="DestPort" [nzMin]="0" [nzMax]="55000" [nzStep]="1"
-                            [(ngModel)]="jobinfo.destPort" placeholder="destPort"></nz-input-number>
+                            [(ngModel)]="destinfo.Port" placeholder="destPort"></nz-input-number>
                     </nz-input-group>
                 </nz-form-item>
                 <nz-form-item>
                     <nz-input-group>
-                        <input type="text" class="form-item" name="destUserName" nz-input [(ngModel)]="jobinfo.destUserName"
+                        <input type="text" class="form-item" name="destUserName" nz-input [(ngModel)]="destinfo.UserName"
                             placeholder="destUserName" />
                     </nz-input-group>
                 </nz-form-item>
         
                 <nz-form-item>
                     <nz-input-group>
-                        <input type="password" class="form-item" nz-input name="destUserPwd" [(ngModel)]="jobinfo.destUserPwd"
+                        <input type="password" class="form-item" nz-input name="destUserPwd" [(ngModel)]="destinfo.UserPwd"
                             placeholder="sorceUserPwd" />
                     </nz-input-group>
         
@@ -89,20 +113,38 @@
         
                 <nz-form-item>
                     <nz-input-group>
-                        <input type="text" class="form-item" nz-input nz-input name="destBase" [(ngModel)]="jobinfo.destBase"
+                        <input type="text" class="form-item" nz-input nz-input name="destBase" [(ngModel)]="destinfo.Base"
                             placeholder="destBase" />
                     </nz-input-group>
                 </nz-form-item>
                 <nz-form-item>
                     <nz-input-group>
-                        <input type="text" class="form-item" name="destTable" nz-input [(ngModel)]="jobinfo.destTable"
+                        <input type="text" class="form-item" name="dest Table" nz-input [(ngModel)]="destinfo.Table"
                             placeholder="destTable" />
                     </nz-input-group>
                 </nz-form-item>
-                <button nz-button nzType="dashed" class="login-form-button login-form-margin" (click)="submitForm()">
+                <nz-form-item>
+                    <nz-input-group>
+                        <input type="text" class="form-item" name="dest Kafka Topic" nz-input [(ngModel)]="destinfo.Kafka.Topic"
+                            placeholder="destKafka Topic" />
+                    </nz-input-group>
+                </nz-form-item>
+                <nz-form-item>
+                    <nz-input-group>
+                        <input type="text" class="form-item" name="dest Kafka Url" nz-input [(ngModel)]="destinfo.Kafka.Url"
+                            placeholder="dest Kafka Url" />
+                    </nz-input-group>
+                </nz-form-item>
+                <nz-form-item>
+                    <nz-input-group>
+                        <input type="text" class="form-item" name="destSaveUrl" nz-input [(ngModel)]="destinfo.HdfsUrl"
+                            placeholder="destSaveUrl" />
+                    </nz-input-group>
+                </nz-form-item>
+                <button nz-button nzType="dashed" class="login-form-button login-form-margin" (click)="submitKafkaSql()">
                     <i nz-icon nzType="download"></i>SubMit A Job
                     <br>
-                    sql -> sql
+                     kafka ->  sql
                 </button>
         
             </form>

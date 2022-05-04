@@ -54,7 +54,10 @@ export class JarService {
   public deleteJar(jarId: string): Observable<void> {
     return this.httpClient.delete<void>(`${BASE_URL}/jars/${jarId}`);
   }
-
+/**
+ * 运行job
+ * POSt
+ */
   public runJob(
     jarId: string,
     entryClass: string,
