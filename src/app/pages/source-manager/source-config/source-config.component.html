@@ -16,7 +16,7 @@
   </nz-collapse-panel>
 </nz-collapse>
 
-<nz-collapse> 
+<nz-collapse>
   <nz-collapse-panel [nzHeader]="'Kafka info'">
     <button nz-button nzType="primary" nzShape="circle" class="add-new-btn">+</button>
     <nz-descriptions nzTitle="Responsive Descriptions" nzBordered="true">
@@ -28,7 +28,7 @@
   </nz-collapse-panel>
 </nz-collapse>
 
-<nz-collapse> 
+<nz-collapse>
   <nz-collapse-panel [nzHeader]="'Redis info'">
     <button nz-button nzType="primary" nzShape="circle" class="add-new-btn">+</button>
     <nz-descriptions nzTitle="Responsive Descriptions" nzBordered="true">
@@ -40,7 +40,7 @@
   </nz-collapse-panel>
 </nz-collapse>
 
-<nz-collapse> 
+<nz-collapse>
   <nz-collapse-panel [nzHeader]="'Port/Socket'">
     <button nz-button nzType="primary" nzShape="circle" class="add-new-btn">+</button>
     <nz-descriptions nzTitle="Responsive Descriptions" nzBordered="true">
@@ -52,7 +52,7 @@
 </nz-collapse>
 
 
-<nz-collapse> 
+<nz-collapse>
   <nz-collapse-panel [nzHeader]="'HDFS'">
     <button nz-button nzType="primary" nzShape="circle" class="add-new-btn">+</button>
     <nz-descriptions nzTitle="Responsive Descriptions" nzBordered="true">
@@ -61,3 +61,74 @@
     </nz-descriptions>
   </nz-collapse-panel>
 </nz-collapse>
+
+
+
+<div nz-row>
+  <div nz-col nzSpan="12">
+    <button nz-button nz-dropdown [nzDropdownMenu]="menu4">
+      Button
+      <i nz-icon nzType="down"></i>
+    </button>
+    <nz-dropdown-menu #menu4="nzDropdownMenu">
+      <ul nz-menu>
+        <li nz-menu-item  (click)="setsourcType(sourcetype.JDBC)">JDBC</li>
+        <li nz-menu-item (click)="setsourcType(sourcetype.REDIS)">REDIS</li>
+        <li nz-menu-item (click)="setsourcType(sourcetype.HDFS)">HDFS</li>
+        <li nz-menu-item (click)="setsourcType(sourcetype.KAFKA)">KAFKA</li>
+      </ul>
+    </nz-dropdown-menu>
+
+    <div [ngSwitch]="sourcdatatype.type">
+      <div *ngSwitchCase="sourcetype.JDBC">
+        <flink-jdbc></flink-jdbc>
+      </div>
+      <div *ngSwitchCase="sourcetype.REDIS">
+        <flink-redis></flink-redis>
+      </div>
+      <div *ngSwitchCase="sourcetype.HDFS">
+        <flink-hdfs></flink-hdfs>
+      </div>
+      <div *ngSwitchCase="sourcetype.KAFKA">
+        <flink-kafka></flink-kafka>
+      </div>
+    </div>
+    </div>
+
+
+
+
+  <div nz-col nzSpan="12">
+
+    <button nz-button nz-dropdown [nzDropdownMenu]="menu5">
+      Button
+      <i nz-icon nzType="down"></i>
+    </button>
+    <nz-dropdown-menu #menu5="nzDropdownMenu">
+      <ul nz-menu>
+        <li nz-menu-item  (click)="setdstType(sourcetype.JDBC)">JDBC</li>
+        <li nz-menu-item (click)="setdstType(sourcetype.REDIS)">REDIS</li>
+        <li nz-menu-item (click)="setdstType(sourcetype.HDFS)">HDFS</li>
+        <li nz-menu-item (click)="setdstType(sourcetype.KAFKA)">KAFKA</li>
+      </ul>
+    </nz-dropdown-menu>
+    
+
+    <div [ngSwitch]="destdatatype.type">
+      <div *ngSwitchCase="sourcetype.JDBC">
+        <flink-jdbc></flink-jdbc>
+      </div>
+      <div *ngSwitchCase="sourcetype.REDIS">
+        <flink-redis></flink-redis>
+      </div>
+      <div *ngSwitchCase="sourcetype.HDFS">
+        <flink-hdfs></flink-hdfs>
+      </div>
+      <div *ngSwitchCase="sourcetype.KAFKA">
+        <flink-kafka></flink-kafka>
+      </div>
+    </div>
+
+  </div>
+
+</div>

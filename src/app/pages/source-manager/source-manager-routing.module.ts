@@ -5,7 +5,7 @@ import { SourceConfigComponent } from './source-config/source-config.component';
 import { SqlSqlComponent } from './sql-sql/sql-sql.component';
 
 const routes: Routes = [
-  { path: '', component:SourceManagerComponent},
+{ path: '', component:SourceManagerComponent},
 {path:'source-config',component:SourceConfigComponent},
 {path:'sql-sql',component:SqlSqlComponent}
 ];

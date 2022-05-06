@@ -12,11 +12,21 @@ import { SqlSqlComponent } from './sql-sql/sql-sql.component';
 import { NzCollapseModule } from 'ng-zorro-antd/collapse';
 import { NzDescriptionsModule } from 'ng-zorro-antd/descriptions';
 import { NzButtonModule } from 'ng-zorro-antd/button';
+import { NzDropDownModule } from 'ng-zorro-antd/dropdown';
+import { JdbcComponent } from './source-config/jdbc/jdbc.component';
+import { KafkaComponent } from './source-config/kafka/kafka.component';
+import { HdfsComponent } from './source-config/hdfs/hdfs.component';
+import { NzSpaceModule } from 'ng-zorro-antd/space';
+import { RedisComponent } from './source-config/redis/redis.component';
 @NgModule({
   declarations: [
     SourceManagerComponent,
     SourceConfigComponent,
-    SqlSqlComponent
+    SqlSqlComponent,
+    JdbcComponent,
+    KafkaComponent,
+    HdfsComponent,
+    RedisComponent
   ],
   imports: [
     CommonModule,
@@ -28,7 +38,9 @@ import { NzButtonModule } from 'ng-zorro-antd/button';
     NzCardModule,
     NzCollapseModule,
     NzDescriptionsModule,
-    NzButtonModule
+    NzButtonModule,
+    NzDropDownModule,
+    NzSpaceModule
   ]
 })
 export class SourceManagerModule { }

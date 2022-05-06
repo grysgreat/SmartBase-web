@@ -1,0 +1,40 @@
+
+<nz-card [nzBordered]="false" [nzTitle]="' | '" [nzLoading]="false">    
+    <form nz-form class="login-form">
+        
+
+
+        
+        <nz-form-item>
+            <nz-input-group>
+                <input type="text" class="form-item" name="destIP" nz-input 
+                    placeholder="destIP" />
+            </nz-input-group>
+        </nz-form-item>
+        <nz-form-item>
+            <nz-input-group>
+                <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired>Dest Port</nz-form-label>
+                <nz-input-number class="form-item form-item-count" name="DestPort" [nzMin]="0" [nzMax]="55000" [nzStep]="1"
+                   placeholder="destPort"></nz-input-number>
+            </nz-input-group>
+        </nz-form-item>
+
+
+        <nz-form-item>
+            <nz-input-group>
+                <input type="password" class="form-item" nz-input name="KafKa Topic"
+                    placeholder="Topic" />
+            </nz-input-group>
+
+        </nz-form-item>
+
+
+        <button nz-button nzType="dashed" class="login-form-button login-form-margin ">
+            <i nz-icon nzType="download"></i>SubMit A Job
+            <br>
+             kafka
+        </button>
+
+    </form>
+
+</nz-card>
