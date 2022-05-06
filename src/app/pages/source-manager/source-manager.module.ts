@@ -10,6 +10,8 @@ import { FormsModule } from '@angular/forms';
 import { SourceConfigComponent } from './source-config/source-config.component';
 import { SqlSqlComponent } from './sql-sql/sql-sql.component';
 import { NzCollapseModule } from 'ng-zorro-antd/collapse';
+import { NzDescriptionsModule } from 'ng-zorro-antd/descriptions';
+import { NzButtonModule } from 'ng-zorro-antd/button';
 @NgModule({
   declarations: [
     SourceManagerComponent,
@@ -24,7 +26,9 @@ import { NzCollapseModule } from 'ng-zorro-antd/collapse';
     NzInputNumberModule,
     FormsModule,
     NzCardModule,
-    NzCollapseModule
+    NzCollapseModule,
+    NzDescriptionsModule,
+    NzButtonModule
   ]
 })
 export class SourceManagerModule { }
