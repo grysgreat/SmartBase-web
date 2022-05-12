@@ -34,3 +34,4 @@ export * from './task-manager';
 export * from './job-accumulators';
 export * from './job-manager';
 export * from './databaseinfo';
+export * from './jdbcconfig'
