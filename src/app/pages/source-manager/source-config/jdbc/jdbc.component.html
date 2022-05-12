@@ -1,72 +1,88 @@
-
-<nz-card [nzBordered]="false" [nzTitle]="' | '" [nzLoading]="false">    
-    <form nz-form class="login-form">
-        
-        <nz-form-item>
-            <nz-input-group>
-                <input type="text" class="form-item" name="destIP" nz-input 
-                    placeholder="destIP" />
-            </nz-input-group>
-        </nz-form-item>
-        <nz-form-item>
-            <nz-input-group>
-                <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired>Dest Port</nz-form-label>
-                <nz-input-number class="form-item form-item-count" name="DestPort" [nzMin]="0" [nzMax]="55000" [nzStep]="1"
-                   placeholder="destPort"></nz-input-number>
-            </nz-input-group>
-        </nz-form-item>
-        <nz-form-item>
-            <nz-input-group>
-                <input type="text" class="form-item" name="destUserName" nz-input 
-                    placeholder="destUserName" />
-            </nz-input-group>
-        </nz-form-item>
-
-        <nz-form-item>
-            <nz-input-group>
-                <input type="password" class="form-item" nz-input name="destUserPwd"
-                    placeholder="sorceUserPwd" />
-            </nz-input-group>
-
-        </nz-form-item>
-
-
-        <nz-form-item>
-            <nz-input-group>
-                <input type="text" class="form-item" nz-input nz-input name="destBase" 
-                    placeholder="destBase" />
-            </nz-input-group>
-        </nz-form-item>
-        <nz-form-item>
-            <nz-input-group>
-                <input type="text" class="form-item" name="dest Table" nz-input
-                    placeholder="destTable" />
-            </nz-input-group>
-        </nz-form-item>
-        <nz-form-item>
-            <nz-input-group>
-                <input type="text" class="form-item" name="dest Kafka Topic" nz-input 
-                    placeholder="destKafka Topic" />
-            </nz-input-group>
-        </nz-form-item>
-        <nz-form-item>
-            <nz-input-group>
-                <input type="text" class="form-item" name="dest Kafka Url" nz-input 
-                    placeholder="dest Kafka Url" />
-            </nz-input-group>
-        </nz-form-item>
-        <nz-form-item>
-            <nz-input-group>
-                <input type="text" class="form-item" name="destSaveUrl" nz-input 
-                    placeholder="destSaveUrl" />
-            </nz-input-group>
-        </nz-form-item>
-        <button nz-button nzType="dashed" class="login-form-button login-form-margin ">
-            <i nz-icon nzType="download"></i>SubMit A Job
-            <br>
-             kafka ->  sql
-        </button>
-
-    </form>
-
-</nz-card>
+<div>
+  
+    <nz-collapse>
+      <nz-collapse-panel [nzHeader]="'sql info'">
+          <button nz-button nzType="primary" nzShape="circle" class="add-new-btn" (click)="showModal()">+</button>
+          <nz-descriptions nzTitle="Responsive Descriptions" nzBordered="true">
+              <nz-descriptions-item nzTitle="DB Type">Mysql</nz-descriptions-item>
+              <nz-descriptions-item nzTitle="Url">localhost:3306</nz-descriptions-item>
+              <nz-descriptions-item nzTitle="User Name">root</nz-descriptions-item>
+              <nz-descriptions-item nzTitle="User Password">qwerasdf</nz-descriptions-item>
+              <nz-descriptions-item nzTitle="Data Base">test</nz-descriptions-item>
+              <nz-descriptions-item nzTitle="Table Name">Student</nz-descriptions-item>
+          </nz-descriptions>
+      </nz-collapse-panel>
+    </nz-collapse>
+      <nz-modal [(nzVisible)]="isVisible" nzTitle="The first Modal" (nzOnCancel)="handleCancel()" (nzOnOk)="handleOk()">
+          <ng-container *nzModalContent>
+      
+              <nz-card [nzBordered]="false" [nzTitle]="' JDBC source '" [nzLoading]="false">
+                  <form nz-form class="login-form">
+                      <nz-form-item>
+                          <nz-input-group>
+                              <input type="text" class="form-item" name="destIP" nz-input placeholder="destIP" />
+                          </nz-input-group>
+                      </nz-form-item>
+                      <nz-form-item>
+                          <nz-input-group>
+                              <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired>Dest Port</nz-form-label>
+                              <nz-input-number class="form-item form-item-count" name="DestPort" [nzMin]="0" [nzMax]="55000"
+                                  [nzStep]="1" placeholder="destPort"></nz-input-number>
+                          </nz-input-group>
+                      </nz-form-item>
+                      <nz-form-item>
+                          <nz-input-group>
+                              <input type="text" class="form-item" name="destUserName" nz-input placeholder="destUserName" />
+                          </nz-input-group>
+                      </nz-form-item>
+      
+                      <nz-form-item>
+                          <nz-input-group>
+                              <input type="password" class="form-item" nz-input name="destUserPwd"
+                                  placeholder="sorceUserPwd" />
+                          </nz-input-group>
+      
+                      </nz-form-item>
+      
+      
+                      <nz-form-item>
+                          <nz-input-group>
+                              <input type="text" class="form-item" nz-input nz-input name="destBase" placeholder="destBase" />
+                          </nz-input-group>
+                      </nz-form-item>
+                      <nz-form-item>
+                          <nz-input-group>
+                              <input type="text" class="form-item" name="dest Table" nz-input placeholder="destTable" />
+                          </nz-input-group>
+                      </nz-form-item>
+                      <nz-form-item>
+                          <nz-input-group>
+                              <input type="text" class="form-item" name="dest Kafka Topic" nz-input
+                                  placeholder="destKafka Topic" />
+                          </nz-input-group>
+                      </nz-form-item>
+                      <nz-form-item>
+                          <nz-input-group>
+                              <input type="text" class="form-item" name="dest Kafka Url" nz-input
+                                  placeholder="dest Kafka Url" />
+                          </nz-input-group>
+                      </nz-form-item>
+                      <nz-form-item>
+                          <nz-input-group>
+                              <input type="text" class="form-item" name="destSaveUrl" nz-input placeholder="destSaveUrl" />
+                          </nz-input-group>
+                      </nz-form-item>
+                      <button nz-button nzType="dashed" class="login-form-button login-form-margin ">
+                          <i nz-icon nzType="download"></i>SubMit A Job
+                          <br>
+                          JDBC
+                      </button>
+      
+                  </form>
+      
+              </nz-card>
+          </ng-container>
+      </nz-modal>
+      
+      </div>
+    

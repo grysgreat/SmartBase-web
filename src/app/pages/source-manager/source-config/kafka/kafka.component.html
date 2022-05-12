@@ -1,10 +1,21 @@
-
-<nz-card [nzBordered]="false" [nzTitle]="' | '" [nzLoading]="false">    
+<nz-collapse>
+    <nz-collapse-panel [nzHeader]="'Kafka info'">
+      <button nz-button nzType="primary" nzShape="circle" class="add-new-btn"
+      (click)="showModal()">+</button>
+      <nz-descriptions nzTitle="Responsive Descriptions" nzBordered="true">
+        <nz-descriptions-item nzTitle="kafka URL">192.168.0.102</nz-descriptions-item>
+        <nz-descriptions-item nzTitle="kafka Port">7777</nz-descriptions-item>
+        <nz-descriptions-item nzTitle="kafka Topic">root</nz-descriptions-item>
+        <nz-descriptions-item nzTitle="Hdfssavepoint URL">192.168.0.102://///</nz-descriptions-item>
+      </nz-descriptions>
+    </nz-collapse-panel>
+  </nz-collapse>
+<nz-modal [(nzVisible)]="isVisible" nzTitle="The first Modal" (nzOnCancel)="handleCancel()" (nzOnOk)="handleOk()">
+<ng-container *nzModalContent>
+<nz-card [nzBordered]="false" [nzTitle]="' KafKA source '" [nzLoading]="false">    
     <form nz-form class="login-form">
         
 
-
-        
         <nz-form-item>
             <nz-input-group>
                 <input type="text" class="form-item" name="destIP" nz-input 
@@ -38,3 +49,5 @@
     </form>
 
 </nz-card>
+</ng-container>
+</nz-modal>

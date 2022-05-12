@@ -1,6 +1,5 @@
 import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 
-
 @Component({
   selector: 'flink-source-config',
   templateUrl: './source-config.component.html',
@@ -10,8 +9,6 @@ import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 
 export class SourceConfigComponent implements OnInit {
 //这里用ngSwitch 的方法十分巧妙
-
-
   public sourcdatatype :datatypeeumn;
   public destdatatype:datatypeeumn;
   sourcetype=Datatype;
@@ -28,6 +25,23 @@ export class SourceConfigComponent implements OnInit {
   setdstType(type: Datatype) {
     this.destdatatype.type = type;
   }
+  isVisible = false;
+  showModal(): void {
+    this.isVisible = true;
+  }
+
+  handleOk(): void {
+    console.log('Button ok clicked!');
+    this.isVisible = false;
+  }
+
+  handleCancel(): void {
+    console.log('Button cancel clicked!');
+    this.isVisible = false;
+  }
+
+  
+  
 
 
 }
@@ -39,4 +53,13 @@ export enum Datatype{
 }
 class datatypeeumn{
   constructor(public text: string,public type: Datatype) {}
+  tostring() {
+    switch(this.type){
+      case Datatype.HDFS: return "HDFS";
+      case Datatype.JDBC: return "JDBC";
+      case Datatype.KAFKA: return "KAFKA";
+      case Datatype.REDIS: return "REDIS";
+      default: return "UNKNOW";
+      }
+  }
 }

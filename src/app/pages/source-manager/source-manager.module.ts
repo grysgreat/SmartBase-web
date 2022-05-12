@@ -18,6 +18,10 @@ import { KafkaComponent } from './source-config/kafka/kafka.component';
 import { HdfsComponent } from './source-config/hdfs/hdfs.component';
 import { NzSpaceModule } from 'ng-zorro-antd/space';
 import { RedisComponent } from './source-config/redis/redis.component';
+import { NzModalModule } from 'ng-zorro-antd/modal';
+import { SocketComponent } from './source-config/socket/socket.component';
+
+
 @NgModule({
   declarations: [
     SourceManagerComponent,
@@ -26,7 +30,8 @@ import { RedisComponent } from './source-config/redis/redis.component';
     JdbcComponent,
     KafkaComponent,
     HdfsComponent,
-    RedisComponent
+    RedisComponent,
+    SocketComponent
   ],
   imports: [
     CommonModule,
@@ -40,7 +45,8 @@ import { RedisComponent } from './source-config/redis/redis.component';
     NzDescriptionsModule,
     NzButtonModule,
     NzDropDownModule,
-    NzSpaceModule
+    NzSpaceModule,
+    NzModalModule
   ]
 })
 export class SourceManagerModule { }

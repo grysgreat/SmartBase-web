@@ -1,12 +1,12 @@
 import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 
 @Component({
-  selector: 'flink-redis',
-  templateUrl: './redis.component.html',
-  styleUrls: ['./redis.component.less'],
+  selector: 'flink-socket',
+  templateUrl: './socket.component.html',
+  styleUrls: ['./socket.component.less'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class RedisComponent implements OnInit {
+export class SocketComponent implements OnInit {
 
   constructor() { }
 

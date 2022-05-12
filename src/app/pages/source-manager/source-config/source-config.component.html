@@ -1,73 +1,31 @@
 <p>this is source config</p>
-<div class="content">
+<!-- <div class="content">
   <router-outlet></router-outlet>
-</div>
-<nz-collapse>
-  <nz-collapse-panel [nzHeader]="'sql info'">
-    <button nz-button nzType="primary" nzShape="circle" class="add-new-btn">+</button>
-    <nz-descriptions nzTitle="Responsive Descriptions" nzBordered="true">
-      <nz-descriptions-item nzTitle="DB Type">Mysql</nz-descriptions-item>
-      <nz-descriptions-item nzTitle="Url">localhost:3306</nz-descriptions-item>
-      <nz-descriptions-item nzTitle="User Name">root</nz-descriptions-item>
-      <nz-descriptions-item nzTitle="User Password">qwerasdf</nz-descriptions-item>
-      <nz-descriptions-item nzTitle="Data Base">test</nz-descriptions-item>
-      <nz-descriptions-item nzTitle="Table Name">Student</nz-descriptions-item>
-    </nz-descriptions>
-  </nz-collapse-panel>
-</nz-collapse>
+</div> -->
+<flink-jdbc></flink-jdbc>
 
-<nz-collapse>
-  <nz-collapse-panel [nzHeader]="'Kafka info'">
-    <button nz-button nzType="primary" nzShape="circle" class="add-new-btn">+</button>
-    <nz-descriptions nzTitle="Responsive Descriptions" nzBordered="true">
-      <nz-descriptions-item nzTitle="kafka URL">192.168.0.102</nz-descriptions-item>
-      <nz-descriptions-item nzTitle="kafka Port">7777</nz-descriptions-item>
-      <nz-descriptions-item nzTitle="kafka Topic">root</nz-descriptions-item>
-      <nz-descriptions-item nzTitle="Hdfssavepoint URL">192.168.0.102://///</nz-descriptions-item>
-    </nz-descriptions>
-  </nz-collapse-panel>
-</nz-collapse>
+<flink-kafka></flink-kafka>
 
-<nz-collapse>
-  <nz-collapse-panel [nzHeader]="'Redis info'">
-    <button nz-button nzType="primary" nzShape="circle" class="add-new-btn">+</button>
-    <nz-descriptions nzTitle="Responsive Descriptions" nzBordered="true">
-      <nz-descriptions-item nzTitle="Redis URL">192.168.0.102</nz-descriptions-item>
-      <nz-descriptions-item nzTitle="Redis Port">7777</nz-descriptions-item>
-      <nz-descriptions-item nzTitle="Redis key field">test</nz-descriptions-item>
-      <nz-descriptions-item nzTitle="Hdfs savepoint URL">192.168.0.102://///</nz-descriptions-item>
-    </nz-descriptions>
-  </nz-collapse-panel>
-</nz-collapse>
-
-<nz-collapse>
-  <nz-collapse-panel [nzHeader]="'Port/Socket'">
-    <button nz-button nzType="primary" nzShape="circle" class="add-new-btn">+</button>
-    <nz-descriptions nzTitle="Responsive Descriptions" nzBordered="true">
-      <nz-descriptions-item nzTitle="URL">192.168.0.102</nz-descriptions-item>
-      <nz-descriptions-item nzTitle="Port">7777</nz-descriptions-item>
-      <nz-descriptions-item nzTitle="Hdfs savepoint URL">192.168.0.102://///</nz-descriptions-item>
-    </nz-descriptions>
-  </nz-collapse-panel>
-</nz-collapse>
+<flink-socket></flink-socket>
 
 
-<nz-collapse>
-  <nz-collapse-panel [nzHeader]="'HDFS'">
-    <button nz-button nzType="primary" nzShape="circle" class="add-new-btn">+</button>
-    <nz-descriptions nzTitle="Responsive Descriptions" nzBordered="true">
-      <nz-descriptions-item nzTitle="URL">192.168.0.102</nz-descriptions-item>
-      <nz-descriptions-item nzTitle="File Type">CSV</nz-descriptions-item>
-    </nz-descriptions>
-  </nz-collapse-panel>
-</nz-collapse>
+<flink-hdfs></flink-hdfs>
+
+<flink-redis></flink-redis>
 
 
 
+
+
+
+
+
+
+<!-- 以下为弃用switch 决定数据源的表格-->
 <div nz-row>
-  <div nz-col nzSpan="12">
+  <div nz-col nzSpan="12" class="col-nzs">
     <button nz-button nz-dropdown [nzDropdownMenu]="menu4">
-      Button
+      {{sourcdatatype.tostring()}}
       <i nz-icon nzType="down"></i>
     </button>
     <nz-dropdown-menu #menu4="nzDropdownMenu">
@@ -98,10 +56,10 @@
 
 
 
-  <div nz-col nzSpan="12">
+  <div nz-col nzSpan="12" class="col-nzs">
 
     <button nz-button nz-dropdown [nzDropdownMenu]="menu5">
-      Button
+      {{destdatatype.tostring()}}
       <i nz-icon nzType="down"></i>
     </button>
     <nz-dropdown-menu #menu5="nzDropdownMenu">
@@ -127,7 +85,7 @@
       <div *ngSwitchCase="sourcetype.KAFKA">
         <flink-kafka></flink-kafka>
       </div>
-    </div>
+    </div> 
 
   </div>
 

@@ -5,14 +5,12 @@
       <nz-descriptions nzTitle="Responsive Descriptions" nzBordered="true">
         <nz-descriptions-item nzTitle="kafka URL">192.168.0.102</nz-descriptions-item>
         <nz-descriptions-item nzTitle="kafka Port">7777</nz-descriptions-item>
-        <nz-descriptions-item nzTitle="kafka Topic">root</nz-descriptions-item>
-        <nz-descriptions-item nzTitle="Hdfssavepoint URL">192.168.0.102://///</nz-descriptions-item>
       </nz-descriptions>
     </nz-collapse-panel>
   </nz-collapse>
 <nz-modal [(nzVisible)]="isVisible" nzTitle="The first Modal" (nzOnCancel)="handleCancel()" (nzOnOk)="handleOk()">
 <ng-container *nzModalContent>
-<nz-card [nzBordered]="false" [nzTitle]="' Redis source '" [nzLoading]="false">    
+<nz-card [nzBordered]="false" [nzTitle]="' KafKA source '" [nzLoading]="false">    
     <form nz-form class="login-form">
         
 
@@ -43,7 +41,7 @@
         <button nz-button nzType="dashed" class="login-form-button login-form-margin ">
             <i nz-icon nzType="download"></i>SubMit A Job
             <br>
-             Redis
+             Socket/Port
         </button>
 
     </form>

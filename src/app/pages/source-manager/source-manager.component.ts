@@ -47,8 +47,8 @@ export class SourceManagerComponent implements OnInit {
 
     this.jarService
     .runJob(
-      "07c73334-546f-4e4b-8432-0af2a13da085_demo-0.0.1-SNAPSHOT-jar-with-dependencies.jar",
-      "com.star.smartBase.jobs.FlinkCDCWithCustomerDeserialization",
+      "caeb036f-7f24-4c1c-af15-b051eb496fb6_smart-base-1.0-SNAPSHOT-jar-with-dependencies.jar",
+      "com.star.smartBase.jobs.MysqlToText",
       "1",
       this.returnArgs(),
       "",
@@ -70,6 +70,25 @@ export class SourceManagerComponent implements OnInit {
     " --sourceTable "+this.jobinfo.sourceTable.toString()+
     " --sorceBase "+this.jobinfo.sorceBase.toString();
   }
+
+
+  isVisible = false;
+  showModal(): void {
+    this.isVisible = true;
+  }
+
+  handleOk(): void {
+    console.log('Button ok clicked!');
+    this.isVisible = false;
+  }
+
+  handleCancel(): void {
+    console.log('Button cancel clicked!');
+    this.isVisible = false;
+  }
+
+
+
 }
 
 

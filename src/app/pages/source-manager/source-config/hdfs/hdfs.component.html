@@ -1,28 +1,40 @@
-<form nz-form class="login-form">
-        
+<nz-collapse>
+    <nz-collapse-panel [nzHeader]="'HDFS'">
+        <button nz-button nzType="primary" nzShape="circle" class="add-new-btn"
+        (click)="showModal()">+</button>
+        <nz-descriptions nzTitle="Responsive Descriptions" nzBordered="true">
+            <nz-descriptions-item nzTitle="URL">192.168.0.102</nz-descriptions-item>
+            <nz-descriptions-item nzTitle="File Type">CSV</nz-descriptions-item>
+        </nz-descriptions>
+    </nz-collapse-panel>
+</nz-collapse>
+
+<nz-modal [(nzVisible)]="isVisible" nzTitle="The first Modal" (nzOnCancel)="handleCancel()" (nzOnOk)="handleOk()">
+    <ng-container *nzModalContent>
+
+        <nz-card [nzBordered]="false" [nzTitle]="' HDFS source '" [nzLoading]="false">
+            <form nz-form class="login-form">
+                <nz-form-item>
+                    <nz-input-group>
+                        <input type="text" class="form-item" name="destIP" nz-input placeholder="destIP" />
+                    </nz-input-group>
+                </nz-form-item>
+
+                <nz-form-item>
+                    <nz-input-group>
+                        <input type="password" class="form-item" nz-input name="Hdfs url" placeholder="Topic" />
+                    </nz-input-group>
+
+                </nz-form-item>
 
 
-        
-    <nz-form-item>
-        <nz-input-group>
-            <input type="text" class="form-item" name="destIP" nz-input 
-                placeholder="destIP" />
-        </nz-input-group>
-    </nz-form-item>
+                <button nz-button nzType="dashed" class="login-form-button login-form-margin ">
+                    <i nz-icon nzType="download"></i>SubMit A Job
+                    <br>
+                    kafka
+                </button>
 
-    <nz-form-item>
-        <nz-input-group>
-            <input type="password" class="form-item" nz-input name="Hdfs url"
-                placeholder="Topic" />
-        </nz-input-group>
-
-    </nz-form-item>
-
-
-    <button nz-button nzType="dashed" class="login-form-button login-form-margin ">
-        <i nz-icon nzType="download"></i>SubMit A Job
-        <br>
-         kafka
-    </button>
-
-</form>
+            </form>
+        </nz-card>
+    </ng-container>
+</nz-modal>
