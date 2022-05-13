@@ -1,0 +1,21 @@
+<p>data-operation works!</p>
+<div class="tool-list">
+    <ul>
+        <li *ngFor="let component of componentList">
+            <div class="label">{{component.label}}</div>
+            <button
+                mat-raised-button
+                color="primary"
+                appDrag
+                componentType="{{component.type}}"
+                [dragPlaceholder]="dragPlaceholderCanvas"
+            >
+                <mat-icon>drag_indicator</mat-icon>
+                拖拽
+            </button>
+        </li>
+    </ul>
+
+</div>
+<!--拖动占位符-->
+<canvas height="50" width="100" id="drag-placeholder" #dragPlaceholderCanvas></canvas>

@@ -52,6 +52,7 @@
               }
             ],
             "styles": [
+              "src/custom-theme.scss",
               "src/styles/index.less"
             ],
             "stylePreprocessorOptions": {
@@ -124,7 +125,8 @@
             "styles": [
               "src/styles/index.less"
             ],
-            "scripts": [],
+            "scripts": [
+            ],
             "assets": [
               "src/favicon.ico",
               "src/assets"

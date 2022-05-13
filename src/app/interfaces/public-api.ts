@@ -35,3 +35,5 @@ export * from './job-accumulators';
 export * from './job-manager';
 export * from './databaseinfo';
 export * from './jdbcconfig'
+export * from './Tools';
+export * from './dropDataInterface';

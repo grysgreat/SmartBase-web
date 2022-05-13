@@ -20,7 +20,7 @@
     <div class="logo">
       <a href="#/">
         <img src="assets/images/flink.svg" />
-        <h1>Apache Flink Dashboard</h1>//
+        <h1>Flink</h1>
       </a>
     </div>
     <ul nz-menu [nzTheme]="'dark'" [nzMode]="'inline'" [nzInlineCollapsed]="collapsed" class="menu">
@@ -118,13 +118,22 @@
         </ul>
       </li>
 
-      <li nz-menu-item routerLinkActive="ant-menu-item-selected" [routerLink]="['/sql-console']">
+      <li nz-menu-item routerLinkActive="ant-menu-item-selected" 
+      [routerLink]="['/sql-console']">
         <span>
           <i nz-icon nzType="build"></i>
           <span>SQL Clinet</span>
         </span>
       </li>
-
+      
+      <li nz-menu-item routerLinkActive="ant-menu-item-selected" 
+      [routerLink]="['/data-layout-pages']">
+        <span>
+          <i nz-icon nzType="build"></i>
+          <span>Data Layout</span>
+        </span>
+      </li>
+      
 
 
       <li
@@ -149,6 +158,8 @@
         (click)="toggleCollapse()"
       ></i>
       <div class="right">
+        <button nz-button (click)="fuck()" ></button>
+        
         <span>
           <strong>Version:</strong>
           {{ statusService.configuration['flink-version'] }}//TODO: 修改这里 对应右上角版本信息

@@ -53,4 +53,7 @@ export class AppComponent {
   }
 
   constructor(public statusService: StatusService) {}
+  fuck(){
+    console.log("FUCK U SOFTWARE ENG!!!!!!!!!");
+  }
 }

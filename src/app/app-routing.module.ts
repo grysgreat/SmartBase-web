@@ -33,7 +33,8 @@ const routes: Routes = [
   { path: 'job', loadChildren: () => import('./pages/job/job.module').then(m => m.JobModule) },
   { path:'source-manager',   loadChildren: () => import('./pages/source-manager/source-manager.module').then(m => m.SourceManagerModule)},
  {path:'sql-console' , loadChildren:()=> import('./pages/sql-console/sql-console.module').then(m => m.SqlConsoleModule)}
-  ,{ path: '**', redirectTo: 'overview', pathMatch: 'full' }
+ ,{path:'data-layout-pages' , loadChildren:()=> import('./pages/data-layout/data-layout.module').then(m => m.DataLayoutModule)} 
+ ,{ path: '**', redirectTo: 'overview', pathMatch: 'full' }
 ];
 
 @NgModule({
