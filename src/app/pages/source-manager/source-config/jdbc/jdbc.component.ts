@@ -65,7 +65,6 @@ export class JdbcComponent implements OnInit {
         this.ngOnInit();
 
       }
-        
         )
     }
     else{ 

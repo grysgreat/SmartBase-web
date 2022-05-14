@@ -2,9 +2,11 @@
     <nz-collapse-panel [nzHeader]="'HDFS'">
         <button nz-button nzType="primary" nzShape="circle" class="add-new-btn"
         (click)="showModal()">+</button>
-        <nz-descriptions nzTitle="Responsive Descriptions" nzBordered="true">
-            <nz-descriptions-item nzTitle="URL">192.168.0.102</nz-descriptions-item>
-            <nz-descriptions-item nzTitle="File Type">CSV</nz-descriptions-item>
+        <nz-descriptions *ngFor="let v of pconfiglist;let i = index;" nzTitle={{i+1}} nzBordered="true">
+            <nz-descriptions-item nzTitle="URL">{{v.id}}</nz-descriptions-item>
+            <nz-descriptions-item nzTitle="File Type">{{v.url}}</nz-descriptions-item>
+            <nz-descriptions-item nzTitle="删除"><button (click)="deleteconfig(i)">删除</button></nz-descriptions-item>
+            <nz-descriptions-item nzTitle="修改"><button>修改</button></nz-descriptions-item>
         </nz-descriptions>
     </nz-collapse-panel>
 </nz-collapse>
@@ -16,22 +18,16 @@
             <form nz-form class="login-form">
                 <nz-form-item>
                     <nz-input-group>
-                        <input type="text" class="form-item" name="destIP" nz-input placeholder="destIP" />
+                        <input type="text" class="form-item" name="URL" nz-input placeholder="URL"  [(ngModel)]="newconfig.url"/>
                     </nz-input-group>
                 </nz-form-item>
 
-                <nz-form-item>
-                    <nz-input-group>
-                        <input type="password" class="form-item" nz-input name="Hdfs url" placeholder="Topic" />
-                    </nz-input-group>
-
-                </nz-form-item>
-
-
-                <button nz-button nzType="dashed" class="login-form-button login-form-margin ">
+                <button nz-button nzType="dashed" class="login-form-button login-form-margin "
+                (click)="createnewconfig()"
+                >
                     <i nz-icon nzType="download"></i>SubMit A Job
                     <br>
-                    kafka
+                    HDFS
                 </button>
 
             </form>

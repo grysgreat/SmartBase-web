@@ -33,7 +33,13 @@ export * from './overview';
 export * from './task-manager';
 export * from './job-accumulators';
 export * from './job-manager';
-export * from './databaseinfo';
-export * from './jdbcconfig'
+
 export * from './Tools';
 export * from './dropDataInterface';
+// 数据源配置接口
+export * from './config/databaseinfo';
+export * from './config/jdbcconfig';
+export * from './config/Hdfs';
+export * from './config/redis';
+export * from './config/Socket';
+export * from './config/Kafka';

@@ -2,12 +2,14 @@
     <nz-collapse-panel [nzHeader]="'Kafka info'">
       <button nz-button nzType="primary" nzShape="circle" class="add-new-btn"
       (click)="showModal()">+</button>
-      <nz-descriptions nzTitle="Responsive Descriptions" nzBordered="true">
-        <nz-descriptions-item nzTitle="kafka URL">192.168.0.102</nz-descriptions-item>
-        <nz-descriptions-item nzTitle="kafka Port">7777</nz-descriptions-item>
-        <nz-descriptions-item nzTitle="kafka Topic">root</nz-descriptions-item>
-        <nz-descriptions-item nzTitle="Hdfssavepoint URL">192.168.0.102://///</nz-descriptions-item>
-      </nz-descriptions>
+      <nz-descriptions *ngFor="let v of pconfiglist;let i = index;" nzTitle={{i+1}} nzBordered="true">
+        <nz-descriptions-item nzTitle="ID">{{v.id}}</nz-descriptions-item>
+        <nz-descriptions-item nzTitle="URL">{{v.url}}</nz-descriptions-item>
+        <nz-descriptions-item nzTitle="port">{{v.port}}</nz-descriptions-item>
+        <nz-descriptions-item nzTitle="Topic">{{v.topic}}</nz-descriptions-item>
+        <nz-descriptions-item nzTitle="删除"><button (click)="deleteconfig(i)">删除</button></nz-descriptions-item>
+        <nz-descriptions-item nzTitle="修改"><button>修改</button></nz-descriptions-item>
+    </nz-descriptions>
     </nz-collapse-panel>
   </nz-collapse>
 <nz-modal [(nzVisible)]="isVisible" nzTitle="The first Modal" (nzOnCancel)="handleCancel()" (nzOnOk)="handleOk()">
@@ -18,15 +20,17 @@
 
         <nz-form-item>
             <nz-input-group>
-                <input type="text" class="form-item" name="destIP" nz-input 
-                    placeholder="destIP" />
+                <input type="text" class="form-item" name="url" nz-input 
+                    placeholder="url"   [(ngModel)]="newconfig.url"/>
             </nz-input-group>
         </nz-form-item>
         <nz-form-item>
             <nz-input-group>
                 <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired>Dest Port</nz-form-label>
                 <nz-input-number class="form-item form-item-count" name="DestPort" [nzMin]="0" [nzMax]="55000" [nzStep]="1"
-                   placeholder="destPort"></nz-input-number>
+                   placeholder="destPort"
+                   [(ngModel)]="newconfig.port"
+                   ></nz-input-number>
             </nz-input-group>
         </nz-form-item>
 
@@ -34,13 +38,15 @@
         <nz-form-item>
             <nz-input-group>
                 <input type="password" class="form-item" nz-input name="KafKa Topic"
-                    placeholder="Topic" />
+                    placeholder="Topic" [(ngModel)]="newconfig.topic"/>
             </nz-input-group>
 
         </nz-form-item>
 
 
-        <button nz-button nzType="dashed" class="login-form-button login-form-margin ">
+        <button nz-button nzType="dashed" class="login-form-button login-form-margin "
+        (click)="createnewconfig()"
+        >
             <i nz-icon nzType="download"></i>SubMit A Job
             <br>
              kafka

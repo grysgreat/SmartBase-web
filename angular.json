@@ -60,7 +60,11 @@
                 "src/styles"
               ]
             },
-            "scripts": [],
+            "scripts": [
+              "node_modules/jquery/dist/jquery.js",
+              "src/assets/js/jquery-ui.js",
+              "src/assets/js/jquery.jsPlumb-1.7.2.js"
+            ],
             "vendorChunk": true,
             "extractLicenses": false,
             "buildOptimizer": false,

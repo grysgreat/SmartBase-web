@@ -10,11 +10,15 @@ import { DataOperationComponent } from './data-operation/data-operation.componen
 import { MatButtonModule } from '@angular/material/button';
 import { IconModule } from '@ant-design/icons-angular';
 import { DrowableModule } from './drowable/drowable.module';
+import { JsplumbComponent } from './jsplumb/jsplumb.component';
+import { DataFlowComponent } from './data-flow/data-flow.component';
 @NgModule({
   declarations: [
     DataLayoutComponent,
     DrawAreaComponent,
     DataOperationComponent,
+    JsplumbComponent,
+    DataFlowComponent,
   ],
   imports: [
     CommonModule,
