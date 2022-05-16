@@ -63,7 +63,9 @@
             "scripts": [
               "node_modules/jquery/dist/jquery.js",
               "src/assets/js/jquery-ui.js",
-              "src/assets/js/jquery.jsPlumb-1.7.2.js"
+              "src/assets/js/jquery.jsPlumb-1.7.2.js",
+              "src/assets/js/mustache.js"
+           
             ],
             "vendorChunk": true,
             "extractLicenses": false,
