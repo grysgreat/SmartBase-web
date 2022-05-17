@@ -18,7 +18,7 @@ export class RedisComponent implements OnInit {
     username: "",
     password :"",
     url :"",
-    Port:0,
+    port:0,
     tablename : "",
   };
   
@@ -77,7 +77,7 @@ export class RedisComponent implements OnInit {
       username: "",
       password :"",
       url :"",
-      Port:0,
+      port:0,
       tablename : "",
      };
   }

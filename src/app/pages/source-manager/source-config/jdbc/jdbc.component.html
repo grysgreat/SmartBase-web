@@ -7,8 +7,11 @@
           <nz-descriptions   *ngFor="let jdbcconfig of pconfiglist;let i = index;" nzTitle={{i+1}} nzBordered="true">
             <nz-descriptions-item nzTitle="DB Type">{{jdbcconfig.connectorType}}</nz-descriptions-item>
             <nz-descriptions-item nzTitle="Url">{{jdbcconfig.url}}</nz-descriptions-item>
+            <nz-descriptions-item nzTitle="Port">{{jdbcconfig.port}}</nz-descriptions-item>
             <nz-descriptions-item nzTitle="User Name">{{jdbcconfig.username}}</nz-descriptions-item>
             <nz-descriptions-item nzTitle="User Password">{{jdbcconfig.password}}</nz-descriptions-item>
+            <nz-descriptions-item nzTitle="Basename">{{jdbcconfig.basename}}</nz-descriptions-item>
+            <nz-descriptions-item nzTitle="Tablename">{{jdbcconfig.tablename}}</nz-descriptions-item>
             <nz-descriptions-item nzTitle="删除"><button (click)="deleteconfig(i)">删除</button></nz-descriptions-item>
             <nz-descriptions-item nzTitle="修改"><button>修改</button></nz-descriptions-item>
         </nz-descriptions>
@@ -24,27 +27,36 @@
                   <form nz-form class="login-form">
                       <nz-form-item>
                           <nz-input-group>
-                              <input type="text" class="form-item" name="destIP" nz-input placeholder="URL" [(ngModel)]="newconfig.url"/>
-                          </nz-input-group>
-                      </nz-form-item>
-         
-                      <nz-form-item>
-                          <nz-input-group>
-                              <input type="text" class="form-item" name="UserName" nz-input placeholder="UserName" [(ngModel)]="newconfig.username" />
+                              <input type="text" class="form-item" name="destIP" nz-input placeholder="URL" 
+                              [(ngModel)]="newconfig.url"/>
                           </nz-input-group>
                       </nz-form-item>
                       <nz-form-item>
                         <nz-input-group>
-                            <input type="text" class="form-item" name="UserName" nz-input placeholder="driveClassName" [(ngModel)]="newconfig.driveClassName" />
+                            <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired>Port</nz-form-label>
+                            <nz-input-number class="form-item form-item-count" name="Port" [nzMin]="0" [nzMax]="55000" [nzStep]="1"
+                                [(ngModel)]="newconfig.port" placeholder="Port"></nz-input-number>
+                        </nz-input-group>
+                    </nz-form-item>
+                      <nz-form-item>
+                          <nz-input-group>
+                              <input type="text" class="form-item" name="UserName" nz-input placeholder="UserName" 
+                              [(ngModel)]="newconfig.username" />
+                          </nz-input-group>
+                      </nz-form-item>
+                      <nz-form-item>
+                        <nz-input-group>
+                            <input type="text" class="form-item" name="driveClassName" nz-input placeholder="driveClassName" 
+                            [(ngModel)]="newconfig.driveClassName" />
                         </nz-input-group>
                     </nz-form-item>
       
                       <nz-form-item>
                           <nz-input-group>
                               <input type="text" class="form-item" nz-input name="destUserPwd"
-                                  placeholder="UserPassword"  [(ngModel)]="newconfig.password"/>
+                                  placeholder="UserPassword"  
+                                  [(ngModel)]="newconfig.password"/>
                           </nz-input-group>
-      
                       </nz-form-item>
       
       
@@ -54,7 +66,18 @@
                               [(ngModel)]="newconfig.connectorType"/>
                           </nz-input-group>
                       </nz-form-item>
-
+                      <nz-form-item>
+                        <nz-input-group>
+                            <input type="text" class="form-item" nz-input nz-input name="destBase" placeholder="dest-type" 
+                            [(ngModel)]="newconfig.basename"/>
+                        </nz-input-group>
+                    </nz-form-item>
+                    <nz-form-item>
+                        <nz-input-group>
+                            <input type="text" class="form-item" nz-input nz-input name="destBase" placeholder="dest-type" 
+                            [(ngModel)]="newconfig.tablename"/>
+                        </nz-input-group>
+                    </nz-form-item>
  
 
                       <button nz-button nzType="dashed" class="login-form-button login-form-margin "

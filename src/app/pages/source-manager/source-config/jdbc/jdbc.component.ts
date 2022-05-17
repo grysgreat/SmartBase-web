@@ -20,13 +20,16 @@ export class JdbcComponent implements OnInit {
    public form_state:boolean= true;// 标识提交表格的状态 是创建新的还是修改 ture 是新增
    public is_ok: Observable<boolean>;
    public newconfig: JdbcConfig={
+    id :0,
+    driveClassName :"",
     url:"",
+    port:0,
+    username: "",
+    password: "",
+    basename:"",
+    tablename:"",
     connectorType:"",
-    username:"",
-    password:"",
-    driveClassName:"",
-    id:0,
-    sql:""
+    sql:"",
    };
    
   
@@ -55,11 +58,7 @@ export class JdbcComponent implements OnInit {
   createnewconfig(){
     if(this.form_state){
       this.sp.newJdbcConfig(
-        this.newconfig.url,
-        this.newconfig.username,
-        this.newconfig.password,
-        this.newconfig.connectorType,
-        this.newconfig.driveClassName
+        this.newconfig
       ).subscribe(x => {
         console.log(x);
         this.ngOnInit();
@@ -80,15 +79,19 @@ export class JdbcComponent implements OnInit {
     this.pconfiglist = this.pconfiglist.filter(item => item!=this.pconfiglist[index]);
  
   }
+  //重置填充配置清零
   clearnewconfig(){
     this.newconfig={
+      id :0,
+      driveClassName :"",
       url:"",
+      port:0,
+      username: "",
+      password: "",
+      basename:"",
+      tablename:"",
       connectorType:"",
-      username:"",
-      password:"",
-      driveClassName:"",
-      id:0,
-      sql:""
+      sql:"",
      };
   }
   changeconfig(index  :number){

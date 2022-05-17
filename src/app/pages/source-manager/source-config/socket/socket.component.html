@@ -1,5 +1,5 @@
 <nz-collapse>
-    <nz-collapse-panel [nzHeader]="'Kafka info'">
+    <nz-collapse-panel [nzHeader]="'Socket info'">
       <button nz-button nzType="primary" nzShape="circle" class="add-new-btn"
       (click)="showModal()">+</button>
       <nz-descriptions *ngFor="let v of pconfiglist;let i = index;" nzTitle={{i+1}} nzBordered="true">
@@ -13,7 +13,7 @@
   </nz-collapse>
 <nz-modal [(nzVisible)]="isVisible" nzTitle="The first Modal" (nzOnCancel)="handleCancel()" (nzOnOk)="handleOk()">
 <ng-container *nzModalContent>
-<nz-card [nzBordered]="false" [nzTitle]="' KafKA source '" [nzLoading]="false">    
+<nz-card [nzBordered]="false" [nzTitle]="' Socket source '" [nzLoading]="false">    
     <form nz-form class="login-form">
         
 
@@ -32,7 +32,8 @@
         </nz-form-item>
 
 
-        <button nz-button nzType="dashed" class="login-form-button login-form-margin ">
+        <button nz-button nzType="dashed" class="login-form-button login-form-margin "
+        (click)="createnewconfig()">
             <i nz-icon nzType="download"></i>SubMit A Job
             <br>
              Socket/Port

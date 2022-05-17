@@ -13,7 +13,8 @@ declare let Mustache :any;
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class JsplumbComponent implements OnInit {
-    
+  
+  
     area = 'drop-bg';
     areaId = '#' + this.area;
     root:any = {}
@@ -183,7 +184,6 @@ export class JsplumbComponent implements OnInit {
         }
       ]
     }
-    
 //#region 存储绘画信息
 visoConfig = {
   visoTemplate: {playAudioNode:'<div class="pa" id="{{id}}" style="top:{{top}}px;left:{{left}}px"><a class="btn btn-success" href="#" role="button">放音</a></div>'}
@@ -282,8 +282,7 @@ visoConfig = {
       $(this.areaId).droppable({
         scope: 'ss',
         drop: (event:any, ui:any)=> {
-            event;
-            console.log(ui.position);
+          event;
           this.dropNode(ui.draggable[0].dataset.template, ui.position)
         }
       })
@@ -324,7 +323,6 @@ visoConfig = {
             g.setNode(id)
           })
           nodes.forEach( (item:any) =>{
-
             switch(item.type){
               case "Root":this.dealNodeRoot(g,item); break;
               case "Announce":this.dealNodeAnnounce(g,item);break;
@@ -334,9 +332,7 @@ visoConfig = {
             }
                  
           })
-    
           var distance = alg.dijkstra(g, 'Start');
-    
           return this.generateDepth(distance)
     }
 
@@ -357,10 +353,8 @@ visoConfig = {
 
     generateDepth(deep:{[node: string]:Path }):any{
       var depth:any = [];
-
       Object.keys(deep).forEach(function (key) {
         var distance = deep[key].distance
-
         if (!depth[distance]) {
           depth[distance] = []
         }
@@ -486,6 +480,13 @@ if(item.type!==undefined){
   case ('tpl-audio'):
   return '<div class="pa" id="{{id}}" style="top:{{top}}px;left:{{left}}px"><a class="btn btn-success" href="#" role="button">放音</a></div>';
 
+  case('yuan-source'):
+  return "<div class='pa' id='{{id}}' style='top:{{top}}px;left:{{left}}px'><div class='panel panel-default panel-node panel-info'><div id='{{id}}-heading' data-id='{{id}}' class='panel-heading'><i class='fa fa-calendar-times-o' aria-hidden='true'></i> {{name}}<span class='delete-node pull-right' data-type='deleteNode' data-id='{{id}}'>X</span></div><ul class='list-group'><li id='{{id}}-onWorkTime' data-pid='{{id}}' class='list-group-item panel-node-list'>源数据源</li><li id='{{id}}-offWorkTime' data-pid='{{id}}' class='list-group-item panel-node-list'>数据类型：mysql</li></ul></div></div>";
+  case('op-source'):
+  return "<div class='pa' id='{{id}}' style='top:{{top}}px;left:{{left}}px'><div class='panel panel-default panel-node panel-info'><div id='{{id}}-heading' data-id='{{id}}' class='panel-heading'><i class='fa fa-calendar-times-o' aria-hidden='true'></i> {{name}}<span class='delete-node pull-right' data-type='deleteNode' data-id='{{id}}'>X</span></div><ul class='list-group'><li id='{{id}}-onWorkTime' data-pid='{{id}}' class='list-group-item panel-node-list'>中间算子</li><li id='{{id}}-offWorkTime' data-pid='{{id}}' class='list-group-item panel-node-list'>算子类型：过滤</li></ul></div></div>";
+  case('target-source'):
+  return "<div class='pa' id='{{id}}' style='top:{{top}}px;left:{{left}}px'><div class='panel panel-default panel-node panel-info'><div id='{{id}}-heading' data-id='{{id}}' class='panel-heading'><i class='fa fa-calendar-times-o' aria-hidden='true'></i> {{name}}<span class='delete-node pull-right' data-type='deleteNode' data-id='{{id}}'>X</span></div><ul class='list-group'><li id='{{id}}-onWorkTime' data-pid='{{id}}' class='list-group-item panel-node-list'>目的数据源</li><li id='{{id}}-offWorkTime' data-pid='{{id}}' class='list-group-item panel-node-list'>数据类型：mysql</li></ul></div></div>";
+
 }
 switch(node)
 {
@@ -507,7 +508,13 @@ switch(node)
   return "<div class='pa' id='{{id}}' style='top:{{top}}px;left:{{left}}px'><div class='panel panel-default panel-node panel-info'><div id='{{id}}-heading' data-id='{{id}}' class='panel-heading'><i class='fa fa-navicon' aria-hidden='true'></i> {{name}}<span class='delete-node pull-right' data-type='deleteNode' data-id='{{id}}'>X</span></div><ul class='list-group'><li id='{{id}}-noinput' data-pid='{{id}}' class='list-group-item panel-node-list'>输入超时</li><li id='{{id}}-nomatch' data-pid='{{id}}' class='list-group-item panel-node-list'>输入错误</li>{{#choices}}<li id='{{id}}-key-{{key}}' data-pid='{{id}}' class='list-group-item panel-node-list'>按{{key}}</li>{{/choices}}</ul></div></div>";
   case ('tpl-audio'):
   return '<div class="pa" id="{{id}}" style="top:{{top}}px;left:{{left}}px"><a class="btn btn-success" href="#" role="button">放音</a></div>';
-
+  case('yuan-source'):
+  return "<div class='pa' id='{{id}}' style='top:{{top}}px;left:{{left}}px'><div class='panel panel-default panel-node panel-info'><div id='{{id}}-heading' data-id='{{id}}' class='panel-heading'><i class='fa fa-calendar-times-o' aria-hidden='true'></i> {{name}}<span class='delete-node pull-right' data-type='deleteNode' data-id='{{id}}'>X</span></div><ul class='list-group'><li id='{{id}}-onWorkTime' data-pid='{{id}}' class='list-group-item panel-node-list'>源数据源</li><li id='{{id}}-offWorkTime' data-pid='{{id}}' class='list-group-item panel-node-list'>数据类型：mysql</li></ul></div></div>";
+  case('op-source'):
+  return "<div class='pa' id='{{id}}' style='top:{{top}}px;left:{{left}}px'><div class='panel panel-default panel-node panel-info'><div id='{{id}}-heading' data-id='{{id}}' class='panel-heading'><i class='fa fa-calendar-times-o' aria-hidden='true'></i> {{name}}<span class='delete-node pull-right' data-type='deleteNode' data-id='{{id}}'>X</span></div><ul class='list-group'><li id='{{id}}-onWorkTime' data-pid='{{id}}' class='list-group-item panel-node-list'>中间算子</li><li id='{{id}}-offWorkTime' data-pid='{{id}}' class='list-group-item panel-node-list'>算子类型：过滤</li></ul></div></div>";
+  case('target-source'):
+  return "<div class='pa' id='{{id}}' style='top:{{top}}px;left:{{left}}px'><div class='panel panel-default panel-node panel-info'><div id='{{id}}-heading' data-id='{{id}}' class='panel-heading'><i class='fa fa-calendar-times-o' aria-hidden='true'></i> {{name}}<span class='delete-node pull-right' data-type='deleteNode' data-id='{{id}}'>X</span></div><ul class='list-group'><li id='{{id}}-onWorkTime' data-pid='{{id}}' class='list-group-item panel-node-list'>目的数据源</li><li id='{{id}}-offWorkTime' data-pid='{{id}}' class='list-group-item panel-node-list'>数据类型：mysql</li></ul></div></div>";
+  default :return "";
 }
 
           return $('#tpl-' + node.type).html() || $('#tpl-demo').html()
@@ -532,9 +539,7 @@ switch(node)
 
               dest.top = dest.top || base.topBase + i * base.topStep
               dest.left = dest.left || base.leftBase + j * base.leftStep
-              console.log("-----------------BUGS-------------------");
-              console.log(matrix);
-              console.log(dest.left);
+
             }
           }
     }
@@ -602,7 +607,6 @@ switch(node)
         position.left -= $('#side-buttons').outerWidth()
         position.id =uuid.v1()
         position.generateId = uuid.v1
-        console.log(template);
         var html = this.renderHtml(template, position)
         $(this.areaId).append(html) 
         this.initSetNode(template, position.id)
@@ -611,13 +615,17 @@ switch(node)
       // 初始化节点设置
     initSetNode (template:any, id:any) {
         this.addDraggable(id)
-    
         if (template === 'tpl-audio') {
             this.setEnterPoint(id)
             this.setExitPoint(id,null);//todo
         } else if (template === 'tpl-menu') {
             this.setEnterPoint(id + '-heading')
             this.setExitMenuItem(id)
+        }else{
+          this.setEnterPoint(id)
+          this.setExitPoint(id,'Bottom');//todo
+          this.setExitPoint(id,'Right')
+        
         }
       }
     

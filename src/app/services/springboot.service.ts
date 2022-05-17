@@ -14,7 +14,7 @@ import { redis } from '../interfaces/config/redis';
   providedIn: 'root'
 })
 export class SpringbootService {
-  private readonly BAS_URL: string = 'http://localhost:8081';
+  private readonly BAS_URL: string = 'http://localhost:8082';
   constructor(private readonly httpClient: HttpClient) { }
 
 //#region ---------------------- JDBC ----------------------
@@ -27,28 +27,33 @@ export class SpringbootService {
   }
   // 创建新的jdbc配置
   public newJdbcConfig(
-    URl:string,
-    username:string,
-    password:string,
-    connectorType:string,
-    driverClassName:string
+    jdbc:JdbcConfig
   ): Observable<JdbcConfig>{
-    const requestParam = { URl,username,password,connectorType,driverClassName};
+    const requestParam = { jdbc};
     let params = new HttpParams();
-    if (URl) {
-      params = params.append('url', URl);
+    if (jdbc.url) {
+      params = params.append('url', jdbc.url);
     }
-    if (username) {
-      params = params.append('username', username);
+    if (jdbc.port) {
+      params = params.append('port', jdbc.port);
     }
-    if (password) {
-      params = params.append('password', password);
+    if(jdbc.connectorType){
+      params = params.append('connectorType', jdbc.connectorType);
     }
-    if (connectorType ) {
-      params = params.append('connectorType', connectorType);
+    if (jdbc.username) {
+      params = params.append('username', jdbc.username);
     }
-    if (driverClassName) {
-      params = params.append('driverClassName', driverClassName);
+    if (jdbc.password) {
+      params = params.append('password', jdbc.password);
+    }
+    if(jdbc.tablename){
+      params = params.append('tablename', jdbc.password);
+    }
+    if(jdbc.basename){
+      params = params.append('basename', jdbc.basename);
+    }
+    if (jdbc.driveClassName) {
+      params = params.append('driverClassName', jdbc.driveClassName);
     }
     return this.httpClient.post<JdbcConfig>(this.BAS_URL+'/DataBase/insert',requestParam, { params });
   }
@@ -64,6 +69,7 @@ export class SpringbootService {
     return this.httpClient.get<boolean>(`${this.BAS_URL}/KafKA/DeleteKafKAConfigByid/${index}`);
   }
   public newKafka(kafka:Kafka): Observable<Kafka>{
+    const requestParam = { kafka};
     let params = new HttpParams();
     if (kafka.port) {
       params = params.append('DestPort', kafka.port);
@@ -72,9 +78,9 @@ export class SpringbootService {
       params = params.append('Topic', kafka.topic);
     }
     if (kafka.url) {
-      params = params.append('Ip', kafka.url);
+      params = params.append('Url', kafka.url);
     }
-    return this.httpClient.post<Kafka>(this.BAS_URL+'/KafKA/insert',{ params });
+    return this.httpClient.post<Kafka>(this.BAS_URL+'/KafKA/Insert',requestParam,{ params });
 
   }
 //#endregion
@@ -89,11 +95,11 @@ export class SpringbootService {
   }
   public newHdfs(hdfs:Hdfs): Observable<Hdfs>{
     let params = new HttpParams();
-
+    const requestParam = { hdfs};
     if (hdfs.url) {
       params = params.append('url', hdfs.url);
     }
-    return this.httpClient.post<Hdfs>(this.BAS_URL+'/Hdfs/insert',{ params });
+    return this.httpClient.post<Hdfs>(this.BAS_URL+'/Hdfs/insert',requestParam,{ params });
 
   }
 //#endregion
@@ -107,14 +113,14 @@ public deleteSocket(index:number):Observable<boolean>{
 }
 public newSocket(socket:Socket): Observable<Socket>{
   let params = new HttpParams();
-
+  const requestParam = { socket};
   if (socket.url) {
     params = params.append('url', socket.url);
   } 
   if (socket.port) {
     params = params.append('port', socket.port);
   }
-  return this.httpClient.post<Socket>(this.BAS_URL+'/Socket/insert',{ params });
+  return this.httpClient.post<Socket>(this.BAS_URL+'/Socket/insert',requestParam,{ params });
 
 }
 //#endregion
@@ -127,12 +133,13 @@ public deleteRedis(index:number):Observable<boolean>{
   return this.httpClient.get<boolean>(`${this.BAS_URL}/Redis/DeleteRedisConfigByid/${index}`);
 }
 public newRedis(redis:redis): Observable<redis>{
+  const requestParam = { redis};
   let params = new HttpParams();
   if (redis.url) {
     params = params.append('url', redis.url);
   } 
-  if (redis.Port) {
-    params = params.append('port', redis.Port);
+  if (redis.port) {
+    params = params.append('port', redis.port);
   }
   if(redis.username) {
     params = params.append('username', redis.username);
@@ -143,7 +150,7 @@ public newRedis(redis:redis): Observable<redis>{
   if(redis.tablename){
     params = params.append('tablename', redis.tablename);
   }
-  return this.httpClient.post<redis>(this.BAS_URL+'/Redis/insert',{ params });
+  return this.httpClient.post<redis>(this.BAS_URL+'/Redis/insert',requestParam,{ params });
 
 }
 //#endregion

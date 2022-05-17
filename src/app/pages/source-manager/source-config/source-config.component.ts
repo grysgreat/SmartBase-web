@@ -42,7 +42,7 @@ export class SourceConfigComponent implements OnInit {
 
   
   hello(){
-    console.log("hello");
+    console.log("STUPID SOFTWORE ENG!!!!!!!!!!!!!!!!!!!!!!!!");
   }
 
 

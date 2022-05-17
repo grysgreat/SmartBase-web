@@ -3,6 +3,6 @@ export interface redis{
     username: string,
     password :string,
     url :string
-    Port:number,
+    port:number,
     tablename : string,
 } 
