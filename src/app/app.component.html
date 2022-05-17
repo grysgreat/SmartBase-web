@@ -19,8 +19,7 @@
   <nz-sider nzCollapsible [(nzCollapsed)]="collapsed" [nzTrigger]="null" [nzWidth]="256">
     <div class="logo">
       <a href="#/">
-        <img src="assets/images/flink.svg" />
-        <h1>Flink</h1>
+        <h1><img src="assets/favicon/logo.png" /></h1>
       </a>
     </div>
     <ul nz-menu [nzTheme]="'dark'" [nzMode]="'inline'" [nzInlineCollapsed]="collapsed" class="menu">
@@ -82,7 +81,7 @@
           <span>Source Manager</span>
         </span>
         <ul>
-          <li
+          <!-- <li
             nz-menu-item
             routerLinkActive="ant-menu-item-selected"
             [routerLink]="['/source-manager']"
@@ -102,7 +101,7 @@
               <i nz-icon nzType="play-circle"></i>
               <span>Sql -> Sql</span>
             </span>
-          </li>
+          </li> -->
 
           <li
             nz-menu-item
@@ -161,7 +160,7 @@
         <button nz-button (click)="fuck()" ></button>
         
         <span>
-          <strong>Version:</strong>
+          <strong>Version:</strong>TPDO
           {{ statusService.configuration['flink-version'] }}//TODO: 修改这里 对应右上角版本信息
         </span>
         <nz-divider nzType="vertical"></nz-divider>

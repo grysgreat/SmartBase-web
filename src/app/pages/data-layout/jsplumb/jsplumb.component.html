@@ -1,22 +1,44 @@
 <p>jsplumb works!</p>
 <div id="app">
     <div class="container-fluid">
-      <div class="row">
-        <div id="side-buttons" class="col-md-1 bg-info min-height">
+      <div nz-row class="row">
+        
+
+        
+        <div nz-col nzSpan="4"  id="side-buttons" class="  min-height">
           <div>
             <h5>节点类型列表</h5>
             <a class="btn btn-success btn-controler" href="#" data-template="yuan-source" role="button">
             <i class="fa fa-navicon" aria-hidden="true"></i>
-            源数据</a>
+            源数据</a><br>
             <a class="btn btn-success btn-controler" href="#" data-template="target-source" role="button">
             <i class="fa fa-navicon" aria-hidden="true"></i>
-            目的数据</a>
+            目的数据</a><br>
             <a class="btn btn-success btn-controler" href="#" data-template="op-source" role="button">
             <i class="fa fa-navicon" aria-hidden="true"></i>
-            算子</a>
+            機算子</a><br>
+            <a class="btn btn-success btn-controler" href="#" data-template="op-source" role="button">
+            <i class="fa fa-navicon" aria-hidden="true"></i>
+            散算子</a><br>
+            <a class="btn btn-success btn-controler" href="#" data-template="op-source" role="button">
+            <i class="fa fa-navicon" aria-hidden="true"></i>
+            合算子</a><br>
+            <a class="btn btn-success btn-controler" href="#" data-template="op-source" role="button">
+            <i class="fa fa-navicon" aria-hidden="true"></i>
+            滅算子</a><br>
+            <a class="btn btn-success btn-controler" href="#" data-template="op-source" role="button">
+            <i class="fa fa-navicon" aria-hidden="true"></i>
+            時算子</a>
+            
+            <textarea rows="14" nz-input [(ngModel)]="jsonstr"></textarea>
+            <button nz-button nzType="dashed" class="login-form-button login-form-margin" (click)="submitJson()">
+              <i nz-icon nzType="download"></i>SubMit A Job
+              <br>
+          </button>
           </div>
-        </div>
-          <div class="col-md-11 bg-success min-height" id="drop-bg">
+          
+        </div  >
+          <div  nz-col nzSpan="20"  class=" bg-success min-height" id="drop-bg">
           </div>
       </div>
     </div>

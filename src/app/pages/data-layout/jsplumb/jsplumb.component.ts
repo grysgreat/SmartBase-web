@@ -1,5 +1,8 @@
 import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import * as uuid from 'uuid'; //随机数的生成
+import { NzNotificationService } from 'ng-zorro-antd/notification';
+
+import { JarService } from 'services';
 declare let jsPlumb: any;
 declare let $: any;
 declare let Mustache: any;
@@ -100,8 +103,9 @@ export class JsplumbComponent implements OnInit {
   //#endregion
 
   public showdat: number = 3;
-
-  constructor() { }
+  public jsonstr:string="";
+  constructor( private readonly jarService: JarService,
+    private notification: NzNotificationService) { }
 
 
   //#region init
@@ -276,5 +280,25 @@ export class JsplumbComponent implements OnInit {
     return Object.assign({}, this.visoConfig.baseStyle)
   }
 
+
+  submitJson(){
+    this.jarService
+      .runJob(
+        "9efe8fdc-567d-41d4-a86e-76822dee9045_BaseHub-1.0-SNAPSHOT-jar-with-dependencies.jar",
+        "com.star.JobController",
+        "1",
+        "--jobJson "+this.jsonstr+" --saveUrl hdfs://hadoop102:8020/rng/ck", 
+        "",
+        ""
+      )
+      .subscribe(data => {
+        // this.router.navigate(['job', data.jobid]).then();
+        this.notification
+      .blank(
+        'Job Submit Successful!!!',
+        'clink the left buttom to know'+data
+      )
+      });
+  }
 }
 //const anchors = [[1, 0.2, 1, 0], [0.8, 1, 0, 1], [0, 0.8, -1, 0], [0.2, 0, 0, -1]];

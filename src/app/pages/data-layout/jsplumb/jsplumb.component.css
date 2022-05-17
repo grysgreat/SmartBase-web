@@ -35,3 +35,12 @@
 .delete-node:hover{
   color: red
 }
+
+#side-buttons{
+  background-color: #001729;
+}
+
+
+#drop-bg{
+  background-color: #b6d3ea;
+}
