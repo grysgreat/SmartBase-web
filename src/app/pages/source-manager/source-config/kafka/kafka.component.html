@@ -1,14 +1,14 @@
 <nz-collapse>
     <nz-collapse-panel [nzHeader]="'Kafka info'">
       <button nz-button nzType="primary" nzShape="circle" class="add-new-btn"
-      (click)="showModal()">+</button>
+      (click)="createconfig()">+</button>
       <nz-descriptions *ngFor="let v of pconfiglist;let i = index;" nzTitle={{i+1}} nzBordered="true">
         <nz-descriptions-item nzTitle="ID">{{v.id}}</nz-descriptions-item>
         <nz-descriptions-item nzTitle="URL">{{v.url}}</nz-descriptions-item>
         <nz-descriptions-item nzTitle="port">{{v.port}}</nz-descriptions-item>
         <nz-descriptions-item nzTitle="Topic">{{v.topic}}</nz-descriptions-item>
         <nz-descriptions-item nzTitle="删除"><button (click)="deleteconfig(i)">删除</button></nz-descriptions-item>
-        <nz-descriptions-item nzTitle="修改"><button>修改</button></nz-descriptions-item>
+        <nz-descriptions-item nzTitle="修改"><button (click)="updateconfig(i)">修改</button></nz-descriptions-item>
     </nz-descriptions>
     </nz-collapse-panel>
   </nz-collapse>

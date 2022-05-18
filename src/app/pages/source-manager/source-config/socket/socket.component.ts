@@ -56,11 +56,18 @@ export class SocketComponent implements OnInit {
         )
     }
     else{ 
+      this.sp.updateSocket(
+        this.newconfig
+      ).subscribe(x => {
+        console.log(x);
+        this.ngOnInit();
+      }
+        )
     }
   }
 
   deleteconfig(index :number){
-    this.is_ok=this.sp.deleteRedis(this.pconfiglist[index].id);
+    this.is_ok=this.sp.deleteSocket(this.pconfiglist[index].id);
     this.is_ok.subscribe( x=>{
       console.log(x + "---------is delete");
       //this.ngOnInit();
@@ -79,4 +86,17 @@ export class SocketComponent implements OnInit {
       this.newconfig = this.pconfiglist[index];
       this.showModal();
   }
+  
+    //更新相应配置
+    updateconfig(i:number){
+      this.newconfig = this.pconfiglist[i];
+      this.form_state=false;
+      this.showModal();
+    }
+    //创建新的配置
+    createconfig(){
+      this.clearnewconfig();
+      this.form_state=true;
+      this.showModal()
+    }
 }

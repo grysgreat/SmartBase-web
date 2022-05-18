@@ -159,7 +159,7 @@
       <div class="right">
         <button nz-button (click)="fuck()" ></button>
         
-        <span>
+        <!-- <span>
           <strong>Version:</strong>TPDO
           {{ statusService.configuration['flink-version'] }}//TODO: 修改这里 对应右上角版本信息
         </span>
@@ -167,7 +167,7 @@
         <span>
           <strong>Commit:</strong>
           {{ statusService.configuration['flink-revision'] }}
-        </span>
+        </span> -->
         <nz-divider nzType="vertical"></nz-divider>
         <span [hidden]="(online$ | async) === false">
           <strong>Message:</strong>

@@ -20,6 +20,7 @@ import { NzSpaceModule } from 'ng-zorro-antd/space';
 import { RedisComponent } from './source-config/redis/redis.component';
 import { NzModalModule } from 'ng-zorro-antd/modal';
 import { SocketComponent } from './source-config/socket/socket.component';
+import { CsvComponent } from './source-config/csv/csv.component';
 
 
 @NgModule({
@@ -31,7 +32,8 @@ import { SocketComponent } from './source-config/socket/socket.component';
     KafkaComponent,
     HdfsComponent,
     RedisComponent,
-    SocketComponent
+    SocketComponent,
+    CsvComponent
   ],
   imports: [
     CommonModule,

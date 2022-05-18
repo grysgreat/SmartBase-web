@@ -1,22 +1,24 @@
 import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import * as uuid from 'uuid'; //随机数的生成
 import { NzNotificationService } from 'ng-zorro-antd/notification';
-
+import { dragbody } from 'interfaces';
 import { JarService } from 'services';
 declare let jsPlumb: any;
 declare let $: any;
 declare let Mustache: any;
 
 @Component({
-  selector: 'flink-jsplumb',
+  selector: 'flink-jsplumb2',
   templateUrl: './jsplumb.component.html',
   styleUrls: ['./jsplumb.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class JsplumbComponent implements OnInit {
+export class JsplumbComponent2 implements OnInit {
   area = 'drop-bg';
   areaId = '#' + this.area;
+  alldragbody:dragbody[];
   root: any = {}
+  jsonstr:string="";
   //信息存储类
   //#region 存储绘画的格式信息
   visoConfig = {
@@ -103,7 +105,6 @@ export class JsplumbComponent implements OnInit {
   //#endregion
 
   public showdat: number = 3;
-  public jsonstr: string = "";
   constructor(private readonly jarService: JarService,
     private readonly notification: NzNotificationService) { }
 
@@ -249,11 +250,26 @@ case('op-source4') : return `<div class='pa' id='{{id}}' style='top:{{top}}px;le
     position.left -= $('#side-buttons').outerWidth()
     position.id = uuid.v1()
     position.generateId = uuid.v1
-    var html = this.renderHtml(template, position)
-    $(this.areaId).append(html)
-    this.initSetNode(template, position.id)
+    template;
+    // var html = this.renderHtml(template, position)
+    // $(this.areaId).append(html)
+    // this.initSetNode(template, position.id)
+    var sdf:dragbody={
+      id:position.id,
+      name:"testname",
+      top:position.top,
+      left:position.left
+    }
+    this.alldragbody.push(sdf);
+    this.addDraggable(position.id);
+    this.setEnterPoint(position.id)
+    this.setExitPoint(position.id, 'Bottom');//todo
+    this.setExitPoint(position.id, 'Right');
+    this.setExitPoint(position.id, 'Left');
   }
-
+  check(){
+    console.log(this.alldragbody.length);
+  }
   // 初始化各种节点设置
   initSetNode(template: any, id: any) {
     this.addDraggable(id)

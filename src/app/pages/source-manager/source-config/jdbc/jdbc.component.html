@@ -2,7 +2,7 @@
   
     <nz-collapse>
       <nz-collapse-panel [nzHeader]="'sql info'">
-          <button nz-button nzType="primary" nzShape="circle" class="add-new-btn" (click)="showModal()">+</button>
+          <button nz-button nzType="primary" nzShape="circle" class="add-new-btn" (click)="createconfig()">+</button>
 
           <nz-descriptions   *ngFor="let jdbcconfig of pconfiglist;let i = index;" nzTitle={{i+1}} nzBordered="true">
             <nz-descriptions-item nzTitle="DB Type">{{jdbcconfig.connectorType}}</nz-descriptions-item>
@@ -13,7 +13,7 @@
             <nz-descriptions-item nzTitle="Basename">{{jdbcconfig.basename}}</nz-descriptions-item>
             <nz-descriptions-item nzTitle="Tablename">{{jdbcconfig.tablename}}</nz-descriptions-item>
             <nz-descriptions-item nzTitle="删除"><button (click)="deleteconfig(i)">删除</button></nz-descriptions-item>
-            <nz-descriptions-item nzTitle="修改"><button>修改</button></nz-descriptions-item>
+            <nz-descriptions-item nzTitle="修改"><button (click)="updateconfig(i)">修改</button></nz-descriptions-item>
         </nz-descriptions>
       </nz-collapse-panel>
 
@@ -62,19 +62,19 @@
       
                       <nz-form-item>
                           <nz-input-group>
-                              <input type="text" class="form-item" nz-input nz-input name="destBase" placeholder="dest-type" 
+                              <input type="text" class="form-item" nz-input nz-input name="destBase" placeholder="connectorType" 
                               [(ngModel)]="newconfig.connectorType"/>
                           </nz-input-group>
                       </nz-form-item>
                       <nz-form-item>
                         <nz-input-group>
-                            <input type="text" class="form-item" nz-input nz-input name="destBase" placeholder="dest-type" 
+                            <input type="text" class="form-item" nz-input nz-input name="destBase" placeholder="Base Name" 
                             [(ngModel)]="newconfig.basename"/>
                         </nz-input-group>
                     </nz-form-item>
                     <nz-form-item>
                         <nz-input-group>
-                            <input type="text" class="form-item" nz-input nz-input name="destBase" placeholder="dest-type" 
+                            <input type="text" class="form-item" nz-input nz-input name="destBase" placeholder="Table Name" 
                             [(ngModel)]="newconfig.tablename"/>
                         </nz-input-group>
                     </nz-form-item>

@@ -26,8 +26,10 @@ export class RedisComponent implements OnInit {
 
   ngOnInit(): void {
     this.configlist$ = this.sp.showAllRedis();
-    this.configlist$.subscribe( x=>
-        this.pconfiglist = x
+    this.configlist$.subscribe( x=>{
+      this.pconfiglist = x;
+      console.log(x);
+    }
     );
   }
   isVisible = false;
@@ -59,6 +61,13 @@ export class RedisComponent implements OnInit {
         )
     }
     else{ 
+      this.sp.updateRedis(
+        this.newconfig
+      ).subscribe(x => {
+        console.log(x);
+        this.ngOnInit();
+      }
+        )
     }
   }
 
@@ -85,4 +94,17 @@ export class RedisComponent implements OnInit {
       this.newconfig = this.pconfiglist[index];
       this.showModal();
   }
+
+    //更新相应配置
+    updateconfig(i:number){
+      this.newconfig = this.pconfiglist[i];
+      this.form_state=false;
+      this.showModal();
+    }
+    //创建新的配置
+    createconfig(){
+      this.clearnewconfig();
+      this.form_state=true;
+      this.showModal()
+    }
 }

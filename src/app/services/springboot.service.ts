@@ -14,7 +14,7 @@ import { redis } from '../interfaces/config/redis';
   providedIn: 'root'
 })
 export class SpringbootService {
-  private readonly BAS_URL: string = 'http://localhost:8082';
+  private readonly BAS_URL: string = 'http://192.168.0.105:8082';
   constructor(private readonly httpClient: HttpClient) { }
 
 //#region ---------------------- JDBC ----------------------
@@ -47,7 +47,7 @@ export class SpringbootService {
       params = params.append('password', jdbc.password);
     }
     if(jdbc.tablename){
-      params = params.append('tablename', jdbc.password);
+      params = params.append('tablename', jdbc.tablename);
     }
     if(jdbc.basename){
       params = params.append('basename', jdbc.basename);
@@ -56,6 +56,39 @@ export class SpringbootService {
       params = params.append('driverClassName', jdbc.driveClassName);
     }
     return this.httpClient.post<JdbcConfig>(this.BAS_URL+'/DataBase/insert',requestParam, { params });
+  }
+  //更新jdbc
+  public updateJdbcConfig(  jdbc:JdbcConfig): Observable<JdbcConfig>{
+    const requestParam = { jdbc};
+    let params = new HttpParams();
+    if (jdbc.id) {
+      params = params.append('id', jdbc.id);
+    }
+    if (jdbc.url) {
+      params = params.append('url', jdbc.url);
+    }
+    if (jdbc.port) {
+      params = params.append('port', jdbc.port);
+    }
+    if(jdbc.connectorType){
+      params = params.append('connectorType', jdbc.connectorType);
+    }
+    if (jdbc.username) {
+      params = params.append('username', jdbc.username);
+    }
+    if (jdbc.password) {
+      params = params.append('password', jdbc.password);
+    }
+    if(jdbc.tablename){
+      params = params.append('tablename', jdbc.password);
+    }
+    if(jdbc.basename){
+      params = params.append('basename', jdbc.basename);
+    }
+    if (jdbc.driveClassName) {
+      params = params.append('driverClassName', jdbc.driveClassName);
+    }
+    return this.httpClient.post<JdbcConfig>(this.BAS_URL+'/DataBase/update',requestParam, { params });
   }
 //#endregion
 
@@ -83,6 +116,25 @@ export class SpringbootService {
     return this.httpClient.post<Kafka>(this.BAS_URL+'/KafKA/Insert',requestParam,{ params });
 
   }
+
+  public updateKafka(kafka:Kafka): Observable<Kafka>{
+    const requestParam = { kafka};
+    let params = new HttpParams();
+    if (kafka.id) {
+      params = params.append('id', kafka.id);
+    }
+    if (kafka.port) {
+      params = params.append('DestPort', kafka.port);
+    }
+    if (kafka.topic) {
+      params = params.append('Topic', kafka.topic);
+    }
+    if (kafka.url) {
+      params = params.append('Url', kafka.url);
+    }
+    return this.httpClient.post<Kafka>(this.BAS_URL+'/KafKA/update',requestParam,{ params });
+
+  }
 //#endregion
 
 //#region  Hdfs
@@ -99,7 +151,25 @@ export class SpringbootService {
     if (hdfs.url) {
       params = params.append('url', hdfs.url);
     }
+    if (hdfs.type) {
+      params = params.append('type', hdfs.type);
+    }
     return this.httpClient.post<Hdfs>(this.BAS_URL+'/Hdfs/insert',requestParam,{ params });
+
+  }
+  public updateHdfs(hdfs:Hdfs): Observable<Hdfs>{
+    let params = new HttpParams();
+    const requestParam = {hdfs};
+    if(hdfs.id){
+      params = params.append('id', hdfs.id);
+    }
+    if (hdfs.url) {
+      params = params.append('url', hdfs.url);
+    }
+    if (hdfs.type) {
+      params = params.append('type', hdfs.type);
+    }
+    return this.httpClient.post<Hdfs>(this.BAS_URL+'/Hdfs/update',requestParam,{ params });
 
   }
 //#endregion
@@ -121,6 +191,21 @@ public newSocket(socket:Socket): Observable<Socket>{
     params = params.append('port', socket.port);
   }
   return this.httpClient.post<Socket>(this.BAS_URL+'/Socket/insert',requestParam,{ params });
+
+}
+public updateSocket(socket:Socket): Observable<Socket>{
+  let params = new HttpParams();
+  const requestParam = { socket};
+  if (socket.id) {
+    params = params.append('id', socket.url);
+  } 
+  if (socket.url) {
+    params = params.append('url', socket.url);
+  } 
+  if (socket.port) {
+    params = params.append('port', socket.port);
+  }
+  return this.httpClient.post<Socket>(this.BAS_URL+'/Socket/update',requestParam,{ params });
 
 }
 //#endregion
@@ -151,6 +236,31 @@ public newRedis(redis:redis): Observable<redis>{
     params = params.append('tablename', redis.tablename);
   }
   return this.httpClient.post<redis>(this.BAS_URL+'/Redis/insert',requestParam,{ params });
+
+}
+
+public updateRedis(redis:redis): Observable<redis>{
+  const requestParam = {redis};
+  let params = new HttpParams();
+  if (redis.id) {
+    params = params.append('id', redis.id);
+  }
+  if (redis.url) {
+    params = params.append('url', redis.url);
+  } 
+  if (redis.port) {
+    params = params.append('port', redis.port);
+  }
+  if(redis.username) {
+    params = params.append('username', redis.username);
+  }
+  if(redis.password) {
+    params = params.append('password', redis.password);
+  }
+  if(redis.tablename){
+    params = params.append('tablename', redis.tablename);
+  }
+  return this.httpClient.post<redis>(this.BAS_URL+'/Redis/update',requestParam,{ params });
 
 }
 //#endregion

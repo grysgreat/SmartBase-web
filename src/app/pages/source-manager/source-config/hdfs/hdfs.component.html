@@ -1,12 +1,12 @@
 <nz-collapse>
     <nz-collapse-panel [nzHeader]="'HDFS'">
         <button nz-button nzType="primary" nzShape="circle" class="add-new-btn"
-        (click)="showModal()">+</button>
+        (click)="createconfig()">+</button>
         <nz-descriptions *ngFor="let v of pconfiglist;let i = index;" nzTitle={{i+1}} nzBordered="true">
-            <nz-descriptions-item nzTitle="URL">{{v.id}}</nz-descriptions-item>
-            <nz-descriptions-item nzTitle="File Type">{{v.url}}</nz-descriptions-item>
+            <nz-descriptions-item nzTitle="URL">{{v.url}}</nz-descriptions-item>
+            <nz-descriptions-item nzTitle="File Type">{{v.type}}</nz-descriptions-item>
             <nz-descriptions-item nzTitle="删除"><button (click)="deleteconfig(i)">删除</button></nz-descriptions-item>
-            <nz-descriptions-item nzTitle="修改"><button>修改</button></nz-descriptions-item>
+            <nz-descriptions-item nzTitle="修改"><button (click)="updateconfig(i)">修改</button></nz-descriptions-item>
         </nz-descriptions>
     </nz-collapse-panel>
 </nz-collapse>
@@ -21,7 +21,11 @@
                         <input type="text" class="form-item" name="URL" nz-input placeholder="URL"  [(ngModel)]="newconfig.url"/>
                     </nz-input-group>
                 </nz-form-item>
-
+                <nz-form-item>
+                    <nz-input-group>
+                        <input type="text" class="form-item" name="type" nz-input placeholder="type"  [(ngModel)]="newconfig.type"/>
+                    </nz-input-group>
+                </nz-form-item>
                 <button nz-button nzType="dashed" class="login-form-button login-form-margin "
                 (click)="createnewconfig()"
                 >

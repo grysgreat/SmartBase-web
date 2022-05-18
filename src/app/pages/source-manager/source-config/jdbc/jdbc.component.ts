@@ -56,17 +56,23 @@ export class JdbcComponent implements OnInit {
   }
 
   createnewconfig(){
-    if(this.form_state){
+    if(this.form_state){//如果是新加入的情况
       this.sp.newJdbcConfig(
         this.newconfig
       ).subscribe(x => {
         console.log(x);
         this.ngOnInit();
-
       }
         )
     }
-    else{ 
+    else{ //否则是更新项目
+      this.sp.updateJdbcConfig(
+        this.newconfig
+      ).subscribe(x => {
+        console.log(x);
+        this.ngOnInit();
+      }
+      )
     }
   }
 
@@ -94,9 +100,17 @@ export class JdbcComponent implements OnInit {
       sql:"",
      };
   }
-  changeconfig(index  :number){
-      this.newconfig = this.pconfiglist[index];
-      this.showModal();
+//更新相应配置
+  updateconfig(i:number){
+    this.newconfig = this.pconfiglist[i];
+    this.form_state=false;
+    this.showModal();
+  }
+  //创建新的配置
+  createconfig(){
+    this.clearnewconfig();
+    this.form_state=true;
+    this.showModal()
   }
 
 }

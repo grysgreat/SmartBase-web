@@ -18,6 +18,7 @@ export class HdfsComponent implements OnInit {
   public newconfig: Hdfs={
    url:"",
    id:0,
+   type:""
   };
   constructor(private readonly sp: SpringbootService ) { }
   ngOnInit(): void {
@@ -52,7 +53,14 @@ export class HdfsComponent implements OnInit {
       }
         )
     }
-    else{ 
+    else{ //否则是更新项目
+      this.sp.updateHdfs(
+        this.newconfig
+      ).subscribe(x => {
+        console.log(x);
+        this.ngOnInit();
+      }
+      )
     }
   }
 
@@ -65,10 +73,27 @@ export class HdfsComponent implements OnInit {
     this.pconfiglist = this.pconfiglist.filter(item => item!=this.pconfiglist[index]);
  
   }
+
   clearnewconfig(){
     this.newconfig={
       url:"",
-      id :0
+      id :0,
+      type:""
      };
+  }
+
+
+
+  //更新相应配置
+  updateconfig(i:number){
+    this.newconfig = this.pconfiglist[i];
+    this.form_state=false;
+    this.showModal();
+  }
+  //创建新的配置
+  createconfig(){
+    this.clearnewconfig();//清零
+    this.form_state=true;
+    this.showModal()
   }
 }

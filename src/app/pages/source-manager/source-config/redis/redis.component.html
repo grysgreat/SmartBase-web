@@ -1,7 +1,7 @@
 <nz-collapse>
     <nz-collapse-panel [nzHeader]="'Redis info'">
       <button nz-button nzType="primary" nzShape="circle" class="add-new-btn"
-      (click)="showModal()">+</button>
+      (click)="createconfig()">+</button>
       <nz-descriptions *ngFor="let v of pconfiglist;let i = index;" nzTitle={{i+1}} nzBordered="true">
         <nz-descriptions-item nzTitle="ID">{{v.id}}</nz-descriptions-item>
         <nz-descriptions-item nzTitle="URL">{{v.url}}</nz-descriptions-item>
@@ -9,8 +9,8 @@
         <nz-descriptions-item nzTitle="username">{{v.username}}</nz-descriptions-item>
         <nz-descriptions-item nzTitle="password">{{v.password}}</nz-descriptions-item>
         <nz-descriptions-item nzTitle="tablename">{{v.tablename}}</nz-descriptions-item>
-        <nz-descriptions-item nzTitle="删除"><button (click)="deleteconfig(i)">删除</button></nz-descriptions-item>
-        <nz-descriptions-item nzTitle="修改"><button>修改</button></nz-descriptions-item>
+        <nz-descriptions-item nzTitle="删除"><button (click)="deleteconfig(i)" >删除</button></nz-descriptions-item>
+        <nz-descriptions-item nzTitle="修改"><button (click)="updateconfig(i)" >修改</button></nz-descriptions-item>
     </nz-descriptions>
     </nz-collapse-panel>
   </nz-collapse>
@@ -28,7 +28,7 @@
             <nz-input-group>
                 <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired>Dest Port</nz-form-label>
                 <nz-input-number class="form-item form-item-count" name="DestPort" [nzMin]="0" [nzMax]="55000" [nzStep]="1"
-                   placeholder="Port" [(ngModel)]="newconfig.Port"></nz-input-number>
+                   placeholder="Port" [(ngModel)]="newconfig.port"></nz-input-number>
             </nz-input-group>
         </nz-form-item>
 
@@ -41,7 +41,7 @@
         <nz-form-item>
             <nz-input-group>
                 <input type="password" class="form-item" nz-input name="KafKa Topic"
-                    placeholder="Topic"   [(ngModel)]="newconfig.password"/>
+                    placeholder="password"   [(ngModel)]="newconfig.password"/>
             </nz-input-group>
         </nz-form-item>
         <nz-form-item>

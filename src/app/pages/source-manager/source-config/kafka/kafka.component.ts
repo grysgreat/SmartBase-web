@@ -55,6 +55,13 @@ export class KafkaComponent implements OnInit {
         )
     }
     else{ 
+      this.sp.updateKafka(
+        this.newconfig
+      ).subscribe(x => {
+        console.log(x);
+        this.ngOnInit();
+      }
+        )
     }
   }
 
@@ -78,5 +85,18 @@ export class KafkaComponent implements OnInit {
   changeconfig(index  :number){
       this.newconfig = this.pconfiglist[index];
       this.showModal();
+  }
+
+  //更新相应配置
+  updateconfig(i:number){
+    this.newconfig = this.pconfiglist[i];
+    this.form_state=false;
+    this.showModal();
+  }
+  //创建新的配置
+  createconfig(){
+    this.clearnewconfig();
+    this.form_state=true;
+    this.showModal()
   }
 }

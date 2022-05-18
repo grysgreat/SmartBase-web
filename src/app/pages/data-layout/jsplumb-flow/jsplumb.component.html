@@ -35,10 +35,16 @@
             <i nz-icon nzType="download"></i>SubMit A Job
             <br>
           </button>
+
+          <button nz-button nzType="dashed" class="login-form-button login-form-margin" (click)="check()">
+            <i nz-icon nzType="download"></i>多少个组件？yigon!
+            <br>
+          </button>
         </div>
 
       </div>
       <div nz-col nzSpan="18" class=" bg-success min-height" id="drop-bg">
+        <flink-dragbody *ngFor="let item of alldragbody" [data]="item"></flink-dragbody>
       </div>
     </div>
   </div>
