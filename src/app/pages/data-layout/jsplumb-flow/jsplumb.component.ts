@@ -1,8 +1,9 @@
-import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy,ChangeDetectorRef } from '@angular/core';
 import * as uuid from 'uuid'; //随机数的生成
 import { NzNotificationService } from 'ng-zorro-antd/notification';
 import { dragbody } from 'interfaces';
 import { JarService } from 'services';
+
 declare let jsPlumb: any;
 declare let $: any;
 declare let Mustache: any;
@@ -16,9 +17,9 @@ declare let Mustache: any;
 export class JsplumbComponent2 implements OnInit {
   area = 'drop-bg';
   areaId = '#' + this.area;
-  alldragbody:dragbody[];
+  alldragbody:dragbody[]=[];
   root: any = {}
-  jsonstr:string="";
+  public jsonstr:string="";
   //信息存储类
   //#region 存储绘画的格式信息
   visoConfig = {
@@ -103,11 +104,11 @@ export class JsplumbComponent2 implements OnInit {
     }
   }
   //#endregion
-
   public showdat: number = 3;
   constructor(private readonly jarService: JarService,
-    private readonly notification: NzNotificationService) { }
-
+    private readonly notification: NzNotificationService,
+    private changeDetector: ChangeDetectorRef) { }
+// changeDetector 用于强制更新的注入
 
   //#region init
   ngOnInit() {
@@ -121,16 +122,20 @@ export class JsplumbComponent2 implements OnInit {
       scope: 'ss',
       drop: (event: any, ui: any) => {
         event;
+        console.log(ui);
         this.dropNode(ui.draggable[0].dataset.template, ui.position)
       }
     })
-    $('#app').on('click',  (event:any)=> {
-      event.stopPropagation()
-      event.preventDefault()
-      this.eventHandler(event.target.dataset)
-    })
+  
 
-    // 单点击了连接线上的X号 对组件进行删除
+    
+    // // 单点击了连接线上的X号 对组件进行删除
+    // $('#app').on('click',  (event:any)=> {
+    //   event.stopPropagation()
+    //   event.preventDefault()
+    //   this.eventHandler(event.target.dataset)
+    // })
+//ngAfterViewInit()
     jsPlumb.bind('dblclick', (conn: any, originalEvent: any) => {
       this.deleteLine(conn);
       originalEvent;//TODO:
@@ -261,11 +266,12 @@ case('op-source4') : return `<div class='pa' id='{{id}}' style='top:{{top}}px;le
       left:position.left
     }
     this.alldragbody.push(sdf);
-    this.addDraggable(position.id);
-    this.setEnterPoint(position.id)
-    this.setExitPoint(position.id, 'Bottom');//todo
-    this.setExitPoint(position.id, 'Right');
-    this.setExitPoint(position.id, 'Left');
+    this.changeDetector.detectChanges();
+    // this.addDraggable(position.id);
+    // this.setEnterPoint(position.id)
+    // this.setExitPoint(position.id, 'Bottom');//todo
+    // this.setExitPoint(position.id, 'Right');
+    // this.setExitPoint(position.id, 'Left');
   }
   check(){
     console.log(this.alldragbody.length);
@@ -370,5 +376,16 @@ case('op-source4') : return `<div class='pa' id='{{id}}' style='top:{{top}}px;le
         this.notify(data);
       });
   }
+
+  shutDownComp(id:string){
+
+    this.alldragbody = this.alldragbody.filter( 
+      (item:dragbody)=>{
+        return item.id!=id;
+      }
+    );
+    this.changeDetector.detectChanges();
+  }
+
 }
 //const anchors = [[1, 0.2, 1, 0], [0.8, 1, 0, 1], [0, 0.8, -1, 0], [0.2, 0, 0, -1]];

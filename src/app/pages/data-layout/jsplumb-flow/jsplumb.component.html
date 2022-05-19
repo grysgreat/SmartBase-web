@@ -28,23 +28,25 @@
             滅算子</a><br>
           <a class="btn btn-success btn-controler" href="#" data-template="op-source5" role="button">
             <i class="fa fa-navicon" aria-hidden="true"></i>
-            時算子</a>
+            時-算-子</a>
 
           <textarea style="margin-top:20px; margin-left: 10px; margin-right: 30px;" rows="14" nz-input [(ngModel)]="jsonstr"></textarea>
           <button nz-button nzType="dashed" class="login-form-button login-form-margin" (click)="submitJson()">
-            <i nz-icon nzType="download"></i>SubMit A Job
+            <i nz-icon nzType="download"></i>SubMit A Job----
             <br>
           </button>
 
           <button nz-button nzType="dashed" class="login-form-button login-form-margin" (click)="check()">
-            <i nz-icon nzType="download"></i>多少个组件？yigon!
+            <i nz-icon nzType="download"></i>多少个组件yigon
             <br>
           </button>
+
+
         </div>
 
       </div>
       <div nz-col nzSpan="18" class=" bg-success min-height" id="drop-bg">
-        <flink-dragbody *ngFor="let item of alldragbody" [data]="item"></flink-dragbody>
+        <flink-dragbody *ngFor="let item of alldragbody;" [data]="item" (close)="shutDownComp($event)"></flink-dragbody>
       </div>
     </div>
   </div>
