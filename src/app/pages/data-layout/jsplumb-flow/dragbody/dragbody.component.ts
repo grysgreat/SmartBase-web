@@ -31,6 +31,7 @@ declare let jsPlumb: any;
 export class DragbodyComponent implements OnInit {
   @Input() data:dragbody;
   @Output() close=new EventEmitter<string>();
+  strtest:string='tset1123';
   constructor() { }
   visoConfig = {
     visoTemplate: { playAudioNode: '<div class="pa" id="{{id}}" style="top:{{top}}px;left:{{left}}px"><a class="btn btn-success" href="#" role="button">放音</a></div>' }

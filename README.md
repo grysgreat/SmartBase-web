@@ -3,7 +3,6 @@
 本项目是Apache/Flink 中前端项目的二开
 主要用于支持软工课设FLink多元异构数据处理平台SmartBase项目的前端驱动
 [Flink多元异构](https://gitee.com/StarGrys/smart-base) 
-目前闭源，可能在答辩后开源
 
 
 
@@ -42,3 +41,18 @@ declare let jsPlumb: any;
 同时需要依靠原生jQuery来进行相应的事件绑定
 
 那么现在的问题是动态组件的数据绑定问题
+
+
+
+#### 解决的问题一：close
+
+jsPlumb库的使用问题。需要密切关注组件的生命周期问题，因为没有采用ts库中面向对象的方法，而是利用js 的全局变量，所以需要自己关注组件加载期间函数的使用过程。
+
+如遇到的bug，在对组件进行可拖拽函数处理时 ：draggable（） 
+
+需要等待组件加载view之后进行该过程。 所以应在拖拽子组件的周期hook：ngAfterViewInit（）中进行相应操作。
+
+#### 解决的问题二：running
+
+父子组件的通信
+

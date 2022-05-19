@@ -1,12 +1,12 @@
-import { Component, OnInit, ChangeDetectionStrategy,ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy,
+  QueryList,ChangeDetectorRef, ViewChildren } from '@angular/core';
 import * as uuid from 'uuid'; //随机数的生成
 import { NzNotificationService } from 'ng-zorro-antd/notification';
 import { dragbody } from 'interfaces';
 import { JarService } from 'services';
-
+import {DragbodyComponent} from './dragbody/dragbody.component'
 declare let jsPlumb: any;
 declare let $: any;
-declare let Mustache: any;
 
 @Component({
   selector: 'flink-jsplumb2',
@@ -15,100 +15,17 @@ declare let Mustache: any;
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class JsplumbComponent2 implements OnInit {
+  @ViewChildren(DragbodyComponent) panes!: QueryList<DragbodyComponent>;
   area = 'drop-bg';
   areaId = '#' + this.area;
   alldragbody:dragbody[]=[];
-  root: any = {}
   public jsonstr:string="";
-  //信息存储类
-  //#region 存储绘画的格式信息
-  visoConfig = {
-    visoTemplate: { playAudioNode: '<div class="pa" id="{{id}}" style="top:{{top}}px;left:{{left}}px"><a class="btn btn-success" href="#" role="button">放音</a></div>' }
-    // 基本连接线样式
-    , connectorPaintStyle: {
-      lineWidth: 2,
-      strokeStyle: '#61B7CF',
-      joinstyle: 'round',
-      fill: 'pink',
-      outlineColor: '',
-      outlineWidth: ''
-    },// 鼠标悬浮在连接线上的样式
-    connectorHoverStyle: {
-      lineWidth: 2,
-      strokeStyle: 'red',
-      outlineWidth: 10,
-      outlineColor: ''
-    },
-    baseStyle: {
-      endpoint: ['Dot', {
-        radius: 8,
-        fill: 'pink'
-      }], // 端点的形状
-      connectorStyle: {
-        lineWidth: 2,
-        strokeStyle: '#61B7CF',
-        joinstyle: 'round',
-        fill: 'pink',
-        outlineColor: '',
-        outlineWidth: ''
-      }, // 连接线的颜色，大小样式
-      connectorHoverStyle: {
-        lineWidth: 2,
-        strokeStyle: 'red',
-        outlineWidth: 10,
-        outlineColor: ''
-      },
-      paintStyle: {
-        strokeStyle: '#1e8151',
-        stroke: '#7AB02C',
-        fill: 'pink',
-        fillStyle: '#1e8151',
-        radius: 6,
-        lineWidth: 2
-      }, // 端点的颜色样式
-      // hoverPaintStyle: {
-      //   outlineStroke: 'pink'
-      // },
-      hoverPaintStyle: { stroke: 'blue' },
-      isSource: true, // 是否可以拖动（作为连线起点）
-      connector: ['Flowchart', { gap: 10, cornerRadius: 5, alwaysRespectStubs: true }],  // 连接线的样式种类有[Bezier],[Flowchart],[StateMachine ],[Straight ]
-      isTarget: true, // 是否可以放置（连线终点）
-      maxConnections: -1, // 设置连接点最多可以连接几条线
-      connectorOverlays: [
-        ['Arrow', {
-          width: 10,
-          length: 10,
-          location: 1
-        }],
-        ['Arrow', {
-          width: 10,
-          length: 10,
-          location: 0.2
-        }],
-        ['Arrow', {
-          width: 10,
-          length: 10,
-          location: 0.7
-        }],
-        ['Label', {
-          label: '',
-          cssClass: '',
-          labelStyle: {
-            color: 'red'
-          },
-          events: {
-          }
-        }]
-      ],
-      baseArchors: ['RightMiddle', 'LeftMiddle']
-    }
-  }
-  //#endregion
   public showdat: number = 3;
   constructor(private readonly jarService: JarService,
     private readonly notification: NzNotificationService,
-    private changeDetector: ChangeDetectorRef) { }
-// changeDetector 用于强制更新的注入
+    private changeDetector: ChangeDetectorRef// changeDetector 用于强制更新的注入
+    ) { }
+
 
   //#region init
   ngOnInit() {
@@ -122,7 +39,6 @@ export class JsplumbComponent2 implements OnInit {
       scope: 'ss',
       drop: (event: any, ui: any) => {
         event;
-        console.log(ui);
         this.dropNode(ui.draggable[0].dataset.template, ui.position)
       }
     })
@@ -152,6 +68,10 @@ export class JsplumbComponent2 implements OnInit {
   }
   //#endregion
 
+  //panes
+  ngAfterViewInit(){
+    //console.log(this.panes);
+  }
   deleteLine(conn: any) {
     if (confirm('确定删除所点击的链接吗？')) {
       jsPlumb.detach(conn)
@@ -240,14 +160,8 @@ case('op-source4') : return `<div class='pa' id='{{id}}' style='top:{{top}}px;le
     return $('#tpl-' + node.type).html() || $('#tpl-demo').html()
   }
 
-
-
-
-
-
-
   /**
-   *  放入拖动节点TODO
+   *  放入拖动节点TODO:
    * @param template 
    * @param position 
    */
@@ -256,9 +170,6 @@ case('op-source4') : return `<div class='pa' id='{{id}}' style='top:{{top}}px;le
     position.id = uuid.v1()
     position.generateId = uuid.v1
     template;
-    // var html = this.renderHtml(template, position)
-    // $(this.areaId).append(html)
-    // this.initSetNode(template, position.id)
     var sdf:dragbody={
       id:position.id,
       name:"testname",
@@ -267,81 +178,12 @@ case('op-source4') : return `<div class='pa' id='{{id}}' style='top:{{top}}px;le
     }
     this.alldragbody.push(sdf);
     this.changeDetector.detectChanges();
-    // this.addDraggable(position.id);
-    // this.setEnterPoint(position.id)
-    // this.setExitPoint(position.id, 'Bottom');//todo
-    // this.setExitPoint(position.id, 'Right');
-    // this.setExitPoint(position.id, 'Left');
+
   }
   check(){
-    console.log(this.alldragbody.length);
-  }
-  // 初始化各种节点设置
-  initSetNode(template: any, id: any) {
-    this.addDraggable(id)
-    if (template === 'tpl-audio') {
-      this.setEnterPoint(id)
-      this.setExitPoint(id, null);//todo
-    } else if (template === 'tpl-menu') {
-      this.setEnterPoint(id + '-heading')
-    } else {
-      this.setEnterPoint(id)
-      this.setExitPoint(id, 'Bottom');//todo
-      this.setExitPoint(id, 'Right');
-      this.setExitPoint(id, 'Left');
-    }
+    console.log(this.panes.get(0)?.strtest);
   }
 
-  // 设置入口点 统一为顶部的
-  setEnterPoint(id: any) {
-    var config = this.getBaseNodeConfig()
-    config.isSource = false
-    config.maxConnections = -1
-    jsPlumb.addEndpoint(id, {
-      anchors: 'Top',
-      uuid: id + '-in'
-    }, config)
-  }
-
-
-  /**
-   *   // 设置出口点
-   * @param id 任意组件的id值
-   * @param position  出口点在那个位置 Bottom \Top \Left\Right
-   */
-  setExitPoint(id: any, position: any) {
-    var config = this.getBaseNodeConfig()
-    config.isTarget = false
-    config.maxConnections = 1
-    jsPlumb.addEndpoint(id, {
-      anchors: position || 'Bottom',
-      uuid: id + '-out'
-    }, config)
-  }
-
-
-
-  // 删除一个节点以及
-  emptyNode(id: any) {
-    jsPlumb.remove(id)
-  }
-
-  // 让元素可拖动
-  addDraggable(id: any) {
-    jsPlumb.draggable(id, {
-      containment: 'parent'
-    });
-  }
-
-  // 渲染html
-  renderHtml(type: any, position: any) {
-    return Mustache.render(this.getTemplate(type), position)
-  }
-  eventHandler(data: any) {
-    if (data.type === 'deleteNode') {
-      this.emptyNode(data.id)
-    }
-  }
   // 链接建立后的检查
   // 当出现自连接的情况后，要将链接断开
   connectionBeforeDropCheck(info: any) {
@@ -351,16 +193,13 @@ case('op-source4') : return `<div class='pa' id='{{id}}' style='top:{{top}}px;le
     return info.connection.source.dataset.pid !== info.connection.target.dataset.id
   }
 
-  // 获取基本配置
-  getBaseNodeConfig() {
-    return Object.assign({}, this.visoConfig.baseStyle)
-  }
   notify(data:any){
     this.notification.blank(
       'Job Submit Successful!!!',
       'clink the left buttom to know' +data.jobid
     );
   }
+
   submitJson() {
     this.jarService
       .runJob(
@@ -377,8 +216,11 @@ case('op-source4') : return `<div class='pa' id='{{id}}' style='top:{{top}}px;le
       });
   }
 
+  /**
+   * 
+   * @param id 将要关闭的可拖动组件的id值
+   */
   shutDownComp(id:string){
-
     this.alldragbody = this.alldragbody.filter( 
       (item:dragbody)=>{
         return item.id!=id;
@@ -386,6 +228,4 @@ case('op-source4') : return `<div class='pa' id='{{id}}' style='top:{{top}}px;le
     );
     this.changeDetector.detectChanges();
   }
-
 }
-//const anchors = [[1, 0.2, 1, 0], [0.8, 1, 0, 1], [0, 0.8, -1, 0], [0.2, 0, 0, -1]];
