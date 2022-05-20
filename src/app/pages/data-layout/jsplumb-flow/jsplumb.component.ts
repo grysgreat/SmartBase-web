@@ -25,7 +25,6 @@ export class JsplumbComponent2 implements OnInit {
 
   alldragbody:dragbody[]=[];
   public jsonstr:string="";
-
   public Jdbclist$  : Observable<JdbcConfig[]>;
   public Jdbclist   : JdbcConfig[];
   public Hdfslist$  : Observable<Hdfs[]>;
@@ -42,7 +41,7 @@ export class JsplumbComponent2 implements OnInit {
   public dragbody_Kafka:dragbody[]=[];
   public dragbody_Redis:dragbody[]=[];
   public dragbody_Socket:dragbody[]=[];
-
+  public dragbody_operation:dragbody[]=[];
 
 
 
@@ -133,6 +132,7 @@ export class JsplumbComponent2 implements OnInit {
       case "Jdbc" :this.dragbody_Jdbc.push(sdf);break;
       case "Socket" :this.dragbody_Socket.push(sdf);break;
       case "Kafka" :this.dragbody_Kafka.push(sdf);break;
+      case "operation":this.dragbody_operation.push(sdf);break;
     }
     this.changeDetector.detectChanges();
 

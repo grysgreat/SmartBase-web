@@ -1,8 +1,8 @@
 import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 declare let jsPlumb: any;
 import { Input,Output,EventEmitter } from '@angular/core';
-// import { Baseinfo, dragbody } from 'interfaces';
-import { opcode } from 'interfaces';
+import {  dragbody } from 'interfaces';
+
 @Component({
   selector: 'flink-dragoperation',
   templateUrl: './dragoperation.component.html',
@@ -10,10 +10,10 @@ import { opcode } from 'interfaces';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class DragoperationComponent implements OnInit {
-  @Input() data:any;
-  @Input() op:opcode;
+  @Input() data:dragbody;
   @Output() close=new EventEmitter<string>();
   constructor() { }
+  public opkey:string="";
   visoConfig = {
     // 基本连接线样式
     connectorPaintStyle: {
@@ -65,6 +65,7 @@ export class DragoperationComponent implements OnInit {
       connector: ['Flowchart', { gap: 10, cornerRadius: 5, alwaysRespectStubs: true }],  // 连接线的样式种类有[Bezier],[Flowchart],[StateMachine ],[Straight ]
       isTarget: true, // 是否可以放置（连线终点）
       maxConnections: -1, // 设置连接点最多可以连接几条线
+      ConnectionsDetachable:false,
       connectorOverlays: [
         ['Arrow', {
           width: 10,
@@ -96,6 +97,50 @@ export class DragoperationComponent implements OnInit {
   }
   ngOnInit(): void {
   }
+
+
+  ngAfterViewInit(): void {
+    var uid = this.data.id;
+    jsPlumb.draggable(this.data.id);
+    // 配置出入点的过程
+     this.setInPoint(uid);
+     this.setExitPoint(uid,'Bottom');
+  }
+
+  value_notnull(obj:any):boolean{
+    return obj!==null &&  obj!==undefined;
+  }
+
+  getBaseNodeConfig() {
+    return Object.assign({}, this.visoConfig.baseStyle)
+  }
+
+
+  /**
+   *   // 设置出口点
+   * @param id 任意组件的id值
+   * @param position  出口点在那个位置 Bottom \Top \Left\Right
+   */
+   setExitPoint(id: any, position: any) {
+    var config = this.getBaseNodeConfig()
+    config.isTarget = false
+    config.maxConnections = -1
+    jsPlumb.addEndpoint(id, {
+      anchors: position || 'Bottom',
+      uuid: id + '-out'
+    }, config)
+  }
+
+  setInPoint(uid:any){
+    var config = this.getBaseNodeConfig();
+    config.isSource = false
+    config.maxConnections = -1
+    jsPlumb.addEndpoint(uid, {
+      anchors: 'Top',
+      uuid: uid + '-in'
+    }, config)
+  }
+
   /**
    * 关闭组件的函数 
    * 包括通知父类和删除关联连线

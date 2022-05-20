@@ -69,6 +69,7 @@ export class DragbodyComponent implements OnInit {
       connector: ['Flowchart', { gap: 10, cornerRadius: 5, alwaysRespectStubs: true }],  // 连接线的样式种类有[Bezier],[Flowchart],[StateMachine ],[Straight ]
       isTarget: true, // 是否可以放置（连线终点）
       maxConnections: -1, // 设置连接点最多可以连接几条线
+      ConnectionsDetachable:false,
       connectorOverlays: [
         ['Arrow', {
           width: 10,
@@ -124,7 +125,7 @@ export class DragbodyComponent implements OnInit {
     // 配置出入点的过程
     switch(this.data.opcode){
       case 'source':this.setExitPoint(uid, 'Bottom');break;
-      case 'target':this.setInPoint(uid);
+      case 'target':this.setInPoint(uid);break;
     }
     // this.setExitPoint(uid, 'Right');
     // this.setExitPoint(uid, 'Left');
@@ -149,7 +150,7 @@ export class DragbodyComponent implements OnInit {
    setExitPoint(id: any, position: any) {
     var config = this.getBaseNodeConfig()
     config.isTarget = false
-    config.maxConnections = 1
+    config.maxConnections = -1
     jsPlumb.addEndpoint(id, {
       anchors: position || 'Bottom',
       uuid: id + '-out'
