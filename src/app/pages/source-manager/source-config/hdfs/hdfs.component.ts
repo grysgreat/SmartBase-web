@@ -18,7 +18,7 @@ export class HdfsComponent implements OnInit {
   public newconfig: Hdfs={
    url:"",
    id:0,
-   type:""
+   type:"csv"
   };
   constructor(private readonly sp: SpringbootService ) { }
   ngOnInit(): void {
@@ -78,7 +78,7 @@ export class HdfsComponent implements OnInit {
     this.newconfig={
       url:"",
       id :0,
-      type:""
+      type:"csv"
      };
   }
 

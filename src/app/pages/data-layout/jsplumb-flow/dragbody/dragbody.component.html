@@ -1,0 +1,65 @@
+<div class='pa' id={{data.id}} [ngStyle]="{'top.px': data.top ,'left.px':data.left}">
+    <div class='panel panel-default panel-node panel-info'>
+    <div [id]="data.id+'head'" class='panel-heading'>
+    <i class='fa fa-calendar-times-o' aria-hidden='true'></i> 
+    {{data.name}}
+    <span class='delete-node pull-right' data-type='deleteNode' data-id='{{data.id}}'
+    (click)="shutdown()">
+      X</span>
+    </div>
+    <nz-select [(ngModel)]="this.localdatat"
+                nzPlaceHolder="下拉选择一个数据源"
+    >
+        <nz-option *ngFor="let config of configlist;let i=index;" 
+        [nzValue]="config" 
+        [nzLabel]="config.id"
+        ></nz-option>
+    </nz-select>
+        <ul class='list-group'>
+      <!-- <li  class='list-group-item panel-node-list'>
+        源数据源
+      </li> -->
+      <li class='list-group-item panel-node-list'>
+      数据类型  {{types}}
+      </li>
+  
+     <li *ngIf="value_notnull(localdatat.id)" class='list-group-item panel-node-list'>
+        id -- {{localdatat.id}}
+      </li>
+      <li *ngIf="value_notnull(localdatat.url) " class='list-group-item panel-node-list'>
+        id -- {{localdatat.url}}
+      </li>
+      <li *ngIf="value_notnull(localdatat.port) " class='list-group-item panel-node-list'>
+        id -- {{localdatat.port}}
+      </li>
+      <li *ngIf="value_notnull(localdatat.username) " class='list-group-item panel-node-list'>
+        id -- {{localdatat.username}}
+      </li>
+      <li *ngIf="value_notnull(localdatat.password) " class='list-group-item panel-node-list'>
+        id -- {{localdatat.password}}
+      </li>
+      <li *ngIf="value_notnull(localdatat.tablename) " class='list-group-item panel-node-list'>
+        id -- {{localdatat.tablename}}
+      </li>
+      <li *ngIf="value_notnull(localdatat.basename) " class='list-group-item panel-node-list'>
+        id -- {{localdatat.basename}}
+      </li>
+      <li *ngIf="value_notnull(localdatat.type) " class='list-group-item panel-node-list'>
+        id -- {{localdatat.type}}
+      </li>
+      <li *ngIf="value_notnull(localdatat.topic) " class='list-group-item panel-node-list'>
+        id -- {{localdatat.topic}}
+      </li>
+      <li *ngIf="value_notnull(localdatat.connectorType) " class='list-group-item panel-node-list'>
+        id -- {{localdatat.connectorType}}
+      </li>
+  
+      <li *ngIf="value_notnull(localdatat.driveClassName) " class='list-group-item panel-node-list'>
+        id -- {{localdatat.driveClassName}}
+      </li>
+  
+    </ul>
+  
+    </div>
+</div>
+    

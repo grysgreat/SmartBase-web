@@ -18,6 +18,12 @@ import { NzModalModule } from 'ng-zorro-antd/modal';
 import { NzNotificationModule } from 'ng-zorro-antd/notification';
 import { DragbodyComponent } from './jsplumb-flow/dragbody/dragbody.component';
 import { JsplumbComponent2 } from './jsplumb-flow/jsplumb.component';
+import { NzSelectModule } from 'ng-zorro-antd/select';
+import { NzCollapseModule } from 'ng-zorro-antd/collapse';
+import { DragoperationComponent } from './jsplumb-flow/dragoperation/dragoperation.component';
+
+
+
 @NgModule({
   declarations: [
     DataLayoutComponent,
@@ -26,7 +32,8 @@ import { JsplumbComponent2 } from './jsplumb-flow/jsplumb.component';
     JsplumbComponent,
     DataFlowComponent,
     DragbodyComponent,
-    JsplumbComponent2
+    JsplumbComponent2,
+    DragoperationComponent
   ],
   imports: [
     CommonModule,
@@ -40,7 +47,9 @@ import { JsplumbComponent2 } from './jsplumb-flow/jsplumb.component';
     NzInputModule,
     NzModalModule,
     FormsModule,
-    NzNotificationModule
+    NzNotificationModule,
+    NzSelectModule,
+    NzCollapseModule
   ]
 })
 export class DataLayoutModule { }

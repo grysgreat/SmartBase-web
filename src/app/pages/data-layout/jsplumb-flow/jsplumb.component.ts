@@ -1,10 +1,13 @@
 import { Component, OnInit, ChangeDetectionStrategy,
-  QueryList,ChangeDetectorRef, ViewChildren } from '@angular/core';
+QueryList,ChangeDetectorRef, ViewChildren } from '@angular/core';
 import * as uuid from 'uuid'; //随机数的生成
 import { NzNotificationService } from 'ng-zorro-antd/notification';
-import { dragbody } from 'interfaces';
-import { JarService } from 'services';
-import {DragbodyComponent} from './dragbody/dragbody.component'
+import { dragbody, Hdfs, Kafka, redis,Socket } from 'interfaces';
+import { JarService, SpringbootService } from 'services';
+import {DragbodyComponent} from './dragbody/dragbody.component';
+import { JdbcConfig } from 'interfaces';
+import { Observable } from 'rxjs';
+
 declare let jsPlumb: any;
 declare let $: any;
 
@@ -18,17 +21,43 @@ export class JsplumbComponent2 implements OnInit {
   @ViewChildren(DragbodyComponent) panes!: QueryList<DragbodyComponent>;
   area = 'drop-bg';
   areaId = '#' + this.area;
+
+
   alldragbody:dragbody[]=[];
   public jsonstr:string="";
-  public showdat: number = 3;
-  constructor(private readonly jarService: JarService,
+
+  public Jdbclist$  : Observable<JdbcConfig[]>;
+  public Jdbclist   : JdbcConfig[];
+  public Hdfslist$  : Observable<Hdfs[]>;
+  public Hdfslist   : Hdfs[];
+  public Kafkalist$ : Observable<Kafka[]>;
+  public Kafkalist  : Kafka[];
+  public Redislist$ : Observable<redis[]>;
+  public Redislist  : redis[];
+  public Socketlist$: Observable<Socket[]>;
+  public Socketlist : Socket[];
+
+  public dragbody_Jdbc:dragbody[]=[];
+  public dragbody_Hdfs:dragbody[]=[];
+  public dragbody_Kafka:dragbody[]=[];
+  public dragbody_Redis:dragbody[]=[];
+  public dragbody_Socket:dragbody[]=[];
+
+
+
+
+
+
+//在构造函数 进行相应组件的注入
+  constructor(
+    private readonly jarService: JarService,
     private readonly notification: NzNotificationService,
-    private changeDetector: ChangeDetectorRef// changeDetector 用于强制更新的注入
-    ) { }
-
-
+    private readonly changeDetector: ChangeDetectorRef,// changeDetector 用于强制更新的注入
+    private readonly sp :SpringbootService
+    ) {}
   //#region init
-  ngOnInit() {
+  ngOnInit() { 
+    this.getdatasourcelist();
     jsPlumb.setContainer('diagramContainer')
     $('.btn-controler').draggable({
       helper: 'clone',
@@ -39,19 +68,11 @@ export class JsplumbComponent2 implements OnInit {
       scope: 'ss',
       drop: (event: any, ui: any) => {
         event;
-        this.dropNode(ui.draggable[0].dataset.template, ui.position)
+        this.dropNode(ui.draggable[0].dataset, ui.position)
       }
     })
-  
 
-    
-    // // 单点击了连接线上的X号 对组件进行删除
-    // $('#app').on('click',  (event:any)=> {
-    //   event.stopPropagation()
-    //   event.preventDefault()
-    //   this.eventHandler(event.target.dataset)
-    // })
-//ngAfterViewInit()
+    //ngAfterViewInit()
     jsPlumb.bind('dblclick', (conn: any, originalEvent: any) => {
       this.deleteLine(conn);
       originalEvent;//TODO:
@@ -65,6 +86,8 @@ export class JsplumbComponent2 implements OnInit {
     jsPlumb.importDefaults({
       ConnectionsDetachable: true
     })
+// 获取所有配置信息
+
   }
   //#endregion
 
@@ -88,100 +111,34 @@ export class JsplumbComponent2 implements OnInit {
     jsPlumb.connect({ uuids: [from, to] })
   }
 
-  //获取mustache 模板
-  getTemplate(node: any) {
-    switch (node) {
-      case ('yuan-source'):
-        return `
-        <div class='pa' id='{{id}}' style='top:{{top}}px;left:{{left}}px'>
-        <div class='panel panel-default panel-node panel-info'>
-        <div id='{{id}}-heading' data-id='{{id}}' class='panel-heading'>
-        <i class='fa fa-calendar-times-o' aria-hidden='true'></i> 
-        {{name}}
-        <span class='delete-node pull-right' data-type='deleteNode' data-id='{{id}}'>X</span></div><ul class='list-group'><li id='{{id}}-onWorkTime' data-pid='{{id}}' class='list-group-item panel-node-list'>源数据源</li><li id='{{id}}-offWorkTime' data-pid='{{id}}' class='list-group-item panel-node-list'>数据类型：mysql</li></ul>
-        </div>
-        </div>`;
-      case ('op-source1'):
-        return `<div class='pa' id='{{id}}' style='top:{{top}}px;left:{{left}}px'><div class='panel panel-default panel-node panel-info'><div id='{{id}}-heading' data-id='{{id}}' class='panel-heading'><i class='fa fa-calendar-times-o' aria-hidden='true'></i> {{name}}<span class='delete-node pull-right' data-type='deleteNode' data-id='{{id}}'>X</span></div><ul class='list-group'><li id='{{id}}-onWorkTime' data-pid='{{id}}' class='list-group-item panel-node-list'>中间算子</li><li id='{{id}}-offWorkTime' data-pid='{{id}}' class='list-group-item panel-node-list'>算子类型：计数</li></ul></div></div>        `;
-      case ('op-source2'): return `<div class='pa' id='{{id}}' style='top:{{top}}px;left:{{left}}px'>
-<div class='panel panel-default panel-node panel-info'>
-  <div id='{{id}}-heading' data-id='{{id}}' class='panel-heading'><i class='fa fa-calendar-times-o'
-      aria-hidden='true'></i> {{name}}<span class='delete-node pull-right' data-type='deleteNode'
-      data-id='{{id}}'>X</span></div>
-  <ul class='list-group'>
-    <li id='{{id}}-onWorkTime' data-pid='{{id}}' class='list-group-item panel-node-list'>中间算子</li>
-    <li id='{{id}}-offWorkTime' data-pid='{{id}}' class='list-group-item panel-node-list'>算子类型：数据流分流</li>
-  </ul>
-</div>
-</div>`
-
-case('op-source3'):return `<div class='pa' id='{{id}}' style='top:{{top}}px;left:{{left}}px'>
-<div class='panel panel-default panel-node panel-info'>
-  <div id='{{id}}-heading' data-id='{{id}}' class='panel-heading'><i class='fa fa-calendar-times-o'
-      aria-hidden='true'></i> {{name}}<span class='delete-node pull-right' data-type='deleteNode'
-      data-id='{{id}}'>X</span></div>
-  <ul class='list-group'>
-    <li id='{{id}}-onWorkTime' data-pid='{{id}}' class='list-group-item panel-node-list'>中间算子</li>
-    <li id='{{id}}-offWorkTime' data-pid='{{id}}' class='list-group-item panel-node-list'>算子类型：数据流合流</li>
-  </ul>
-</div>
-</div>`;
-case('op-source4') : return `<div class='pa' id='{{id}}' style='top:{{top}}px;left:{{left}}px'>
-<div class='panel panel-default panel-node panel-info'>
-  <div id='{{id}}-heading' data-id='{{id}}' class='panel-heading'><i class='fa fa-calendar-times-o'
-      aria-hidden='true'></i> {{name}}<span class='delete-node pull-right' data-type='deleteNode'
-      data-id='{{id}}'>X</span></div>
-  <ul class='list-group'>
-    <li id='{{id}}-onWorkTime' data-pid='{{id}}' class='list-group-item panel-node-list'>中间算子</li>
-    <li id='{{id}}-offWorkTime' data-pid='{{id}}' class='list-group-item panel-node-list'>算子类型：数据清洗、筛选</li>
-  </ul>
-</div>
-</div>
-`
-
-      case ('op-source5'): return `
-<div class='pa' id='{{id}}' style='top:{{top}}px;left:{{left}}px'>
-  <div class='panel panel-default panel-node panel-info'>
-    <div id='{{id}}-heading' data-id='{{id}}' class='panel-heading'><i class='fa fa-calendar-times-o'
-        aria-hidden='true'></i> {{name}}<span class='delete-node pull-right' data-type='deleteNode'
-        data-id='{{id}}'>X</span></div>
-    <ul class='list-group'>
-      <li id='{{id}}-onWorkTime' data-pid='{{id}}' class='list-group-item panel-node-list'>中间算子</li>
-      <li id='{{id}}-offWorkTime' data-pid='{{id}}' class='list-group-item panel-node-list'>算子类型：定时</li>
-    </ul>
-  </div>
-</div>
-        `
-      case ('target-source'):
-        return `<div class='pa' id='{{id}}' style='top:{{top}}px;left:{{left}}px'><div class='panel panel-default panel-node panel-info'><div id='{{id}}-heading' data-id='{{id}}' class='panel-heading'><i class='fa fa-calendar-times-o' aria-hidden='true'></i> {{name}}<span class='delete-node pull-right' data-type='deleteNode' data-id='{{id}}'>X</span></div><ul class='list-group'><li id='{{id}}-onWorkTime' data-pid='{{id}}' class='list-group-item panel-node-list'>目的数据源</li><li id='{{id}}-offWorkTime' data-pid='{{id}}' class='list-group-item panel-node-list'>数据类型：mysql</li></ul></div></div>`;
-      default: return "";
-    }
-
-    return $('#tpl-' + node.type).html() || $('#tpl-demo').html()
-  }
-
   /**
    *  放入拖动节点TODO:
    * @param template 
    * @param position 
    */
-  dropNode(template: any, position: any) {
-    position.left -= $('#side-buttons').outerWidth()
-    position.id = uuid.v1()
-    position.generateId = uuid.v1
-    template;
+  dropNode(dataset: any, position: any) {
+    position.left -= $('#side-buttons').outerWidth();
+    position.id = uuid.v1();
+    console.log(dataset.template);
     var sdf:dragbody={
       id:position.id,
       name:"testname",
       top:position.top,
-      left:position.left
+      left:position.left,
+      opcode:dataset.opcode
     }
-    this.alldragbody.push(sdf);
+    switch(dataset.template){
+      case "Redis":this.dragbody_Redis.push(sdf);break;
+      case "Hdfs" :this.dragbody_Hdfs.push(sdf);break;
+      case "Jdbc" :this.dragbody_Jdbc.push(sdf);break;
+      case "Socket" :this.dragbody_Socket.push(sdf);break;
+      case "Kafka" :this.dragbody_Kafka.push(sdf);break;
+    }
     this.changeDetector.detectChanges();
 
   }
   check(){
-    console.log(this.panes.get(0)?.strtest);
+     //console.log(this.panes.get(0)?.data.sourcedata);
   }
 
   // 链接建立后的检查
@@ -215,9 +172,8 @@ case('op-source4') : return `<div class='pa' id='{{id}}' style='top:{{top}}px;le
         this.notify(data);
       });
   }
-
   /**
-   * 
+   *  
    * @param id 将要关闭的可拖动组件的id值
    */
   shutDownComp(id:string){
@@ -227,5 +183,30 @@ case('op-source4') : return `<div class='pa' id='{{id}}' style='top:{{top}}px;le
       }
     );
     this.changeDetector.detectChanges();
+  }
+
+  getdatasourcelist(){
+    this.Jdbclist$ = this.sp.SearchAllJdbc();
+    this.Jdbclist$.subscribe( x=>
+        this.Jdbclist = x
+    );
+    this.Hdfslist$ = this.sp.showAllHdfs();
+    this.Hdfslist$.subscribe( x=>
+        this.Hdfslist = x
+    );
+    this.Redislist$ = this.sp.showAllRedis();
+    this.Redislist$.subscribe( x=>
+        this.Redislist = x
+    );
+
+    this.Socketlist$ = this.sp.showAllSocket();
+    this.Socketlist$.subscribe( x=>
+        this.Socketlist = x
+    );
+    this.Kafkalist$ = this.sp.ShowallKafka();
+    this.Kafkalist$.subscribe( x=>
+        this.Kafkalist = x
+    );
+
   }
 }

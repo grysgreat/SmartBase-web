@@ -7,119 +7,90 @@
 
       <div nz-col nzSpan="6" id="side-buttons" class="  min-height">
         <div>
-          <h5>节点类型列表</h5>
-          <a class="btn btn-success btn-controler" href="#" data-template="yuan-source" role="button">
-            <i class="fa fa-navicon" aria-hidden="true"></i>
-            源数据</a><br>
-          <a class="btn btn-success btn-controler" href="#" data-template="target-source" role="button">
-            <i class="fa fa-navicon" aria-hidden="true"></i>
-            目的数据</a><br>
-          <a class="btn btn-success btn-controler" href="#" data-template="op-source1" role="button">
-            <i class="fa fa-navicon" aria-hidden="true"></i>
-            機算子</a><br>
-          <a class="btn btn-success btn-controler" href="#" data-template="op-source2" role="button">
-            <i class="fa fa-navicon" aria-hidden="true"></i>
-            散算子</a><br>
-          <a class="btn btn-success btn-controler" href="#" data-template="op-source3" role="button">
-            <i class="fa fa-navicon" aria-hidden="true"></i>
-            合算子</a><br>
-          <a class="btn btn-success btn-controler" href="#" data-template="op-source4" role="button">
-            <i class="fa fa-navicon" aria-hidden="true"></i>
-            滅算子</a><br>
-          <a class="btn btn-success btn-controler" href="#" data-template="op-source5" role="button">
-            <i class="fa fa-navicon" aria-hidden="true"></i>
-            時-算-子</a>
+          <h3>节点类型列表</h3>
+          <nz-collapse>
+            <nz-collapse-panel nzHeader="源数据源">
+              <a class="btn btn-success btn-controler" data-template="Redis" data-opcode="source" role="button">
+                <i class="fa fa-navicon" aria-hidden="true"></i>
+                源数据reids</a><br>
+              <a class="btn btn-success btn-controler" data-template="Jdbc" data-opcode="source" role="button">
+                <i class="fa fa-navicon" aria-hidden="true"></i>
+                源数据Jdbc</a><br>
+              <a class="btn btn-success btn-controler" data-template="Hdfs" data-opcode="source" role="button">
+                <i class="fa fa-navicon" aria-hidden="true"></i>
+                源数据Hdfs</a><br>
+              <a class="btn btn-success btn-controler" data-template="Socket" data-opcode="source" role="button">
+                <i class="fa fa-navicon" aria-hidden="true"></i>
+                源数据Socket</a><br>
+              <a class="btn btn-success btn-controler" data-template="Kafka" data-opcode="source" role="button">
+                <i class="fa fa-navicon" aria-hidden="true"></i>
+                源数据Kafka</a><br>
+            </nz-collapse-panel>
+            <nz-collapse-panel nzHeader="目的数据源">
+              <a class="btn btn-success btn-controler" data-template="Redis" data-opcode="target" role="button">
+                <i class="fa fa-navicon" aria-hidden="true"></i>
+                目的数据reids</a><br>
+              <a class="btn btn-success btn-controler" data-template="Jdbc" data-opcode="target" role="button">
+                <i class="fa fa-navicon" aria-hidden="true"></i>
+                目的数据Jdbc</a><br>
+              <a class="btn btn-success btn-controler" data-template="Hdfs" data-opcode="target" role="button">
+                <i class="fa fa-navicon" aria-hidden="true"></i>
+                目的数据Hdfs</a><br>
+              <a class="btn btn-success btn-controler" data-template="Socket" data-opcode="target" role="button">
+                <i class="fa fa-navicon" aria-hidden="true"></i>
+                目的数据Socket</a><br>
+              <a class="btn btn-success btn-controler" data-template="Kafka" data-opcode="target" role="button">
+                <i class="fa fa-navicon" aria-hidden="true"></i>
+                目的数据Kafka</a><br>
+            </nz-collapse-panel>
+            <nz-collapse-panel nzHeader="中间算子">
+              <a class="btn btn-success btn-controler" data-template="op-source1" role="button">
+                <i class="fa fa-navicon" aria-hidden="true"></i>
+                機算子</a><br>
+              <a class="btn btn-success btn-controler" data-template="op-source2" role="button">
+                <i class="fa fa-navicon" aria-hidden="true"></i>
+                散算子</a><br>
+              <a class="btn btn-success btn-controler" data-template="op-source3" role="button">
+                <i class="fa fa-navicon" aria-hidden="true"></i>
+                合算子</a><br>
+              <a class="btn btn-success btn-controler" data-template="op-source4" role="button">
+                <i class="fa fa-navicon" aria-hidden="true"></i>
+                滅算子</a><br>
+              <a class="btn btn-success btn-controler" data-template="op-source5" role="button">
+                <i class="fa fa-navicon" aria-hidden="true"></i>
+                時-算-子</a>
+            </nz-collapse-panel>
+          </nz-collapse>
 
-          <textarea style="margin-top:20px; margin-left: 10px; margin-right: 30px;" rows="14" nz-input [(ngModel)]="jsonstr"></textarea>
+          <textarea style="margin-top:20px; margin-left: 10px; margin-right: 30px;" rows="14" nz-input
+            [(ngModel)]="jsonstr"></textarea>
           <button nz-button nzType="dashed" class="login-form-button login-form-margin" (click)="submitJson()">
             <i nz-icon nzType="download"></i>SubMit A Job----
             <br>
           </button>
-
           <button nz-button nzType="dashed" class="login-form-button login-form-margin" (click)="check()">
             <i nz-icon nzType="download"></i>多少个组件
             <br>
           </button>
-
-
         </div>
-
       </div>
       <div nz-col nzSpan="18" class=" bg-success min-height" id="drop-bg" #dragbox>
-        <flink-dragbody *ngFor="let item of alldragbody;" [data]="item" (close)="shutDownComp($event)"></flink-dragbody>
+        <flink-dragbody *ngFor="let item of dragbody_Redis;" [data]="item" [configlist]="Redislist"
+          (close)="shutDownComp($event)">
+        </flink-dragbody>
+        <flink-dragbody *ngFor="let item of dragbody_Hdfs;" [data]="item" [configlist]="Hdfslist"
+          (close)="shutDownComp($event)">
+        </flink-dragbody>
+        <flink-dragbody *ngFor="let item of dragbody_Kafka;" [data]="item" [configlist]="Kafkalist"
+          (close)="shutDownComp($event)">
+        </flink-dragbody>
+        <flink-dragbody *ngFor="let item of dragbody_Socket;" [data]="item" [configlist]="Socketlist"
+          (close)="shutDownComp($event)">
+        </flink-dragbody>
+        <flink-dragbody *ngFor="let item of dragbody_Jdbc;" [data]="item" [configlist]="Jdbclist"
+          (close)="shutDownComp($event)">
+        </flink-dragbody>
       </div>
     </div>
   </div>
 </div>
-
-
-<!-- 
-<div class='pa' id='{{id}}' style='top:{{top}}px;left:{{left}}px'>
-  <div class='panel panel-default panel-node panel-info'>
-    <div id='{{id}}-heading' data-id='{{id}}' class='panel-heading'><i class='fa fa-calendar-times-o'
-        aria-hidden='true'></i> {{name}}<span class='delete-node pull-right' data-type='deleteNode'
-        data-id='{{id}}'>X</span></div>
-    <ul class='list-group'>
-      <li id='{{id}}-onWorkTime' data-pid='{{id}}' class='list-group-item panel-node-list'>中间算子</li>
-      <li id='{{id}}-offWorkTime' data-pid='{{id}}' class='list-group-item panel-node-list'>算子类型：聚合</li>
-    </ul>
-  </div>
-</div> 
-
-<div class='pa' id='{{id}}' style='top:{{top}}px;left:{{left}}px'>
-  <div class='panel panel-default panel-node panel-info'>
-    <div id='{{id}}-heading' data-id='{{id}}' class='panel-heading'><i class='fa fa-calendar-times-o'
-        aria-hidden='true'></i> {{name}}<span class='delete-node pull-right' data-type='deleteNode'
-        data-id='{{id}}'>X</span></div>
-    <ul class='list-group'>
-      <li id='{{id}}-onWorkTime' data-pid='{{id}}' class='list-group-item panel-node-list'>中间算子</li>
-      <li id='{{id}}-offWorkTime' data-pid='{{id}}' class='list-group-item panel-node-list'>算子类型：数据清洗、筛选</li>
-    </ul>
-  </div>
-</div>
-
-
-<div class='pa' id='{{id}}' style='top:{{top}}px;left:{{left}}px'>
-  <div class='panel panel-default panel-node panel-info'>
-    <div id='{{id}}-heading' data-id='{{id}}' class='panel-heading'><i class='fa fa-calendar-times-o'
-        aria-hidden='true'></i> {{name}}<span class='delete-node pull-right' data-type='deleteNode'
-        data-id='{{id}}'>X</span></div>
-    <ul class='list-group'>
-      <li id='{{id}}-onWorkTime' data-pid='{{id}}' class='list-group-item panel-node-list'>中间算子</li>
-      <li id='{{id}}-offWorkTime' data-pid='{{id}}' class='list-group-item panel-node-list'>算子类型：数据流分流</li>
-    </ul>
-  </div>
-</div>
-
-
-
-
-<div class='pa' id='{{id}}' style='top:{{top}}px;left:{{left}}px'>
-  <div class='panel panel-default panel-node panel-info'>
-    <div id='{{id}}-heading' data-id='{{id}}' class='panel-heading'><i class='fa fa-calendar-times-o'
-        aria-hidden='true'></i> {{name}}<span class='delete-node pull-right' data-type='deleteNode'
-        data-id='{{id}}'>X</span></div>
-    <ul class='list-group'>
-      <li id='{{id}}-onWorkTime' data-pid='{{id}}' class='list-group-item panel-node-list'>中间算子</li>
-      <li id='{{id}}-offWorkTime' data-pid='{{id}}' class='list-group-item panel-node-list'>算子类型：数据流分流</li>
-    </ul>
-  </div>
-</div>
-
-
-<div class='pa' id='{{id}}' style='top:{{top}}px;left:{{left}}px'>
-  <div class='panel panel-default panel-node panel-info'>
-    <div id='{{id}}-heading' data-id='{{id}}' class='panel-heading'><i class='fa fa-calendar-times-o'
-        aria-hidden='true'></i> {{name}}<span class='delete-node pull-right' data-type='deleteNode'
-        data-id='{{id}}'>X</span></div>
-    <ul class='list-group'>
-      <li id='{{id}}-onWorkTime' data-pid='{{id}}' class='list-group-item panel-node-list'>中间算子</li>
-      <li id='{{id}}-offWorkTime' data-pid='{{id}}' class='list-group-item panel-node-list'>算子类型：数据流合流</li>
-    </ul>
-  </div>
-</div>
-
-
-
-
--->

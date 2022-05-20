@@ -80,7 +80,7 @@ export class SpringbootService {
       params = params.append('password', jdbc.password);
     }
     if(jdbc.tablename){
-      params = params.append('tablename', jdbc.password);
+      params = params.append('tablename', jdbc.tablename);
     }
     if(jdbc.basename){
       params = params.append('basename', jdbc.basename);

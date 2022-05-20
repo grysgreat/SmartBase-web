@@ -79,7 +79,7 @@ export class KafkaComponent implements OnInit {
       url:"",
       port:0,
       topic:"",
-      id:0,
+      id:0
      };
   }
   changeconfig(index  :number){

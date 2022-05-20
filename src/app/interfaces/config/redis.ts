@@ -1,8 +1,8 @@
 export interface redis{
     id:number,
-    username: string,
-    password :string,
+    username?: string,
+    password ?:string,
     url :string
-    port:number,
-    tablename : string,
+    port?:number,
+    tablename ?: string,
 } 

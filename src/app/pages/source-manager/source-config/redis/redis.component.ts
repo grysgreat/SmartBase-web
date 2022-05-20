@@ -19,7 +19,8 @@ export class RedisComponent implements OnInit {
     password :"",
     url :"",
     port:0,
-    tablename : "",
+    tablename : ""
+    //,type:"redis"
   };
   
   constructor(private readonly sp: SpringbootService) { }

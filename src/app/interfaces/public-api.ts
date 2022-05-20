@@ -43,4 +43,6 @@ export * from './config/Hdfs';
 export * from './config/redis';
 export * from './config/Socket';
 export * from './config/Kafka';
-export * from './dragbody'
+export * from './dragbody';
+export * from './drag/draginfo';
+export * from './config/opcode';

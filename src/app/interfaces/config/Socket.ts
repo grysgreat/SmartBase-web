@@ -1,5 +1,5 @@
 export interface Socket{
     id :number,
-    port : number,
+    port ?: number,
     url :string
 }
