@@ -16,47 +16,52 @@
         ></nz-option>
     </nz-select>
         <ul class='list-group'>
-      <!-- <li  class='list-group-item panel-node-list'>
-        源数据源
-      </li> -->
       <li class='list-group-item panel-node-list'>
       数据类型  {{types}}
       </li>
-  
-     <li *ngIf="value_notnull(localdatat.id)" class='list-group-item panel-node-list'>
-        id -- {{localdatat.id}}
-      </li>
-      <li *ngIf="value_notnull(localdatat.url) " class='list-group-item panel-node-list'>
-        id -- {{localdatat.url}}
-      </li>
-      <li *ngIf="value_notnull(localdatat.port) " class='list-group-item panel-node-list'>
-        id -- {{localdatat.port}}
-      </li>
-      <li *ngIf="value_notnull(localdatat.username) " class='list-group-item panel-node-list'>
-        id -- {{localdatat.username}}
-      </li>
-      <li *ngIf="value_notnull(localdatat.password) " class='list-group-item panel-node-list'>
-        id -- {{localdatat.password}}
-      </li>
-      <li *ngIf="value_notnull(localdatat.tablename) " class='list-group-item panel-node-list'>
-        id -- {{localdatat.tablename}}
-      </li>
-      <li *ngIf="value_notnull(localdatat.basename) " class='list-group-item panel-node-list'>
-        id -- {{localdatat.basename}}
-      </li>
-      <li *ngIf="value_notnull(localdatat.type) " class='list-group-item panel-node-list'>
-        id -- {{localdatat.type}}
-      </li>
-      <li *ngIf="value_notnull(localdatat.topic) " class='list-group-item panel-node-list'>
-        id -- {{localdatat.topic}}
-      </li>
-      <li *ngIf="value_notnull(localdatat.connectorType) " class='list-group-item panel-node-list'>
-        id -- {{localdatat.connectorType}}
-      </li>
-  
-      <li *ngIf="value_notnull(localdatat.driveClassName) " class='list-group-item panel-node-list'>
-        id -- {{localdatat.driveClassName}}
-      </li>
+      <nz-collapse>
+        <nz-collapse-panel nzHeader="源数据源详情">
+
+          <li *ngIf="value_notnull(localdatat.id)" class='list-group-item panel-node-list'>
+            数据源id  {{localdatat.id}}
+          </li>
+          <li *ngIf="value_notnull(localdatat.url) " class='list-group-item panel-node-list'>
+            URL   {{localdatat.url}}
+          </li>
+          <li *ngIf="value_notnull(localdatat.port) " class='list-group-item panel-node-list'>
+            Port  {{localdatat.port}}
+          </li>
+          <li *ngIf="value_notnull(localdatat.username) " class='list-group-item panel-node-list'>
+            Username  {{localdatat.username}}
+          </li>
+          <li *ngIf="value_notnull(localdatat.password) " class='list-group-item panel-node-list'>
+            Password  {{localdatat.password}}
+          </li>
+          <li *ngIf="value_notnull(localdatat.tablename) " class='list-group-item panel-node-list'>
+            Tablename  {{localdatat.tablename}}
+          </li>
+          <li *ngIf="value_notnull(localdatat.basename) " class='list-group-item panel-node-list'>
+            Basename  {{localdatat.basename}}
+          </li>
+          <li *ngIf="value_notnull(localdatat.type) " class='list-group-item panel-node-list'>
+            Type  {{localdatat.type}}
+          </li>
+          <li *ngIf="value_notnull(localdatat.topic) " class='list-group-item panel-node-list'>
+            Topic  {{localdatat.topic}}
+          </li>
+          <li *ngIf="value_notnull(localdatat.connectorType) " class='list-group-item panel-node-list'>
+            connectorType  {{localdatat.connectorType}}
+          </li>
+      
+          <li *ngIf="value_notnull(localdatat.driveClassName) " class='list-group-item panel-node-list'>
+            driveClassName  {{localdatat.driveClassName}}
+          </li>
+
+
+
+        </nz-collapse-panel>
+      </nz-collapse>
+
   
     </ul>
   

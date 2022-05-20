@@ -51,15 +51,13 @@ export class JsplumbComponent2 implements OnInit {
   //dragbody 的map 用uuid来标识
   public bodymap: Map<string, dragbody>;
 
-
-
-  //#region 一下数据结构只在用到的时候更新
-  //记录所有的头节点
-  public sourcelist: dragbody[] = [];
-  //图结构
-  public bodyGraph: Map<string, string[]>;
-  //存储计算好的数据流
-  public joblist: dragbody[][] = [[]];
+  //#region 以下数据结构只在用到的时候更新
+      //记录所有的头节点
+      public sourcelist: dragbody[] = [];
+      //图结构
+      public bodyGraph: Map<string, string[]>;
+      //存储计算好的数据流
+      public joblist: dragbody[][] = [[]];
   //#endregion
 
 
@@ -108,9 +106,8 @@ export class JsplumbComponent2 implements OnInit {
   }
   //#endregion
 
-  //panes
-  ngAfterViewInit() {
 
+  ngAfterViewInit() {
   }
   deleteLine(conn: any) {
     if (confirm('确定删除所点击的链接吗？')) {
@@ -137,25 +134,14 @@ export class JsplumbComponent2 implements OnInit {
     position.left -= $('#side-buttons').outerWidth();
     position.id = uuid.v1();
     console.log(dataset.template);
-
     var sdf: dragbody = new dragbody();
     sdf.id =  position.id;
     sdf.name =  "testname"
     sdf.top =  position.top;
     sdf.left =  position.left;
     sdf.opcode = dataset.opcode;
-    // {
-    //   id: position.id,
-    //   name: "testname",
-    //   top: position.top,
-    //   left: position.left,
-    //   opcode: dataset.opcode
-    // }
-
     // 将新生成的dragbody放入map
     this.bodymap.set(position.id, sdf);
-
-
     // 根据html的temlate值判断类型
     switch (dataset.template) {
       case "Redis": this.dragbody_Redis.push(sdf); break;
@@ -165,15 +151,10 @@ export class JsplumbComponent2 implements OnInit {
       case "Kafka": this.dragbody_Kafka.push(sdf); break;
       case "operation": this.dragbody_operation.push(sdf); break;
     }
-    this.changeDetector.detectChanges();
+    this.changeDetector.detectChanges();//标记更新
   }
   check() {
-    //console.log(this.panes.get(0)?.data.sourcedata);
-    // console.log(this.panes);
-    // console.log(this.panes2);
     this.GraphToJson();
-   // console.log(this.joblist);
-
   }
   // 链接建立后的检查
   // 当出现自连接的情况后，要将链接断开
@@ -187,6 +168,7 @@ export class JsplumbComponent2 implements OnInit {
     return info.connection.source.dataset.pid !== info.connection.target.dataset.id
   }
 
+//消息通知函数
   notify(data: any) {
     this.notification.blank(
       'Job Submit Successful!!!',
@@ -194,6 +176,7 @@ export class JsplumbComponent2 implements OnInit {
     );
   }
 
+//提交生成的json 任务
   submitJson() {
     this.jarService
       .runJob(
@@ -209,6 +192,7 @@ export class JsplumbComponent2 implements OnInit {
         this.notify(data);
       });
   }
+
   /**
    * @param id 将要关闭的可拖动组件的id值
    */
@@ -248,7 +232,7 @@ export class JsplumbComponent2 implements OnInit {
 
 
   /**
-   * 通过后端获取所有信息员数据
+   * 通过后端获取所有信息源数据
    */
   getdatasourcelist() {
     this.Jdbclist$ = this.sp.SearchAllJdbc();
@@ -289,22 +273,17 @@ export class JsplumbComponent2 implements OnInit {
     this.sourcelist=[];//没计算一次都需要先清零
     this.bodyGraph.clear();
     this.joblist=[[]];
-
-
-    //首先维护sourcelist 找出所有的source
+    //维护sourcelist 找出所有的source
     for (let value of this.bodymap.values()) {
       if (this.validSource_body(value.id)) {
         this.sourcelist.push(value);
       }
     }
-
-    /**
-     */
-    //其次维护bodyGraph:map (string,string[]);
+    //其次维护bodyGraph:map (string,string[]) 生成图结构
     for (var link of this.linklist) {
       //确保连线的两段都有效
       if (this.valid_body(link.sourceId) && this.valid_body(link.targetId)) {
-        let temps = this.bodyGraph.get(link.sourceId);//TODO BUG： zhe
+        let temps = this.bodyGraph.get(link.sourceId);
         if (temps == undefined) {
           temps=[];
         }
@@ -318,21 +297,20 @@ export class JsplumbComponent2 implements OnInit {
       var templist: dragbody[] = [];
       this.Garphdfs(sourcedata.id, templist);
     }
-
     console.log(this.joblist)
-
-
 
   }
   /**
-   *   判断是不是target
+   * 判断组件是不是target
+   * @parma uuid 组件id值
    */
   validTarget_body(uuid: string): boolean {
     let tempbody = this.bodymap.get(uuid);
     return tempbody !== undefined && tempbody.opcode == 'target';
   }
   /**
-   *   判断是不是source
+   * 判断组件是不是sourcebody
+   * @parma uuid 组件id值
    */
   validSource_body(uuid: string): boolean {
     let tempbody = this.bodymap.get(uuid);
@@ -349,15 +327,12 @@ export class JsplumbComponent2 implements OnInit {
 
 
   /**
- * 查找有效data连的dfs过程
- * @param uuid 当前uudi
- * @param joblist_temp  传入的dragbody列表
- * @returns 
+ * 对用户绘就的单向图进行dfs,提取出有效的工作数据流
+ * @param uuid 当前父亲组件uudi
+ * @param joblist_temp  dfs经过节点的dragbody列表
  */
   public Garphdfs= 
   (uuid: string, joblist_temp: dragbody[])=>{
-
-
     var templist: string[] | undefined;
     var tempbodylist:dragbody[] = this.clonearray(joblist_temp);
     //先查看是否是有效节点
@@ -373,38 +348,22 @@ export class JsplumbComponent2 implements OnInit {
       this.joblist.push(this.clonearray(tempbodylist));
       return;
     }
-
-
-
-
-    
     //如果当前节点没有子节点信息就不需要继续执行了
     if (!(this.bodyGraph.has(uuid))) {
       return;
     } else {//否则查找子节点
       templist = this.bodyGraph.get(uuid);
     }
-  
     if (templist !== undefined)
-    //遍历子节点 dfs
-      for (var node of templist) {
+    for (var node of templist) {
         this.Garphdfs(node, tempbodylist);
-      }
-
-
-     
+    }
   }
 
-
-
-  /**
-   * 
-   */
-  GraphStach(){
-    //let tempstack = new Stack();
-  }
-
-
+/**
+ * 对指定dragbody数组进行深度复制 
+ * @param inputlist 将要复制的对象dragbody数组
+ */
   clonearray(inputlist:dragbody[]):dragbody[]{
     let dragbodylist:dragbody[]=[];
     inputlist.forEach((item)=>{
@@ -412,8 +371,6 @@ export class JsplumbComponent2 implements OnInit {
     })
     return dragbodylist;
   }
-
-
   //#endregion
 
 
