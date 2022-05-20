@@ -46,3 +46,4 @@ export * from './config/Kafka';
 export * from './dragbody';
 export * from './drag/draginfo';
 export * from './config/opcode';
+export * from './stack';

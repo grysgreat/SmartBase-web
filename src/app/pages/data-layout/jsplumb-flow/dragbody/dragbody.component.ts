@@ -105,7 +105,7 @@ export class DragbodyComponent implements OnInit {
     }
   
 
-    if(this.value_notnull(this.data.sourcedata?.types)){
+    if(this.value_notnull(this.localdatat.types)){
       this.types = this.localdatat.types
     }
    
