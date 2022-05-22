@@ -14,6 +14,7 @@ export class RedisComponent implements OnInit {
   public form_state:boolean= true;// 标识提交表格的状态 是创建新的还是修改 ture 是新增
   public is_ok: Observable<boolean>;
   public newconfig: redis={
+    types:'Redis',
     id:0,
     username: "",
     password :"",
@@ -83,6 +84,7 @@ export class RedisComponent implements OnInit {
   }
   clearnewconfig(){
     this.newconfig={
+      types:'Redis',
       id:0,
       username: "",
       password :"",

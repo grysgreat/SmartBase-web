@@ -20,7 +20,7 @@ export class JdbcComponent implements OnInit {
    public form_state:boolean= true;// 标识提交表格的状态 是创建新的还是修改 ture 是新增
    public is_ok: Observable<boolean>;
    public newconfig: JdbcConfig={
-
+    types:'Jdbc',
     id :0,
     driveClassName :"",
     url:"",
@@ -89,6 +89,7 @@ export class JdbcComponent implements OnInit {
   //重置填充配置清零
   clearnewconfig(){
     this.newconfig={
+      types:'Jdbc',
       id :0,
       driveClassName :"",
       url:"",

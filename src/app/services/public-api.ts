@@ -24,3 +24,4 @@ export * from './job-manager.service';
 export * from './task-manager.service';
 export * from './metrics.service';
 export * from './springboot.service';
+export * from './storage.service';

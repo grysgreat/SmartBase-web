@@ -105,7 +105,7 @@ export class SpringbootService {
     const requestParam = { kafka};
     let params = new HttpParams();
     if (kafka.port) {
-      params = params.append('DestPort', kafka.port);
+      params = params.append('port', kafka.port);
     }
     if (kafka.topic) {
       params = params.append('Topic', kafka.topic);
@@ -124,7 +124,7 @@ export class SpringbootService {
       params = params.append('id', kafka.id);
     }
     if (kafka.port) {
-      params = params.append('DestPort', kafka.port);
+      params = params.append('port', kafka.port);
     }
     if (kafka.topic) {
       params = params.append('Topic', kafka.topic);

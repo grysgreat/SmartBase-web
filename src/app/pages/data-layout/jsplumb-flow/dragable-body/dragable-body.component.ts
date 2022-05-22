@@ -1,23 +1,31 @@
 import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
-declare let jsPlumb: any;
 import { Input,Output,EventEmitter } from '@angular/core';
-import {  dragbody,opcode } from 'interfaces';
-
+import { Baseinfo, dragbody } from 'interfaces';
+//import { Draginfo} from 'interfaces';
+declare let jsPlumb: any;
 @Component({
-  selector: 'flink-dragoperation',
-  templateUrl: './dragoperation.component.html',
-  styleUrls: ['./dragoperation.component.less'],
+  selector: 'flink-dragable-body',
+  templateUrl: './dragable-body.component.html',
+  styleUrls: ['./dragable-body.component.less'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class DragoperationComponent implements OnInit {
+export class DragableBodyComponent implements OnInit {
+
   @Input() data:dragbody;
+  @Input() singleconfig:Baseinfo;
+  configlist:Baseinfo[];
+
+  //直接传入所有配置源
+  @Input() redislist:Baseinfo[];
+  @Input() kafkalist:Baseinfo[];
+  @Input() jdbclist :Baseinfo[];
+  @Input() socketlist:Baseinfo[];
+  @Input() hdfslist:Baseinfo[];
   @Output() close=new EventEmitter<string>();
-  localdata:opcode={
-    type:"",
-    key:""
-  }
-  constructor() { }
-  public opkey:string="";
+  types:string|undefined="";
+  localdatat:Baseinfo;
+  constructor(){}
+  
   visoConfig = {
     // 基本连接线样式
     connectorPaintStyle: {
@@ -100,27 +108,40 @@ export class DragoperationComponent implements OnInit {
     }
   }
   ngOnInit(): void {
-    switch(this.data.opcode){
-      case "计算子":this.localdata.type = 'OpCount';break;
-      case "滤算子" :this.localdata.type = 'OpFilt';break;
-      case "映算子" :this.localdata.type = 'OpMap';break;
-      case "灭算子" :this.localdata.type = 'OpKill';break;
-      case "時算子" :this.localdata.type = 'OpTime';break;
-      case "造算子" :this.localdata.type = 'OpNew';break;
-      default: this.localdata.type = 'unknow';
 
+    switch(this.data.sourcetype){
+      case "Redis":this.configlist=this.redislist; break;
+      case "Hdfs": this.configlist=this.hdfslist; break;
+      case "Jdbc": this.configlist=this.jdbclist; break;
+      case "Socket": this.configlist=this.socketlist; break;
+      case "Kafka": this.configlist=this.kafkalist; break;
+    }
+    if(this.singleconfig){
+      this.localdatat=this.singleconfig;
+    }
+    else if(this.configlist){
+      this.localdatat = this.configlist[0];
+    }
+    if(this.value_notnull(this.localdatat.types)){
+      this.types = this.localdatat.types
     }
   }
-
 
   ngAfterViewInit(): void {
     var uid = this.data.id;
     jsPlumb.draggable(this.data.id);
     // 配置出入点的过程
-     this.setInPoint(uid);
-     this.setExitPoint(uid,'Bottom');
+    switch(this.data.opcode){
+      case 'source':this.setExitPoint(uid, 'Bottom');break;
+      case 'target':this.setInPoint(uid);break;
+    }
   }
 
+  /**
+   *  判断变量是否有效
+   * @param obj 判断变量
+   * @returns 
+   */
   value_notnull(obj:any):boolean{
     return obj!==null &&  obj!==undefined;
   }
@@ -129,10 +150,9 @@ export class DragoperationComponent implements OnInit {
     return Object.assign({}, this.visoConfig.baseStyle)
   }
 
-
   /**
-   *   // 设置出口点
-   * @param id 任意组件的id值
+   *  设置出口点
+   * @param id 组件的id
    * @param position  出口点在那个位置 Bottom \Top \Left\Right
    */
    setExitPoint(id: any, position: any) {
@@ -145,6 +165,10 @@ export class DragoperationComponent implements OnInit {
     }, config)
   }
 
+  /**
+   * 为当前组件设置入口点
+   * @param uid 组件的id
+   */
   setInPoint(uid:any){
     var config = this.getBaseNodeConfig();
     config.isSource = false
@@ -159,8 +183,9 @@ export class DragoperationComponent implements OnInit {
    * 关闭组件的函数 
    * 包括通知父类和删除关联连线
    */
-   shutdown(){
+  shutdown(){
     jsPlumb.remove(this.data.id);
     this.close.emit(this.data.id);
   }
+
 }

@@ -13,6 +13,7 @@ export class dragbody{
     top:number;// 
     left:number;
     opcode:string;
+    sourcetype:string;
 
 
     // constructor(id :string,name :string,top:number,left:number,opcode:string) { 
@@ -30,6 +31,7 @@ export class dragbody{
         temp.name = this.name;
         temp.top = this.top;
         temp.opcode = this.opcode;
+        temp.sourcetype  = this.sourcetype;
         return temp;
     }
     // clone():dragbody{

@@ -4,15 +4,22 @@ import {
 } from '@angular/core';
 import * as uuid from 'uuid'; //随机数的生成
 import { NzNotificationService } from 'ng-zorro-antd/notification';
-import { dragbody, Hdfs, Kafka, redis, Socket } from 'interfaces';
-import { JarService, SpringbootService } from 'services';
-import { DragbodyComponent } from './dragbody/dragbody.component';
+import { Baseinfo, dragbody, Hdfs, Kafka, opcode, redis, Socket } from 'interfaces';
+import { JarService, SpringbootService, StorageService } from 'services';
+import { DragableBodyComponent } from './dragable-body/dragable-body.component';
 import { DragoperationComponent } from './dragoperation/dragoperation.component';
-import { JdbcConfig } from 'interfaces';
+import { JdbcConfig ,JobDataFlow} from 'interfaces';
 import { Observable } from 'rxjs';
 declare let jsPlumb: any;
-declare let $: any;
+declare let $      : any;
 
+/**
+ * TODO: 
+ * 1. 整理出新的移动组件逻辑 抛弃不同类型需要不同数组的特性
+ * 2. 对数组存储的单一性
+ * 3. 存储绘图信息
+ * 4. 重现
+ */
 @Component({
   selector: 'flink-jsplumb2',
   templateUrl: './jsplumb.component.html',
@@ -20,11 +27,16 @@ declare let $: any;
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class JsplumbComponent2 implements OnInit {
-  @ViewChildren(DragbodyComponent) panes!: QueryList<DragbodyComponent>;
+  @ViewChildren(DragableBodyComponent) panes!: QueryList<DragableBodyComponent>;
   @ViewChildren(DragoperationComponent) panes2!: QueryList<DragoperationComponent>;
+
+  
   area = 'drop-bg';
   areaId = '#' + this.area;
 
+
+
+  public htmldragpan:string="";
   //接受数据的list
   public jsonstr: string = "";
   public Jdbclist$: Observable<JdbcConfig[]>;
@@ -37,6 +49,10 @@ export class JsplumbComponent2 implements OnInit {
   public Redislist: redis[];
   public Socketlist$: Observable<Socket[]>;
   public Socketlist: Socket[];
+
+
+
+//#region 图形存储
   // 所有类型的dragbody 主要用于通过*ngFor来渲染页面
   public dragbody_Jdbc: dragbody[] = [];
   public dragbody_Hdfs: dragbody[] = [];
@@ -45,12 +61,13 @@ export class JsplumbComponent2 implements OnInit {
   public dragbody_Socket: dragbody[] = [];
   public dragbody_operation: dragbody[] = [];
 
+  public dragbody_list:dragbody[]=[];
   //存储连线的列表 只增加不删除就可以
   public linklist: any[] = [];
-
   //dragbody 的map 用uuid来标识
   public bodymap: Map<string, dragbody>;
-
+  //TODO: 我要不要一个map来记录《uuid ,baseinfo?》
+//#endregion
   //#region 以下数据结构只在用到的时候更新
       //记录所有的头节点
       public sourcelist: dragbody[] = [];
@@ -58,7 +75,12 @@ export class JsplumbComponent2 implements OnInit {
       public bodyGraph: Map<string, string[]>;
       //存储计算好的数据流
       public joblist: dragbody[][] = [[]];
+      //生成工作流对象
+      public jobdataflow:JobDataFlow[]=[];
   //#endregion
+
+
+
 
 
   //在构造函数 进行相应组件的注入
@@ -66,7 +88,8 @@ export class JsplumbComponent2 implements OnInit {
     private readonly jarService: JarService,
     private readonly notification: NzNotificationService,
     private readonly changeDetector: ChangeDetectorRef,// changeDetector 用于强制更新的注入
-    private readonly sp: SpringbootService
+    private readonly sp: SpringbootService,
+    private readonly st: StorageService
   ) { }
   //#region init
   ngOnInit() {
@@ -103,11 +126,15 @@ export class JsplumbComponent2 implements OnInit {
     })
     // 获取所有配置信息
 
+
+
+    this.st;
   }
   //#endregion
 
 
   ngAfterViewInit() {
+  
   }
   deleteLine(conn: any) {
     if (confirm('确定删除所点击的链接吗？')) {
@@ -140,21 +167,28 @@ export class JsplumbComponent2 implements OnInit {
     sdf.top =  position.top;
     sdf.left =  position.left;
     sdf.opcode = dataset.opcode;
-    // 将新生成的dragbody放入map
+    sdf.sourcetype=dataset.template;
+        // 将新生成的dragbody放入map
     this.bodymap.set(position.id, sdf);
-    // 根据html的temlate值判断类型
-    switch (dataset.template) {
-      case "Redis": this.dragbody_Redis.push(sdf); break;
-      case "Hdfs": this.dragbody_Hdfs.push(sdf); break;
-      case "Jdbc": this.dragbody_Jdbc.push(sdf); break;
-      case "Socket": this.dragbody_Socket.push(sdf); break;
-      case "Kafka": this.dragbody_Kafka.push(sdf); break;
-      case "operation": this.dragbody_operation.push(sdf); break;
+    if(dataset.template=='operation'){
+      this.dragbody_operation.push(sdf);
+    }else{
+      this.dragbody_list.push(sdf);
     }
     this.changeDetector.detectChanges();//标记更新
   }
   check() {
-    this.GraphToJson();
+
+  //   console.log(this.panes.get(0)?.data.top);
+  //  // this.st.set("test",this)
+
+
+  this.GraphToJson();
+  this.listconvertojson();
+    console.log(this.joblist)
+
+
+    this.jsonstr = JSON.stringify(this.jobdataflow);
   }
   // 链接建立后的检查
   // 当出现自连接的情况后，要将链接断开
@@ -169,7 +203,7 @@ export class JsplumbComponent2 implements OnInit {
   }
 
 //消息通知函数
-  notify(data: any) {
+notify(data: any) {
     this.notification.blank(
       'Job Submit Successful!!!',
       'clink the left buttom to know' + data.toString()
@@ -180,7 +214,7 @@ export class JsplumbComponent2 implements OnInit {
   submitJson() {
     this.jarService
       .runJob(
-        "9efe8fdc-567d-41d4-a86e-76822dee9045_BaseHub-1.0-SNAPSHOT-jar-with-dependencies.jar",
+        "d593f07e-8460-41b0-9d0c-3b7fb35c69be_BaseHub-1.0-SNAPSHOT-jar-with-dependencies.jar",
         "com.star.JobController",
         "1",
         "--jobJson " + this.jsonstr + " --saveUrl hdfs://hadoop102:8020/rng/ck",
@@ -199,34 +233,11 @@ export class JsplumbComponent2 implements OnInit {
   shutDownComp(id: string) {
 
     this.bodymap.delete(id);//将组件从map中删除
-    this.dragbody_Hdfs = this.dragbody_Hdfs.filter(
+    this.dragbody_list = this.dragbody_list.filter(
       (item: dragbody) => {
         return item.id != id;
       }
     );
-
-    this.dragbody_Jdbc = this.dragbody_Jdbc.filter(
-      (item: dragbody) => {
-        return item.id != id;
-      }
-    );
-
-    this.dragbody_Redis = this.dragbody_Redis.filter(
-      (item: dragbody) => {
-        return item.id != id;
-      }
-    );
-
-    this.dragbody_Kafka = this.dragbody_Kafka.filter(
-      (item: dragbody) => {
-        return item.id != id;
-      }
-    )
-    this.dragbody_Socket = this.dragbody_Socket.filter(
-      (item: dragbody) => {
-        return item.id != id;
-      }
-    )
     this.changeDetector.detectChanges();
   }
 
@@ -374,5 +385,69 @@ export class JsplumbComponent2 implements OnInit {
   //#endregion
 
 
+
+  //#region 生成json过程
+  /**
+   * main
+   */
+  listconvertojson(){
+    for(let i =1;i<this.joblist.length;i++){
+      var jobflowitem = new JobDataFlow();
+      var jobitem = this.joblist[i];
+      for(let j =0 ;j<jobitem.length;j++){
+       
+        if(j==0){
+          var tempbasninfo:Baseinfo =this.GetSourceByuuid(jobitem[j].id);
+          jobflowitem.source = tempbasninfo;
+        }else if(j==jobitem.length-1){
+          var tempbasninfo:Baseinfo =this.GetSourceByuuid(jobitem[j].id);
+          jobflowitem.dest = tempbasninfo;
+        }else {
+          var tempoperation:opcode = this.GetOperationByid(jobitem[j].id);
+          jobflowitem.operators.push(tempoperation);
+        }
+      }
+      this.jobdataflow.push(jobflowitem);
+    }
+  }
+
+  /**
+   * 通过id获取数据源信息
+   * @param uuid 相应组件的id值
+   */
+  GetSourceByuuid(uuid:string):Baseinfo{
+    let newbaseinfo:Baseinfo={
+      types:'unknow',
+      url:'',
+      id:0,
+    }
+    for(let sourceitem of this.panes){
+      if(sourceitem.data.id ==uuid){
+        newbaseinfo  = sourceitem.localdatat;
+        return newbaseinfo
+      }
+    }
+    return newbaseinfo;
+  }
+
+  /**
+   * 获取算子信息
+   * @param uuid 组件id
+   * @returns 
+   */
+  GetOperationByid(uuid:string):opcode{
+    let newopcode :opcode={
+      key :'unknow',
+      type :'unknow'
+    }
+    for( let opitem of this.panes2){
+      if(opitem.data.id ==uuid){
+        newopcode = opitem.localdata;
+        return newopcode;
+      }
+    }
+    return newopcode;
+  }
+  //#endregion
 
 }

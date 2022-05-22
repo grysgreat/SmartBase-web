@@ -14,6 +14,7 @@ export class KafkaComponent implements OnInit {
   public form_state:boolean= true;// 标识提交表格的状态 是创建新的还是修改 ture 是新增
   public is_ok: Observable<boolean>;
   public newconfig: Kafka={
+   types:'Kafka',
    url:"",
    port:0,
    topic:"",
@@ -76,6 +77,7 @@ export class KafkaComponent implements OnInit {
   }
   clearnewconfig(){
     this.newconfig={
+      types:'Kafka',
       url:"",
       port:0,
       topic:"",

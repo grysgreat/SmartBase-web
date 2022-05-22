@@ -1,4 +1,5 @@
 export interface JdbcConfig{
+    types:string;
     id :number;
     driveClassName ?:string;
     url:string;

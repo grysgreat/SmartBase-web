@@ -20,7 +20,6 @@ import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnIni
 import { ActivatedRoute } from '@angular/router';
 import { EMPTY, Subject } from 'rxjs';
 import { catchError, mergeMap, takeUntil } from 'rxjs/operators';
-
 import { JobService, StatusService } from 'services';
 
 @Component({

@@ -16,6 +16,7 @@ export class HdfsComponent implements OnInit {
   public form_state:boolean= true;// 标识提交表格的状态 是创建新的还是修改 ture 是新增
   public is_ok: Observable<boolean>;
   public newconfig: Hdfs={
+    types:'Hdfs',
    url:"",
    id:0,
    type:"csv"
@@ -76,6 +77,7 @@ export class HdfsComponent implements OnInit {
 
   clearnewconfig(){
     this.newconfig={
+      types:'Hdfs',
       url:"",
       id :0,
       type:"csv"

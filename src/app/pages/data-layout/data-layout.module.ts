@@ -21,6 +21,7 @@ import { JsplumbComponent2 } from './jsplumb-flow/jsplumb.component';
 import { NzSelectModule } from 'ng-zorro-antd/select';
 import { NzCollapseModule } from 'ng-zorro-antd/collapse';
 import { DragoperationComponent } from './jsplumb-flow/dragoperation/dragoperation.component';
+import { DragableBodyComponent } from './jsplumb-flow/dragable-body/dragable-body.component';
 
 
 
@@ -33,7 +34,8 @@ import { DragoperationComponent } from './jsplumb-flow/dragoperation/dragoperati
     DataFlowComponent,
     DragbodyComponent,
     JsplumbComponent2,
-    DragoperationComponent
+    DragoperationComponent,
+    DragableBodyComponent
   ],
   imports: [
     CommonModule,

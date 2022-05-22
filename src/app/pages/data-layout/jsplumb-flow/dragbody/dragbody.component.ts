@@ -16,8 +16,8 @@ export class DragbodyComponent implements OnInit {
   @Output() close=new EventEmitter<string>();
   types:string|undefined="";
   localdatat:Baseinfo;
-  dragbody:dragbody;
-  constructor() { }
+  constructor(){}
+  
   visoConfig = {
     // 基本连接线样式
     connectorPaintStyle: {
@@ -99,26 +99,16 @@ export class DragbodyComponent implements OnInit {
       baseArchors: ['RightMiddle', 'LeftMiddle']
     }
   }
+
   ngOnInit(): void {
     if(this.configlist){
       this.localdatat=this.configlist[0];
     }
-  
-
     if(this.value_notnull(this.localdatat.types)){
       this.types = this.localdatat.types
     }
-   
-
-    //       // ✅ 遍历demo
-    // let key: keyof Baseinfo;
-    
-    // for (key in  this.localdatat) {
-
-    //   console.log(key, this.localdatat[key]);
-    // }
-
   }
+
   ngAfterViewInit(): void {
     var uid = this.data.id;
     jsPlumb.draggable(this.data.id);
@@ -127,10 +117,13 @@ export class DragbodyComponent implements OnInit {
       case 'source':this.setExitPoint(uid, 'Bottom');break;
       case 'target':this.setInPoint(uid);break;
     }
-    // this.setExitPoint(uid, 'Right');
-    // this.setExitPoint(uid, 'Left');
   }
 
+  /**
+   *  判断变量是否有效
+   * @param obj 判断变量
+   * @returns 
+   */
   value_notnull(obj:any):boolean{
     return obj!==null &&  obj!==undefined;
   }
@@ -139,12 +132,9 @@ export class DragbodyComponent implements OnInit {
     return Object.assign({}, this.visoConfig.baseStyle)
   }
 
-
-
-
   /**
-   *   // 设置出口点
-   * @param id 任意组件的id值
+   *  设置出口点
+   * @param id 组件的id
    * @param position  出口点在那个位置 Bottom \Top \Left\Right
    */
    setExitPoint(id: any, position: any) {
@@ -157,6 +147,10 @@ export class DragbodyComponent implements OnInit {
     }, config)
   }
 
+  /**
+   * 为当前组件设置入口点
+   * @param uid 组件的id
+   */
   setInPoint(uid:any){
     var config = this.getBaseNodeConfig();
     config.isSource = false
@@ -166,7 +160,6 @@ export class DragbodyComponent implements OnInit {
       uuid: uid + '-in'
     }, config)
   }
-
 
   /**
    * 关闭组件的函数 

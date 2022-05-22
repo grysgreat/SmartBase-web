@@ -12,7 +12,7 @@ export interface Draginfo{
 export interface testinfo extends Draginfo,drageumn
 {}
 
-export interface Baseinfo extends JdbcConfig,Kafka,redis,Hdfs,Socket,drageumn
+export interface Baseinfo extends JdbcConfig,Kafka,redis,Hdfs,Socket
 {}
 // export class BaseInfo implements JdbcConfig, Hdfs , Kafka, redis ,Socket ,drageumn{
 // }

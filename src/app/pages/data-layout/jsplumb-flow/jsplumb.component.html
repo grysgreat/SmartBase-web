@@ -2,9 +2,6 @@
 <div id="app">
   <div class="container-fluid">
     <div nz-row class="row">
-
-
-
       <div nz-col nzSpan="6" id="side-buttons" class="  min-height">
         <div>
           <h3>节点类型列表</h3>
@@ -44,24 +41,24 @@
                 目的数据Kafka</a><br>
             </nz-collapse-panel>
             <nz-collapse-panel nzHeader="中间算子">
-              <a class="btn btn-success btn-controler" data-template="operation" data-opcode="機算子" role="button">
+              <a class="btn btn-success btn-controler" data-template="operation" data-opcode="计算子" role="button">
                 <i class="fa fa-navicon" aria-hidden="true"></i>
-                機算子</a><br>
-              <a class="btn btn-success btn-controler" data-template="operation" data-opcode="散算子" role="button">
+                计算子</a><br>
+              <a class="btn btn-success btn-controler" data-template="operation" data-opcode="滤算子" role="button">
                 <i class="fa fa-navicon" aria-hidden="true"></i>
-                散算子</a><br>
-              <a class="btn btn-success btn-controler" data-template="operation" data-opcode="合算子" role="button">
+                滤算子</a><br>
+              <a class="btn btn-success btn-controler" data-template="operation" data-opcode="映算子" role="button">
+                  <i class="fa fa-navicon" aria-hidden="true"></i>
+                  映算子</a><br>
+              <a class="btn btn-success btn-controler" data-template="operation" data-opcode="灭算子" role="button">
                 <i class="fa fa-navicon" aria-hidden="true"></i>
-                合算子</a><br>
-              <a class="btn btn-success btn-controler" data-template="operation" data-opcode="滅算子" role="button">
-                <i class="fa fa-navicon" aria-hidden="true"></i>
-                滅算子</a><br>
+                灭算子</a><br>
               <a class="btn btn-success btn-controler" data-template="operation" data-opcode="時算子" role="button">
                 <i class="fa fa-navicon" aria-hidden="true"></i>
                 時算子</a>
-                <a class="btn btn-success btn-controler" data-template="operation" data-opcode="自定义算子" role="button">
-                  <i class="fa fa-navicon" aria-hidden="true"></i>
-                  自定义算子</a>
+              <a class="btn btn-success btn-controler" data-template="operation" data-opcode="造算子" role="button">
+                <i class="fa fa-navicon" aria-hidden="true"></i>
+                造算子</a>
             </nz-collapse-panel>
           </nz-collapse>
 
@@ -81,8 +78,9 @@
           </button>
         </div>
       </div>
-      <div nz-col nzSpan="18" class=" bg-success min-height" id="drop-bg" #dragbox>
-        <flink-dragbody *ngFor="let item of dragbody_Redis;" [data]="item" [configlist]="Redislist"
+      <div nz-col nzSpan="18" class=" bg-success min-height" id="drop-bg" #drawbox>
+        <div id ='drawbox'>
+        <!-- <flink-dragbody *ngFor="let item of dragbody_Redis;" [data]="item" [configlist]="Redislist"
           (close)="shutDownComp($event)">
         </flink-dragbody>
         <flink-dragbody *ngFor="let item of dragbody_Hdfs;" [data]="item" [configlist]="Hdfslist"
@@ -96,13 +94,24 @@
         </flink-dragbody>
         <flink-dragbody *ngFor="let item of dragbody_Jdbc;" [data]="item" [configlist]="Jdbclist"
           (close)="shutDownComp($event)">
-        </flink-dragbody>
+        </flink-dragbody> -->
 
-        <flink-dragoperation *ngFor="let item of dragbody_operation;" [data]="item"  
-        (close)="shutDownComp($event)">
+        <flink-dragable-body  *ngFor="let item of dragbody_list;"
+        [data]="item"
+        [redislist]="Redislist"
+        [kafkalist]="Kafkalist"
+        [jdbclist]="Jdbclist"
+        [socketlist]="Socketlist"
+        [hdfslist]="Hdfslist"
+        (close)="shutDownComp($event)"> </flink-dragable-body>
+        
+        <flink-dragoperation *ngFor="let item of dragbody_operation;" [data]="item" (close)="shutDownComp($event)">
 
         </flink-dragoperation>
+
+      </div>
       </div>
     </div>
   </div>
 </div>
+
