@@ -146,7 +146,8 @@ export class JsplumbComponent2 implements OnInit {
    * @param to 
    */
   connectEndpoint(from: any, to: any) {
-    jsPlumb.connect({ uuids: [from, to] })
+    jsPlumb.connect({  source: from,
+    target: to })
   }
 
   /**
@@ -197,7 +198,8 @@ export class JsplumbComponent2 implements OnInit {
 
 //存储图标
 
-this.Saveflow();
+// this.Saveflow();
+this.InitFlow();4
   }
   // 链接建立后的检查
   // 当出现自连接的情况后，要将链接断开
@@ -468,11 +470,10 @@ notify(data: any) {
 
 //#region 保存流程图的业务
 
-//1.首先先做好所有拖动组件的位置刷新工作
 
-//2. 将现有组件的当前信息保存好
-
-//3 调用服务进行存储。
+/**
+ * 将图像保存到存储
+ */
 Saveflow(){
   for(let sourceitem of this.panes){
     sourceitem.refreshPosition();
@@ -502,5 +503,59 @@ Saveflow(){
   console.log(ft2);
 
 }
+
+
+
+
+
+/**
+ * 从存储中 取出图像
+ */
+InitFlow(){
+  let ft2 :OneFlowchar=new OneFlowchar();
+  ft2 =JSON.parse( this.st.get('test') );
+  let dragbody_list1 = <dragbody[]>ft2.dragbody_list;
+  let linklist1 = <draglink[]>ft2.linklist;
+  let dragbody_operation1= <dragbody[]>ft2.dragbody_operation;
+  let bodymap1 =<Object>ft2.bodymap;
+  let bodybaseinfo1 =<Object>ft2.bodybaseinfo;
+  let opcodeinfo1 =<Object>ft2.opcodeinfo;
+  this.dragbody_list=[];
+  for(let item of dragbody_list1 ){
+    this.dragbody_list.push(this.st.ObjectTodragbody(item));
+  }
+  this.linklist=[];
+  for(let item of linklist1 ){
+    this.linklist.push(<draglink>this.st.ObjectTodraglink(item));
+  }
+  this.dragbody_operation=[];
+  for(let item of dragbody_operation1 ){
+    this.dragbody_operation.push(this.st.ObjectTodragbody(item));
+  }
+  this.bodymap.clear();
+  Object.entries(bodymap1).forEach(([k, v]) => {
+    this.bodymap.set(k,this.st.ObjectTodragbody(v));
+  });
+  this.bodybaseinfo.clear();
+   Object.entries(bodybaseinfo1).forEach(([k, v]) => {
+    this.bodybaseinfo.set(k,<Baseinfo>v);
+  });
+  this.opcodeinfo.clear();
+  Object.entries(opcodeinfo1).forEach(([k, v]) => {
+    this.opcodeinfo.set(k,<opcode>v);
+  });
+
+  
+}
 //#endregion
+
+ngAfterViewChecked(){
+  this.sdf();
+}
+sdf(){
+  console.log(this.linklist)
+  for(let link of this.linklist){
+    this.connectEndpoint(link.source,link.target);
+  }
+}
 }

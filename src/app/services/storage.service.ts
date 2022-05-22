@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { dragbody, draglink } from 'interfaces';
 
 @Injectable({
   providedIn: 'root'
@@ -66,5 +67,25 @@ export class StorageService {
  return obj;
 }
 
+
+ObjectTodragbody(obj:any):dragbody{
+  let dt = new dragbody();
+  dt.id = obj.id;
+  dt.name = obj.name;
+  dt.opcode = obj.opcode;
+  dt.top = obj.top;
+  dt.left = obj.left;
+  dt.sourcetype  = obj.sourcetype;
+  return dt;
+}
+
+
+ObjectTodraglink(obj:any):draglink{
+  let dt :draglink={
+    source : obj.source,
+    target : obj.target
+  }
+  return dt;
+}
 }
 
