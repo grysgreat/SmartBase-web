@@ -11,7 +11,8 @@ declare let jsPlumb: any;
 })
 export class DragableBodyComponent implements OnInit {
 
-  @Input() data:dragbody;
+  @Input() data !:dragbody;
+  @Output() dataChange =new EventEmitter<dragbody>();
   @Input() singleconfig:Baseinfo;
   configlist:Baseinfo[];
 
@@ -187,5 +188,15 @@ export class DragableBodyComponent implements OnInit {
     jsPlumb.remove(this.data.id);
     this.close.emit(this.data.id);
   }
+  check(){
+    this.dataChange.emit(this.data);
+    console.log(this.data.left);
+  }
 
+  refreshPosition(){
+    var t:any  = document.getElementById(this.data.id);
+    this.data.left =Number( t.style.left.slice(0,-2));
+    this.data.top = Number(t.style.top.slice(0,-2));
+    this.dataChange.emit(this.data);
+  }
 }

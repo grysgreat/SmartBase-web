@@ -3,6 +3,7 @@
     <div [id]="data.id+'head'" class='panel-heading'>
     <i class='fa fa-calendar-times-o' aria-hidden='true'></i> 
     {{data.name}}
+  
     <span class='delete-node pull-right' data-type='deleteNode' data-id='{{data.id}}'
     (click)="shutdown()">
       X</span>
@@ -13,11 +14,15 @@
         源数据源
       </li> -->
       <li class='list-group-item panel-node-list'>
-     算子类型 {{data.opcode}}
+       算子类型 {{data.opcode}}
+     <span nz-tooltip [nzTooltipTitle]="tips">
+       <!-- <i nz-icon nzType="question-circle" [nzTwotoneColor]="'#e68d34'"></i> -->
+       <i nz-icon style="color:#e6ab21;" [nzType]="'question-circle'" [nzTwotoneColor]="'#52c41a'"></i>
+    </span>
       </li>
       <li class='list-group-item panel-node-list'>
         算子key 
-        <input nz-input placeholder="Basic usage" [(ngModel)]="localdata.key" />
+      <input nz-input placeholder="Basic usage" [(ngModel)]="localdata.key" />
     </li>
 
     </ul>

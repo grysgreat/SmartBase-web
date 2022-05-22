@@ -11,13 +11,15 @@ import {  dragbody,opcode } from 'interfaces';
 })
 export class DragoperationComponent implements OnInit {
   @Input() data:dragbody;
+  @Output() dataChange=new EventEmitter<dragbody> ();
   @Output() close=new EventEmitter<string>();
   localdata:opcode={
     type:"",
     key:""
   }
   constructor() { }
-  public opkey:string="";
+  public tips:string="";
+
   visoConfig = {
     // 基本连接线样式
     connectorPaintStyle: {
@@ -101,14 +103,16 @@ export class DragoperationComponent implements OnInit {
   }
   ngOnInit(): void {
     switch(this.data.opcode){
-      case "计算子":this.localdata.type = 'OpCount';break;
-      case "滤算子" :this.localdata.type = 'OpFilt';break;
-      case "映算子" :this.localdata.type = 'OpMap';break;
-      case "灭算子" :this.localdata.type = 'OpKill';break;
-      case "時算子" :this.localdata.type = 'OpTime';break;
-      case "造算子" :this.localdata.type = 'OpNew';break;
+      case "计算子":this.localdata.type = 'OpCount';this.tips ="记录个数，key=null";
+                    break;
+      case "滤算子" :this.localdata.type = 'OpFilt';this.tips ="过滤关键字,只保留含有key的流";
+                    break;
+      case "映算子" :this.localdata.type = 'OpMap';this.tips ="设置映射关系，目标数据库的字段对应源数据库的第i个字段，以逗号分割";
+                    break;
+      case "灭算子" :this.localdata.type = 'OpKill';this.tips ="删除关键字，去除含有key的流";break;
+      case "時算子" :this.localdata.type = 'OpTime';this.tips ="定时任务，任务持续时间";break;
+      case "造算子" :this.localdata.type = 'OpNew';this.tips ="自定义算子，填入实现接口以后的jar包路径，和算子全类名，以 “&” 符号分割";break;
       default: this.localdata.type = 'unknow';
-
     }
   }
 
@@ -162,5 +166,12 @@ export class DragoperationComponent implements OnInit {
    shutdown(){
     jsPlumb.remove(this.data.id);
     this.close.emit(this.data.id);
+  }
+
+  refreshPosition(){
+    var t:any  = document.getElementById(this.data.id);
+    this.data.left =Number( t.style.left.slice(0,-2));
+    this.data.top = Number(t.style.top.slice(0,-2));
+    this.dataChange.emit(this.data);
   }
 }

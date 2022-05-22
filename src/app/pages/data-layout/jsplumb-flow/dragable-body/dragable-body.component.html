@@ -1,4 +1,4 @@
-<div class='pa' id={{data.id}} [ngStyle]="{'top.px': data.top ,'left.px':data.left}">
+<div class='pa' id={{data.id}} [style.top.px]="data.top" [style.left.px]="data.left">
     <div class='panel panel-default panel-node panel-info'>
     <div [id]="data.id+'head'" class='panel-heading'>
     <i class='fa fa-calendar-times-o' aria-hidden='true'></i> 
@@ -57,7 +57,12 @@
             driveClassName  {{localdatat.driveClassName}}
           </li>
 
-
+      
+          <li  class='list-group-item panel-node-list'>
+           <button (click)="check()">
+              check
+           </button>
+          </li>
 <!-- 
         </nz-collapse-panel>
       </nz-collapse> -->

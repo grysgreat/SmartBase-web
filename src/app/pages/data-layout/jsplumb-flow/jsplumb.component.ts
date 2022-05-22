@@ -4,12 +4,13 @@ import {
 } from '@angular/core';
 import * as uuid from 'uuid'; //随机数的生成
 import { NzNotificationService } from 'ng-zorro-antd/notification';
-import { Baseinfo, dragbody, Hdfs, Kafka, opcode, redis, Socket } from 'interfaces';
+import { Baseinfo, dragbody, Hdfs, Kafka, OneFlowchar, opcode, redis, Socket } from 'interfaces';
 import { JarService, SpringbootService, StorageService } from 'services';
 import { DragableBodyComponent } from './dragable-body/dragable-body.component';
 import { DragoperationComponent } from './dragoperation/dragoperation.component';
 import { JdbcConfig ,JobDataFlow} from 'interfaces';
 import { Observable } from 'rxjs';
+import { draglink } from 'interfaces';
 declare let jsPlumb: any;
 declare let $      : any;
 
@@ -30,12 +31,8 @@ export class JsplumbComponent2 implements OnInit {
   @ViewChildren(DragableBodyComponent) panes!: QueryList<DragableBodyComponent>;
   @ViewChildren(DragoperationComponent) panes2!: QueryList<DragoperationComponent>;
 
-  
   area = 'drop-bg';
   areaId = '#' + this.area;
-
-
-
   public htmldragpan:string="";
   //接受数据的list
   public jsonstr: string = "";
@@ -50,25 +47,23 @@ export class JsplumbComponent2 implements OnInit {
   public Socketlist$: Observable<Socket[]>;
   public Socketlist: Socket[];
 
-
-
 //#region 图形存储
-  // 所有类型的dragbody 主要用于通过*ngFor来渲染页面
-  public dragbody_Jdbc: dragbody[] = [];
-  public dragbody_Hdfs: dragbody[] = [];
-  public dragbody_Kafka: dragbody[] = [];
-  public dragbody_Redis: dragbody[] = [];
-  public dragbody_Socket: dragbody[] = [];
-  public dragbody_operation: dragbody[] = [];
-
-  public dragbody_list:dragbody[]=[];
+  public dragbody_operation: dragbody[] = []; //⭐
+  public dragbody_list:dragbody[]=[];          //⭐
   //存储连线的列表 只增加不删除就可以
-  public linklist: any[] = [];
+  public linklist:draglink[] = [];                 //⭐
   //dragbody 的map 用uuid来标识
-  public bodymap: Map<string, dragbody>;
-  //TODO: 我要不要一个map来记录《uuid ,baseinfo?》
+  public bodymap: Map<string, dragbody>;        //⭐
+  //TODO: 我要不要一个map来记录《uuid ,baseinfo?》？？？
+  public bodybaseinfo :Map<string,Baseinfo>;//⭐
+  public opcodeinfo: Map<string,opcode>;//⭐
 //#endregion
-  //#region 以下数据结构只在用到的时候更新
+
+
+
+
+
+//#region 以下数据结构只在计算图结构时更新并使用
       //记录所有的头节点
       public sourcelist: dragbody[] = [];
       //图结构
@@ -77,7 +72,7 @@ export class JsplumbComponent2 implements OnInit {
       public joblist: dragbody[][] = [[]];
       //生成工作流对象
       public jobdataflow:JobDataFlow[]=[];
-  //#endregion
+//#endregion
 
 
 
@@ -93,6 +88,8 @@ export class JsplumbComponent2 implements OnInit {
   ) { }
   //#region init
   ngOnInit() {
+    this.opcodeinfo = new Map();
+    this.bodybaseinfo = new Map();
     this.bodymap = new Map();
     this.bodyGraph = new Map();
     this.getdatasourcelist();
@@ -177,24 +174,39 @@ export class JsplumbComponent2 implements OnInit {
     }
     this.changeDetector.detectChanges();//标记更新
   }
+
+
   check() {
 
   //   console.log(this.panes.get(0)?.data.top);
   //  // this.st.set("test",this)
 
+//# 转换工作流
+  // this.GraphToJson();
+  // this.listconvertojson();
+  //   console.log(this.joblist)
+  //   this.jsonstr = JSON.stringify(this.jobdataflow);
 
-  this.GraphToJson();
-  this.listconvertojson();
-    console.log(this.joblist)
+//获取位置信息
+// var test:any= document.getElementById(this.dragbody_list[0].id)?.style.top;
+// console.log(test);
+// var test:any= document.getElementById(this.dragbody_list[0].id)?.style.left;
+// console.log(test);
 
 
-    this.jsonstr = JSON.stringify(this.jobdataflow);
+
+//存储图标
+
+this.Saveflow();
   }
   // 链接建立后的检查
   // 当出现自连接的情况后，要将链接断开
   connectionBeforeDropCheck(info: any) {
 
-    this.linklist.push(info);//将连线信息加入到linklist数组中
+    this.linklist.push({
+      source:info.sourceId,
+      target:info.targetId
+    });//将连线信息加入到linklist数组中
     //console.log(info);
     if (!info.connection.source.dataset.pid) {
       return true
@@ -293,13 +305,13 @@ notify(data: any) {
     //其次维护bodyGraph:map (string,string[]) 生成图结构
     for (var link of this.linklist) {
       //确保连线的两段都有效
-      if (this.valid_body(link.sourceId) && this.valid_body(link.targetId)) {
-        let temps = this.bodyGraph.get(link.sourceId);
+      if (this.valid_body(link.source) && this.valid_body(link.target)) {
+        let temps = this.bodyGraph.get(link.source);
         if (temps == undefined) {
           temps=[];
         }
-        temps.push(link.targetId);
-        this.bodyGraph.set(link.sourceId, temps);//更新Garph
+        temps.push(link.target);
+        this.bodyGraph.set(link.source, temps);//更新Garph
       }
     }
 
@@ -450,4 +462,45 @@ notify(data: any) {
   }
   //#endregion
 
+
+
+
+
+//#region 保存流程图的业务
+
+//1.首先先做好所有拖动组件的位置刷新工作
+
+//2. 将现有组件的当前信息保存好
+
+//3 调用服务进行存储。
+Saveflow(){
+  for(let sourceitem of this.panes){
+    sourceitem.refreshPosition();
+    this.bodybaseinfo.set(sourceitem.data.id,sourceitem.localdatat);
+  }
+  for(let item of this.panes2){
+    item.refreshPosition();
+    this.opcodeinfo.set(item.data.id,item.localdata);
+  }
+
+  let ft:OneFlowchar=new OneFlowchar();
+  ft.bodybaseinfo =  this.st.mapChangeObj(this.bodybaseinfo);
+  ft.bodymap =this.st.mapChangeObj(this.bodymap) ;
+  ft.dragbody_list = this.dragbody_list;
+  ft.dragbody_operation = this.dragbody_operation;
+  ft.linklist = this.linklist;
+  ft.opcodeinfo =this.st.mapChangeObj(this.opcodeinfo);
+
+
+  console.log(ft);
+  var stestjson =JSON.stringify(ft);
+  console.log(JSON.stringify(ft));
+  this.st.write('test',JSON.stringify(ft));
+
+  let ft2 :OneFlowchar=new OneFlowchar();
+  ft2 =JSON.parse( stestjson )  ;
+  console.log(ft2);
+
+}
+//#endregion
 }

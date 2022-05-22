@@ -43,5 +43,28 @@ export class StorageService {
   //   }
   //   return null;
   // }
+
+
+
+
+//对象转map
+ objChangeMap = (obj:any) => {
+  let map = new Map();
+  for(let key in obj) {
+     map.set(key,obj[key]);
+  }
+  return map;
+}
+
+
+//map转为json
+ mapChangeObj = (map:any) => {
+ let obj:any = {};
+ for(let [k,v] of map) {
+   obj[k] = v;
+ }
+ return obj;
+}
+
 }
 

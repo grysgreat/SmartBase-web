@@ -96,8 +96,8 @@
           (close)="shutDownComp($event)">
         </flink-dragbody> -->
 
-        <flink-dragable-body  *ngFor="let item of dragbody_list;"
-        [data]="item"
+        <flink-dragable-body  *ngFor="let item of dragbody_list;let i = index"
+        [(data)]="dragbody_list[i]"
         [redislist]="Redislist"
         [kafkalist]="Kafkalist"
         [jdbclist]="Jdbclist"
@@ -105,7 +105,7 @@
         [hdfslist]="Hdfslist"
         (close)="shutDownComp($event)"> </flink-dragable-body>
         
-        <flink-dragoperation *ngFor="let item of dragbody_operation;" [data]="item" (close)="shutDownComp($event)">
+        <flink-dragoperation *ngFor="let item of dragbody_operation;;let i = index" [(data)]="dragbody_operation[i]" (close)="shutDownComp($event)">
 
         </flink-dragoperation>
 
