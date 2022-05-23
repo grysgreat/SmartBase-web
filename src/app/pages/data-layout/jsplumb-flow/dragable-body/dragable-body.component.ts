@@ -25,6 +25,10 @@ export class DragableBodyComponent implements OnInit {
   @Output() close=new EventEmitter<string>();
   types:string|undefined="";
   localdatat:Baseinfo;
+
+  public endpoint:any=null;
+  public inpoint:any=null;
+
   constructor(){}
   
   visoConfig = {
@@ -160,10 +164,11 @@ export class DragableBodyComponent implements OnInit {
     var config = this.getBaseNodeConfig()
     config.isTarget = false
     config.maxConnections = -1
-    jsPlumb.addEndpoint(id, {
+    this.endpoint= jsPlumb.addEndpoint(id, {
       anchors: position || 'Bottom',
       uuid: id + '-out'
     }, config)
+
   }
 
   /**
@@ -174,10 +179,11 @@ export class DragableBodyComponent implements OnInit {
     var config = this.getBaseNodeConfig();
     config.isSource = false
     config.maxConnections = -1
-    jsPlumb.addEndpoint(uid, {
+    this.inpoint = jsPlumb.addEndpoint(uid, {
       anchors: 'Top',
       uuid: uid + '-in'
     }, config)
+   
   }
 
   /**

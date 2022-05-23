@@ -1,0 +1,53 @@
+<!-- <div nz-col nzSpan="18" class=" bg-success min-height" id="drop-bg" #drawbox>
+    <div id ='drawbox'>
+
+
+    <flink-dragable-body  *ngFor="let item of dragbody_list;let i = index"
+    [(data)]="dragbody_list[i]"
+    [redislist]="Redislist"
+    [kafkalist]="Kafkalist"
+    [jdbclist]="Jdbclist"
+    [socketlist]="Socketlist"
+    [hdfslist]="Hdfslist"
+    (close)="shutDownComp($event)"> </flink-dragable-body>
+    
+    <flink-dragoperation *ngFor="let item of dragbody_operation;;let i = index" [(data)]="dragbody_operation[i]" (close)="shutDownComp($event)">
+
+    </flink-dragoperation>
+
+  </div>
+  </div> -->
+  <div nz-row class="row">
+  <div nz-col nzSpan="6" class=" bg-success min-height" >
+    <h3 [ngStyle]="{ margin: '16px 0' }">Large Size</h3>
+    <ul nz-list  nzBordered nzSize="large">
+     
+      <li nz-list-item *ngFor="let item of jobflows;let i=index;" nzNoFlex>
+        <ul nz-list-item-actions>
+          <nz-list-item-action>
+            <a (click)="showGraph(i)">查看图像</a>
+          </nz-list-item-action>
+        </ul>
+        {{ item.jobid }}
+      </li>
+    </ul>
+   </div>
+  <div nz-col nzSpan="18" class=" bg-success min-height" id="drop-bg" #drawbox>
+    
+    <div id ='drawbox'>
+
+        <flink-dragable-body  *ngFor="let item of dragbody_list;let i = index"
+        [(data)]="dragbody_list[i]"
+        [singleconfig]="bodybaseinfo.get(item.id)"
+        > </flink-dragable-body>
+        
+        <flink-dragoperation *ngFor="let item of dragbody_operation;
+        let i = index" 
+        [(data)]="dragbody_operation[i]">
+        </flink-dragoperation>
+    </div>
+
+
+
+</div>
+</div>

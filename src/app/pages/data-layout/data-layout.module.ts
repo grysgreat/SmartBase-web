@@ -23,8 +23,9 @@ import { NzCollapseModule } from 'ng-zorro-antd/collapse';
 import { DragoperationComponent } from './jsplumb-flow/dragoperation/dragoperation.component';
 import { DragableBodyComponent } from './jsplumb-flow/dragable-body/dragable-body.component';
 import { NzIconModule } from 'ng-zorro-antd/icon';
-
+import { NzListModule } from 'ng-zorro-antd/list';
 import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
+import { DataflowlistComponent } from './dataflowlist/dataflowlist.component';
 @NgModule({
   declarations: [
     DataLayoutComponent,
@@ -35,7 +36,8 @@ import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
     DragbodyComponent,
     JsplumbComponent2,
     DragoperationComponent,
-    DragableBodyComponent
+    DragableBodyComponent,
+    DataflowlistComponent
   ],
   imports: [
     CommonModule,
@@ -53,7 +55,8 @@ import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
     NzSelectModule,
     NzCollapseModule,
     NzIconModule,
-    NzToolTipModule
+    NzToolTipModule,
+    NzListModule
   ]
 })
 export class DataLayoutModule { }

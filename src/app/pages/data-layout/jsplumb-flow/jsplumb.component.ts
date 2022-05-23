@@ -5,7 +5,7 @@ import {
 import * as uuid from 'uuid'; //随机数的生成
 import { NzNotificationService } from 'ng-zorro-antd/notification';
 import { Baseinfo, dragbody, Hdfs, jobidflow, Kafka, OneFlowchar, opcode, redis, Socket } from 'interfaces';
-import { JarService, SpringbootService, StorageService } from 'services';
+import {  SpringbootService, StorageService } from 'services';
 import { DragableBodyComponent } from './dragable-body/dragable-body.component';
 import { DragoperationComponent } from './dragoperation/dragoperation.component';
 import { JdbcConfig ,JobDataFlow} from 'interfaces';
@@ -57,7 +57,6 @@ export class JsplumbComponent2 implements OnInit {
   public linklist:draglink[] = [];                 //⭐
   //dragbody 的map 用uuid来标识
   public bodymap: Map<string, dragbody>;        //⭐
-  //TODO: 我要不要一个map来记录《uuid ,baseinfo?》？？？
   public bodybaseinfo :Map<string,Baseinfo>;//⭐
   public opcodeinfo: Map<string,opcode>;//⭐
 //#endregion
@@ -83,7 +82,7 @@ export class JsplumbComponent2 implements OnInit {
 
   //在构造函数 进行相应组件的注入
   constructor(
-    private readonly jarService: JarService,
+    //private readonly jarService: JarService,
     private readonly notification: NzNotificationService,
     private readonly changeDetector: ChangeDetectorRef,// changeDetector 用于强制更新的注入
     private readonly sp: SpringbootService,
@@ -231,22 +230,25 @@ notify(data: any) {
   submitJson() {
 
     this.GraphToJson();
-    this.jarService
-      .runJob(
-        "d593f07e-8460-41b0-9d0c-3b7fb35c69be_BaseHub-1.0-SNAPSHOT-jar-with-dependencies.jar",
-        "com.star.JobController",
-        "1",
-        "--jobJson " + this.jsonstr + " --saveUrl hdfs://hadoop102:8020/rng/ck",
-        "",
-        ""
-      )
-      .subscribe(data => {
-        // this.router.navigate(['job', data.jobid]).then();
-        this.notify(data.jobid);
-        this.Saveflow(data.jobid);
+    // this.jarService
+    //   .runJob(
+    //     "d593f07e-8460-41b0-9d0c-3b7fb35c69be_BaseHub-1.0-SNAPSHOT-jar-with-dependencies.jar",
+    //     "com.star.JobController",
+    //     "1",
+    //     "--jobJson " + this.jsonstr + " --saveUrl hdfs://hadoop102:8020/rng/ck",
+    //     "",
+    //     ""
+    //   )
+    //   .subscribe(data => {
+    //     // this.router.navigate(['job', data.jobid]).then();
+    //     this.notify(data.jobid);
+    //     this.Saveflow(data.jobid);
      
 
-      });
+    //   });
+
+
+      this.Saveflow('12312312312');
   }
 
   /**
@@ -564,8 +566,6 @@ notify(data: any) {
     Object.entries(opcodeinfo1).forEach(([k, v]) => {
       this.opcodeinfo.set(k,<opcode>v);
     });
-
-    
   }
 //#endregion
 

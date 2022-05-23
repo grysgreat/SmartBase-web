@@ -80,21 +80,7 @@
       </div>
       <div nz-col nzSpan="18" class=" bg-success min-height" id="drop-bg" #drawbox>
         <div id ='drawbox'>
-        <!-- <flink-dragbody *ngFor="let item of dragbody_Redis;" [data]="item" [configlist]="Redislist"
-          (close)="shutDownComp($event)">
-        </flink-dragbody>
-        <flink-dragbody *ngFor="let item of dragbody_Hdfs;" [data]="item" [configlist]="Hdfslist"
-          (close)="shutDownComp($event)">
-        </flink-dragbody>
-        <flink-dragbody *ngFor="let item of dragbody_Kafka;" [data]="item" [configlist]="Kafkalist"
-          (close)="shutDownComp($event)">
-        </flink-dragbody>
-        <flink-dragbody *ngFor="let item of dragbody_Socket;" [data]="item" [configlist]="Socketlist"
-          (close)="shutDownComp($event)">
-        </flink-dragbody>
-        <flink-dragbody *ngFor="let item of dragbody_Jdbc;" [data]="item" [configlist]="Jdbclist"
-          (close)="shutDownComp($event)">
-        </flink-dragbody> -->
+
 
         <flink-dragable-body  *ngFor="let item of dragbody_list;let i = index"
         [(data)]="dragbody_list[i]"

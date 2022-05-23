@@ -20,6 +20,8 @@ export class DragoperationComponent implements OnInit {
   constructor() { }
   public tips:string="";
 
+  public endpoint:any=null;
+  public inpoint:any=null;
   visoConfig = {
     // 基本连接线样式
     connectorPaintStyle: {
@@ -143,17 +145,18 @@ export class DragoperationComponent implements OnInit {
     var config = this.getBaseNodeConfig()
     config.isTarget = false
     config.maxConnections = -1
-    jsPlumb.addEndpoint(id, {
+    this.endpoint=jsPlumb.addEndpoint(id, {
       anchors: position || 'Bottom',
       uuid: id + '-out'
     }, config)
+    
   }
 
   setInPoint(uid:any){
     var config = this.getBaseNodeConfig();
     config.isSource = false
     config.maxConnections = -1
-    jsPlumb.addEndpoint(uid, {
+    this.inpoint=jsPlumb.addEndpoint(uid, {
       anchors: 'Top',
       uuid: uid + '-in'
     }, config)
