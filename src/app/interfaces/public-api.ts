@@ -50,3 +50,4 @@ export * from './stack';
 export * from './job-data-flow';
 export * from './OneFlow';
 export * from './drag/draglink';
+export * from './jobid-flow';

@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 //import { catchError, map } from 'rxjs/operators';
-import { JdbcConfig } from '../interfaces';
+import { JdbcConfig, jobidflow } from '../interfaces';
 import { HttpParams } from '@angular/common/http';
 import { Kafka } from '../interfaces/config/Kafka';
 import { Hdfs } from '../interfaces/config/Hdfs';
@@ -261,6 +261,32 @@ public updateRedis(redis:redis): Observable<redis>{
     params = params.append('tablename', redis.tablename);
   }
   return this.httpClient.post<redis>(this.BAS_URL+'/Redis/update',requestParam,{ params });
+
+}
+//#endregion
+
+
+
+
+
+
+
+//#region 流程图数据支持
+public showAllJobs(): Observable<jobidflow[]>{
+  return this.httpClient.get<jobidflow[]>( this.BAS_URL+'/jobflow/showall');
+}
+
+public InsertJobs(jb:jobidflow):Observable<jobidflow>{
+  const requestParam = { jb};
+  let params = new HttpParams();
+  if (jb.jobid) {
+    params = params.append('jobid', jb.jobid);
+  } 
+  if (jb.jsondata) {
+    params = params.append('jsondata', jb.jsondata);
+  }
+
+  return this.httpClient.post<jobidflow>(this.BAS_URL+'/jobflow/insert',requestParam,{ params });
 
 }
 //#endregion

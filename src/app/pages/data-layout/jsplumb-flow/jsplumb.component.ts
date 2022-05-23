@@ -4,7 +4,7 @@ import {
 } from '@angular/core';
 import * as uuid from 'uuid'; //随机数的生成
 import { NzNotificationService } from 'ng-zorro-antd/notification';
-import { Baseinfo, dragbody, Hdfs, Kafka, OneFlowchar, opcode, redis, Socket } from 'interfaces';
+import { Baseinfo, dragbody, Hdfs, jobidflow, Kafka, OneFlowchar, opcode, redis, Socket } from 'interfaces';
 import { JarService, SpringbootService, StorageService } from 'services';
 import { DragableBodyComponent } from './dragable-body/dragable-body.component';
 import { DragoperationComponent } from './dragoperation/dragoperation.component';
@@ -46,6 +46,9 @@ export class JsplumbComponent2 implements OnInit {
   public Redislist: redis[];
   public Socketlist$: Observable<Socket[]>;
   public Socketlist: Socket[];
+
+  public jobflow$:Observable<jobidflow[]> ;
+  public jobflows:jobidflow[];
 
 //#region 图形存储
   public dragbody_operation: dragbody[] = []; //⭐
@@ -199,7 +202,7 @@ export class JsplumbComponent2 implements OnInit {
 //存储图标
 
 // this.Saveflow();
-this.InitFlow();4
+// this.InitFlow();
   }
   // 链接建立后的检查
   // 当出现自连接的情况后，要将链接断开
@@ -226,6 +229,8 @@ notify(data: any) {
 
 //提交生成的json 任务
   submitJson() {
+
+    this.GraphToJson();
     this.jarService
       .runJob(
         "d593f07e-8460-41b0-9d0c-3b7fb35c69be_BaseHub-1.0-SNAPSHOT-jar-with-dependencies.jar",
@@ -237,7 +242,10 @@ notify(data: any) {
       )
       .subscribe(data => {
         // this.router.navigate(['job', data.jobid]).then();
-        this.notify(data);
+        this.notify(data.jobid);
+        this.Saveflow(data.jobid);
+     
+
       });
   }
 
@@ -282,6 +290,10 @@ notify(data: any) {
       this.Kafkalist = x
     );
 
+    this.jobflow$ = this.sp.showAllJobs();
+    this.jobflow$.subscribe(x =>
+      this.jobflows = x
+    );
   }
 
 
@@ -322,7 +334,8 @@ notify(data: any) {
       var templist: dragbody[] = [];
       this.Garphdfs(sourcedata.id, templist);
     }
-    console.log(this.joblist)
+    console.log(this.joblist);
+    this.listconvertojson();//最后将生成的数组转化为json字符串
 
   }
   /**
@@ -471,91 +484,98 @@ notify(data: any) {
 //#region 保存流程图的业务
 
 
-/**
- * 将图像保存到存储
- */
-Saveflow(){
-  for(let sourceitem of this.panes){
-    sourceitem.refreshPosition();
-    this.bodybaseinfo.set(sourceitem.data.id,sourceitem.localdatat);
+    /**
+   * 将图像保存到存储
+   */
+  Saveflow(jobid:string){
+    for(let sourceitem of this.panes){
+      sourceitem.refreshPosition();
+      this.bodybaseinfo.set(sourceitem.data.id,sourceitem.localdatat);
+    }
+    for(let item of this.panes2){
+      item.refreshPosition();
+      this.opcodeinfo.set(item.data.id,item.localdata);
+    }
+
+    let ft:OneFlowchar=new OneFlowchar();
+    ft.bodybaseinfo =  this.st.mapChangeObj(this.bodybaseinfo);
+    ft.bodymap =this.st.mapChangeObj(this.bodymap) ;
+    ft.dragbody_list = this.dragbody_list;
+    ft.dragbody_operation = this.dragbody_operation;
+    ft.linklist = this.linklist;
+    ft.opcodeinfo =this.st.mapChangeObj(this.opcodeinfo);
+
+
+    console.log(ft);
+    var stestjson =JSON.stringify(ft);
+    console.log(JSON.stringify(ft));
+    this.st.write(jobid,JSON.stringify(ft));
+
+//存储到后端数据库
+    this.sp.InsertJobs({
+      jobid:jobid,
+      jsondata:stestjson
+    }).subscribe(()=>
+      this.notify("当前图像已经存储")
+    );
+
+
+
+
   }
-  for(let item of this.panes2){
-    item.refreshPosition();
-    this.opcodeinfo.set(item.data.id,item.localdata);
+
+
+
+
+
+  /**
+   * 从存储中 取出图像
+   */
+  InitFlow(jobid:string){
+    let ft2 :OneFlowchar=new OneFlowchar();
+    ft2 =JSON.parse( this.st.get(jobid) );
+    let dragbody_list1 = <dragbody[]>ft2.dragbody_list;
+    let linklist1 = <draglink[]>ft2.linklist;
+    let dragbody_operation1= <dragbody[]>ft2.dragbody_operation;
+    let bodymap1 =<Object>ft2.bodymap;
+    let bodybaseinfo1 =<Object>ft2.bodybaseinfo;
+    let opcodeinfo1 =<Object>ft2.opcodeinfo;
+    this.dragbody_list=[];
+    for(let item of dragbody_list1 ){
+      this.dragbody_list.push(this.st.ObjectTodragbody(item));
+    }
+    this.linklist=[];
+    for(let item of linklist1 ){
+      this.linklist.push(<draglink>this.st.ObjectTodraglink(item));
+    }
+    this.dragbody_operation=[];
+    for(let item of dragbody_operation1 ){
+      this.dragbody_operation.push(this.st.ObjectTodragbody(item));
+    }
+    this.bodymap.clear();
+    Object.entries(bodymap1).forEach(([k, v]) => {
+      this.bodymap.set(k,this.st.ObjectTodragbody(v));
+    });
+    this.bodybaseinfo.clear();
+    Object.entries(bodybaseinfo1).forEach(([k, v]) => {
+      this.bodybaseinfo.set(k,<Baseinfo>v);
+    });
+    this.opcodeinfo.clear();
+    Object.entries(opcodeinfo1).forEach(([k, v]) => {
+      this.opcodeinfo.set(k,<opcode>v);
+    });
+
+    
   }
-
-  let ft:OneFlowchar=new OneFlowchar();
-  ft.bodybaseinfo =  this.st.mapChangeObj(this.bodybaseinfo);
-  ft.bodymap =this.st.mapChangeObj(this.bodymap) ;
-  ft.dragbody_list = this.dragbody_list;
-  ft.dragbody_operation = this.dragbody_operation;
-  ft.linklist = this.linklist;
-  ft.opcodeinfo =this.st.mapChangeObj(this.opcodeinfo);
-
-
-  console.log(ft);
-  var stestjson =JSON.stringify(ft);
-  console.log(JSON.stringify(ft));
-  this.st.write('test',JSON.stringify(ft));
-
-  let ft2 :OneFlowchar=new OneFlowchar();
-  ft2 =JSON.parse( stestjson )  ;
-  console.log(ft2);
-
-}
-
-
-
-
-
-/**
- * 从存储中 取出图像
- */
-InitFlow(){
-  let ft2 :OneFlowchar=new OneFlowchar();
-  ft2 =JSON.parse( this.st.get('test') );
-  let dragbody_list1 = <dragbody[]>ft2.dragbody_list;
-  let linklist1 = <draglink[]>ft2.linklist;
-  let dragbody_operation1= <dragbody[]>ft2.dragbody_operation;
-  let bodymap1 =<Object>ft2.bodymap;
-  let bodybaseinfo1 =<Object>ft2.bodybaseinfo;
-  let opcodeinfo1 =<Object>ft2.opcodeinfo;
-  this.dragbody_list=[];
-  for(let item of dragbody_list1 ){
-    this.dragbody_list.push(this.st.ObjectTodragbody(item));
-  }
-  this.linklist=[];
-  for(let item of linklist1 ){
-    this.linklist.push(<draglink>this.st.ObjectTodraglink(item));
-  }
-  this.dragbody_operation=[];
-  for(let item of dragbody_operation1 ){
-    this.dragbody_operation.push(this.st.ObjectTodragbody(item));
-  }
-  this.bodymap.clear();
-  Object.entries(bodymap1).forEach(([k, v]) => {
-    this.bodymap.set(k,this.st.ObjectTodragbody(v));
-  });
-  this.bodybaseinfo.clear();
-   Object.entries(bodybaseinfo1).forEach(([k, v]) => {
-    this.bodybaseinfo.set(k,<Baseinfo>v);
-  });
-  this.opcodeinfo.clear();
-  Object.entries(opcodeinfo1).forEach(([k, v]) => {
-    this.opcodeinfo.set(k,<opcode>v);
-  });
-
-  
-}
 //#endregion
 
-ngAfterViewChecked(){
-  this.sdf();
-}
-sdf(){
-  console.log(this.linklist)
-  for(let link of this.linklist){
-    this.connectEndpoint(link.source,link.target);
+  ngAfterViewChecked(){
+    this.sdf();
+  } 
+  sdf(){
+    console.log(this.linklist)
+    for(let link of this.linklist){
+      this.connectEndpoint(link.source,link.target);
+    }
   }
-}
 }
