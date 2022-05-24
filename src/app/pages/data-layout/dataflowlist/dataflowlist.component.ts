@@ -106,7 +106,7 @@ export class DataflowlistComponent implements OnInit {
         this.opcodeinfo.set(k,<opcode>v);
       });
 
-      setTimeout(()=>this.sdf(),5000);
+      setTimeout(()=>this.sdf(),2000);
     }
 
 

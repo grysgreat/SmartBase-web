@@ -14,7 +14,7 @@ import { redis } from '../interfaces/config/redis';
   providedIn: 'root'
 })
 export class SpringbootService {
-  private readonly BAS_URL: string = 'http://localhost:8082';
+  private readonly BAS_URL: string = 'http://192.168.0.105:8082';
   constructor(private readonly httpClient: HttpClient) { }
 
 //#region ---------------------- JDBC ----------------------

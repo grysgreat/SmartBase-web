@@ -9,7 +9,7 @@ import {DomSanitizer} from "@angular/platform-browser";
 })
 export class SqlConsoleComponent implements OnInit {
   
-  public jumpLink=this.sanitizer.bypassSecurityTrustResourceUrl("http://192.168.0.101:8082/"); // 信任该url
+  public jumpLink=this.sanitizer.bypassSecurityTrustResourceUrl("http://192.168.0.105:8082/"); // 信任该url
   
   constructor(private sanitizer:DomSanitizer) {
   

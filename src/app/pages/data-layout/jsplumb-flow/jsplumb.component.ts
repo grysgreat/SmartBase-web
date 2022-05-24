@@ -5,7 +5,7 @@ import {
 import * as uuid from 'uuid'; //随机数的生成
 import { NzNotificationService } from 'ng-zorro-antd/notification';
 import { Baseinfo, dragbody, Hdfs, jobidflow, Kafka, OneFlowchar, opcode, redis, Socket } from 'interfaces';
-import {  SpringbootService, StorageService } from 'services';
+import {  JarService, SpringbootService, StorageService } from 'services';
 import { DragableBodyComponent } from './dragable-body/dragable-body.component';
 import { DragoperationComponent } from './dragoperation/dragoperation.component';
 import { JdbcConfig ,JobDataFlow} from 'interfaces';
@@ -82,7 +82,7 @@ export class JsplumbComponent2 implements OnInit {
 
   //在构造函数 进行相应组件的注入
   constructor(
-    //private readonly jarService: JarService,
+    private readonly jarService: JarService,
     private readonly notification: NzNotificationService,
     private readonly changeDetector: ChangeDetectorRef,// changeDetector 用于强制更新的注入
     private readonly sp: SpringbootService,
@@ -131,10 +131,6 @@ export class JsplumbComponent2 implements OnInit {
   }
   //#endregion
 
-
-  ngAfterViewInit() {
-  
-  }
   deleteLine(conn: any) {
     if (confirm('确定删除所点击的链接吗？')) {
       jsPlumb.detach(conn)
@@ -230,25 +226,21 @@ notify(data: any) {
   submitJson() {
 
     this.GraphToJson();
-    // this.jarService
-    //   .runJob(
-    //     "d593f07e-8460-41b0-9d0c-3b7fb35c69be_BaseHub-1.0-SNAPSHOT-jar-with-dependencies.jar",
-    //     "com.star.JobController",
-    //     "1",
-    //     "--jobJson " + this.jsonstr + " --saveUrl hdfs://hadoop102:8020/rng/ck",
-    //     "",
-    //     ""
-    //   )
-    //   .subscribe(data => {
-    //     // this.router.navigate(['job', data.jobid]).then();
-    //     this.notify(data.jobid);
-    //     this.Saveflow(data.jobid);
-     
-
-    //   });
-
-
-      this.Saveflow('12312312312');
+    console.log(this.jsonstr);
+    this.jarService
+      .runJob(
+        "d593f07e-8460-41b0-9d0c-3b7fb35c69be_BaseHub-1.0-SNAPSHOT-jar-with-dependencies.jar",
+        "com.star.JobController",
+        "1",
+        "--jobJson " + this.jsonstr + " --saveUrl hdfs://hadoop102:8020/rng/ck",
+        "",
+        ""
+      )
+      .subscribe(data => {
+        // this.router.navigate(['job', data.jobid]).then();
+        this.notify(data.jobid);
+        this.Saveflow(data.jobid);
+      });
   }
 
   /**
@@ -257,13 +249,50 @@ notify(data: any) {
   shutDownComp(id: string) {
 
     this.bodymap.delete(id);//将组件从map中删除
+
+
     this.dragbody_list = this.dragbody_list.filter(
       (item: dragbody) => {
-        return item.id != id;
+        return item.id !== id;
       }
     );
+console.log(this.dragbody_list);
+
+    this.dragbody_operation = this.dragbody_operation.filter(
+      (item: dragbody) => {
+        return item.id !== id;
+      }
+    )
+console.log(this.dragbody_operation);
+    this.panes.filter((item)=> {
+      return item.data.id!==id;
+    })
+
+    this.panes2.filter((item)=>{
+      return item.data.id!==id;
+    })
+
+    
     this.changeDetector.detectChanges();
   }
+
+      /**
+     * 
+     * @param uuid id
+     * @returns 返回组件类
+     */
+       GetBodyById(uuid:string):DragableBodyComponent|DragoperationComponent|undefined{
+        for(let sourceitem of this.panes){
+          if(sourceitem.data.id ==uuid){
+              return sourceitem;
+          }
+        }
+        for(let item of this.panes2){
+          if(item.data.id==uuid){
+            return item;
+          }
+        }
+      }
 
 
   /**
@@ -420,6 +449,7 @@ notify(data: any) {
    * main
    */
   listconvertojson(){
+    this.jobdataflow=[];
     for(let i =1;i<this.joblist.length;i++){
       var jobflowitem = new JobDataFlow();
       var jobitem = this.joblist[i];
@@ -438,6 +468,8 @@ notify(data: any) {
       }
       this.jobdataflow.push(jobflowitem);
     }
+
+    this.jsonstr = JSON.stringify(this.jobdataflow);//create json
   }
 
   /**
@@ -568,10 +600,7 @@ notify(data: any) {
     });
   }
 //#endregion
-
-  ngAfterViewChecked(){
-    this.sdf();
-  } 
+ 
   sdf(){
     console.log(this.linklist)
     for(let link of this.linklist){
