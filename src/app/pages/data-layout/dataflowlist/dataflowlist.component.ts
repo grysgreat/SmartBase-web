@@ -64,11 +64,23 @@ export class DataflowlistComponent implements OnInit {
   }
   showGraph(i:number)
   {
+    this.cleargraph();
     this.InitFlow(i);
     
   }
 
 
+  /**
+   * 清楚绘图缓存
+   */
+  cleargraph(){
+    for( let item of this.panes){
+        item.shutdown();
+    }
+    for( let item of this.panes2){
+      item.shutdown();
+    }
+  }
     /**
    * 从存储中 取出图像
    */
@@ -106,7 +118,7 @@ export class DataflowlistComponent implements OnInit {
         this.opcodeinfo.set(k,<opcode>v);
       });
 
-      setTimeout(()=>this.sdf(),2000);
+      setTimeout(()=>this.sdf(),500);
     }
 
 
