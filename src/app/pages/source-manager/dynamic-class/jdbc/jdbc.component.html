@@ -1,0 +1,26 @@
+<div>
+  
+    <nz-collapse>
+      <nz-collapse-panel [nzHeader]="'sql info'">
+          <button nz-button nzType="primary" nzShape="circle" class="add-new-btn" (click)="createconfig()">+</button>
+
+          <nz-descriptions   *ngFor="let jdbcconfig of pconfiglist;let i = index;" nzTitle={{i+1}} nzBordered="true">
+            <nz-descriptions-item nzTitle="DB Type">{{jdbcconfig.connectorType}}</nz-descriptions-item>
+            <nz-descriptions-item nzTitle="Url">{{jdbcconfig.url}}</nz-descriptions-item>
+            <nz-descriptions-item nzTitle="Port">{{jdbcconfig.port}}</nz-descriptions-item>
+            <nz-descriptions-item nzTitle="User Name">{{jdbcconfig.username}}</nz-descriptions-item>
+            <nz-descriptions-item nzTitle="User Password">{{jdbcconfig.password}}</nz-descriptions-item>
+            <nz-descriptions-item nzTitle="Basename">{{jdbcconfig.basename}}</nz-descriptions-item>
+            <nz-descriptions-item nzTitle="Tablename">{{jdbcconfig.tablename}}</nz-descriptions-item>
+            <nz-descriptions-item nzTitle="生成java Class"><button nz-button nzType="primary" (click)="GetJavaClass(i)">&nbsp;&nbsp;</button></nz-descriptions-item>
+        </nz-descriptions>
+      </nz-collapse-panel>
+
+
+
+    </nz-collapse>
+
+    <textarea style="margin-top:20px; margin-left: 10px; margin-right: 30px;" rows="14" nz-input
+    [(ngModel)]="Javacontext"></textarea>
+      </div>
+    

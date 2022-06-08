@@ -62,7 +62,8 @@ import {
   DownloadOutline,
   ShrinkOutline,
   PicCenterOutline,
-  DatabaseOutline
+  DatabaseOutline,
+  MinusCircleOutline
   
 } from '@ant-design/icons-angular/icons';
 import { NzAlertModule } from 'ng-zorro-antd/alert';
@@ -82,6 +83,7 @@ import { StatusService } from 'services';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { AppInterceptor } from './app.interceptor';
+
 
 
 registerLocaleData(en);
@@ -171,7 +173,8 @@ const ngZorroConfig: NzConfig = {
         ArrowsAltOutline,
         ShrinkOutline,
         PicCenterOutline,
-        DatabaseOutline
+        DatabaseOutline,
+        MinusCircleOutline
       ]
     },
     {

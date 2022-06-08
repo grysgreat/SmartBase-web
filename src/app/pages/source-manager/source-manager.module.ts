@@ -7,6 +7,7 @@ import { NzFormModule } from 'ng-zorro-antd/form';
 import { NzInputModule } from 'ng-zorro-antd/input';
 import { NzInputNumberModule } from 'ng-zorro-antd/input-number';
 import { FormsModule } from '@angular/forms';
+import { ReactiveFormsModule } from '@angular/forms';
 import { SourceConfigComponent } from './source-config/source-config.component';
 import { SqlSqlComponent } from './sql-sql/sql-sql.component';
 import { NzCollapseModule } from 'ng-zorro-antd/collapse';
@@ -21,8 +22,10 @@ import { RedisComponent } from './source-config/redis/redis.component';
 import { NzModalModule } from 'ng-zorro-antd/modal';
 import { SocketComponent } from './source-config/socket/socket.component';
 import { CsvComponent } from './source-config/csv/csv.component';
-
-
+import { NzIconModule } from 'ng-zorro-antd/icon';
+import { DynamicClassComponent } from './dynamic-class/dynamic-class.component';
+import { JdbcDynamicComponent } from './dynamic-class/jdbc/jdbc.component';
+import { NzSelectModule } from 'ng-zorro-antd/select';
 @NgModule({
   declarations: [
     SourceManagerComponent,
@@ -33,7 +36,9 @@ import { CsvComponent } from './source-config/csv/csv.component';
     HdfsComponent,
     RedisComponent,
     SocketComponent,
-    CsvComponent
+    CsvComponent,
+    DynamicClassComponent,
+    JdbcDynamicComponent
   ],
   imports: [
     CommonModule,
@@ -48,7 +53,10 @@ import { CsvComponent } from './source-config/csv/csv.component';
     NzButtonModule,
     NzDropDownModule,
     NzSpaceModule,
-    NzModalModule
+    NzModalModule,
+    NzIconModule,
+    ReactiveFormsModule,
+    NzSelectModule
   ]
 })
 export class SourceManagerModule { }

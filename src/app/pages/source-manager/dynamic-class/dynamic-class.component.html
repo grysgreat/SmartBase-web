@@ -1,0 +1,38 @@
+<p>dynamic-class works!</p>
+<flink-jdbc-dynamic></flink-jdbc-dynamic>
+
+<nz-card>
+       <form nz-form >
+         <nz-form-item>
+           <nz-form-label>Class Name</nz-form-label>
+           <input nz-input [(ngModel)]="Tablename"  [ngModelOptions]="{standalone: true}"/>
+         </nz-form-item>
+
+       <nz-form-item>
+          <button nz-button nzType="dashed" class="add-button" (click)="addField($event)">
+            <i nz-icon nzType="plus"></i>
+            Add field
+          </button>
+      </nz-form-item>
+
+      <nz-form-item *ngFor="let fields of fieldlist;let i =index">
+        <input nz-input [(ngModel)]="fieldlist[i].name" [ngModelOptions]="{standalone: true}" />
+        <nz-select [(ngModel)]="fieldlist[i].typeName" [ngModelOptions]="{standalone: true}">
+          <nz-option nzValue="" nzLabel="UNKNOW"></nz-option>
+          <nz-option nzValue="INT" nzLabel="INT"></nz-option>
+          <nz-option nzValue="VARCHAR" nzLabel="VARCHAR"></nz-option>
+          <nz-option nzValue="DATA" nzLabel="DATA"></nz-option>
+        </nz-select>
+        <i nz-icon nzType="minus-circle-o" class="dynamic-delete-button" (click)="removeField(i, $event)"></i>
+      </nz-form-item>
+
+
+      <nz-form-item>
+        <nz-form-control [nzXs]="{ span: 24, offset: 0 }" [nzSm]="{ span: 20, offset: 4 }">
+          <button nz-button nzType="primary" (click)="submitForm()">Submit</button>
+        </nz-form-control>
+      </nz-form-item>
+
+
+    </form>
+</nz-card>

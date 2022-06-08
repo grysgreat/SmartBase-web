@@ -8,13 +8,14 @@ import { Kafka } from '../interfaces/config/Kafka';
 import { Hdfs } from '../interfaces/config/Hdfs';
 import { Socket } from '../interfaces/config/Socket';
 import { redis } from '../interfaces/config/redis';
+import { Table } from '../interfaces';
 // import { HttpClient } from '@angular/common/http';
 // private httpClient: HttpClient
 @Injectable({
   providedIn: 'root'
 })
 export class SpringbootService {
-  private readonly BAS_URL: string = 'http://192.168.0.105:8082';
+  private readonly BAS_URL: string = 'http://localhost:8082';
   constructor(private readonly httpClient: HttpClient) { }
 
 //#region ---------------------- JDBC ----------------------
@@ -289,6 +290,20 @@ public InsertJobs(jb:jobidflow):Observable<jobidflow>{
   return this.httpClient.post<jobidflow>(this.BAS_URL+'/jobflow/insert',requestParam,{ params });
 
 }
+//#endregion
+
+
+//#region 动态生成Java Class
+public GetJavaClassBySQl(index:number):Observable<Table>{
+  return this.httpClient.get<Table>(`${this.BAS_URL}/dbtoclass/ChangeToTable/${index}`);
+}
+
+public Json2JavaClass(jsonclass:string):Observable<Table>{
+  let params = new HttpParams();
+  params = params.append("metajson",jsonclass)
+  return this.httpClient.post<Table>(this.BAS_URL+"/dbtoclass/jsontoclass",{"metajson":jsonclass},{ params });
+}
+
 //#endregion
 }
 

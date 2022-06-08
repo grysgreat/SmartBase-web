@@ -5,8 +5,8 @@
         <nz-descriptions *ngFor="let v of pconfiglist;let i = index;" nzTitle={{i+1}} nzBordered="true">
             <nz-descriptions-item nzTitle="URL">{{v.url}}</nz-descriptions-item>
             <nz-descriptions-item nzTitle="File Type">{{v.type}}</nz-descriptions-item>
-            <nz-descriptions-item nzTitle="删除"><button (click)="deleteconfig(i)">删除</button></nz-descriptions-item>
-            <nz-descriptions-item nzTitle="修改"><button (click)="updateconfig(i)">修改</button></nz-descriptions-item>
+            <nz-descriptions-item nzTitle="删除"><button nz-button nzType="primary" (click)="deleteconfig(i)">&nbsp;&nbsp;</button></nz-descriptions-item>
+            <nz-descriptions-item nzTitle="修改"><button nz-button nzType="primary" (click)="updateconfig(i)">&nbsp;&nbsp;</button></nz-descriptions-item>
         </nz-descriptions>
     </nz-collapse-panel>
 </nz-collapse>
