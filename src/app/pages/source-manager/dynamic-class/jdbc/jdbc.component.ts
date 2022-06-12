@@ -1,7 +1,8 @@
-import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy ,ChangeDetectorRef} from '@angular/core';
 import { JdbcConfig, Table } from 'interfaces';
 import { SpringbootService } from 'services';
 import { Observable } from 'rxjs';
+
 
 @Component({
   selector: 'flink-jdbc-dynamic',
@@ -11,7 +12,9 @@ import { Observable } from 'rxjs';
 })
 export class JdbcDynamicComponent implements OnInit {
 
-  constructor( private readonly sp: SpringbootService ) { 
+  constructor( private readonly sp: SpringbootService,
+    private readonly changeDetector: ChangeDetectorRef,// changeDetector 用于强制更新的注入
+     ) { 
 
   }
 
@@ -88,7 +91,7 @@ export class JdbcDynamicComponent implements OnInit {
        this.Table= x;
        console.log(x);
        this.Javacontext = this.Table.javaContext;
-
+       this.changeDetector.detectChanges();//标记更新
     });
     this.pconfiglist = this.pconfiglist.filter(item => item!=this.pconfiglist[index]);
  

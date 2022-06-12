@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy,ChangeDetectorRef } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { field, Table } from 'interfaces';
 import { SpringbootService } from 'services';
@@ -48,13 +48,15 @@ export class DynamicClassComponent implements OnInit {
       }
       this.sp.Json2JavaClass(JSON.stringify(table)).subscribe(x=>{
         this.convertTable=x;
-        console.log(x.javaContext);
+        this.changeDetector.detectChanges();//标记更新
       })
       
   }
 
   constructor(private fb: FormBuilder,
-    private sp:SpringbootService) {}
+    private sp:SpringbootService,
+    private readonly changeDetector: ChangeDetectorRef,// changeDetector 用于强制更新的注入
+    ) {}
 
   ngOnInit(): void {
     this.validateForm = this.fb.group({});
