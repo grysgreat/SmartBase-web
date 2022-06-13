@@ -277,6 +277,10 @@ public showAllJobs(): Observable<jobidflow[]>{
   return this.httpClient.get<jobidflow[]>( this.BAS_URL+'/jobflow/showall');
 }
 
+public showJobbyID(jid:string):Observable<jobidflow>{
+  return this.httpClient.get<jobidflow>(`${this.BAS_URL}/jobflow/lookfor/${jid}`);
+}
+
 public InsertJobs(jb:jobidflow):Observable<jobidflow>{
   const requestParam = { jb};
   let params = new HttpParams();

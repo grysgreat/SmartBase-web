@@ -1,0 +1,21 @@
+
+
+
+<div class=" bg-success min-height" id="drop-bg" #drawbox>
+    
+    <div id ='drawbox'>
+
+        <flink-dragable-body  *ngFor="let item of dragbody_list;let i = index"
+        [(data)]="dragbody_list[i]"
+        [singleconfig]="bodybaseinfo.get(item.id)"
+        > </flink-dragable-body>
+        
+        <flink-dragoperation *ngFor="let item of dragbody_operation;
+        let i = index" 
+        [(data)]="dragbody_operation[i]">
+        </flink-dragoperation>
+    </div>
+
+
+
+</div>

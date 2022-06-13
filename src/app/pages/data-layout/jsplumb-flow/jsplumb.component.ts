@@ -227,7 +227,8 @@ notify(data: any) {
 
     this.GraphToJson();
     console.log(this.jsonstr);
-    this.jarService
+    if(this.subStringIndexKMP(this.jsonstr,"^photo")!==-1){//dirty code
+      this.jarService
       .runJob(
         "d593f07e-8460-41b0-9d0c-3b7fb35c69be_BaseHub-1.0-SNAPSHOT-jar-with-dependencies.jar",
         "com.star.JobController",
@@ -241,6 +242,23 @@ notify(data: any) {
         this.notify(data.jobid);
         this.Saveflow(data.jobid);
       });
+    }else{
+      this.jarService
+      .runJob(
+        "d593f07e-8460-41b0-9d0c-3b7fb35c69be_BaseHub-1.0-SNAPSHOT-jar-with-dependencies.jar",
+        "com.star.JobController",
+        "1",
+        "--jobJson " + this.jsonstr + " --saveUrl hdfs://hadoop102:8020/rng/ck",
+        "",
+        ""
+      )
+      .subscribe(data => {
+        // this.router.navigate(['job', data.jobid]).then();
+        this.notify(data.jobid);
+        this.Saveflow(data.jobid);
+      });
+    }
+   
   }
 
   /**
@@ -607,4 +625,63 @@ console.log(this.dragbody_operation);
       this.connectEndpoint(link.source,link.target);
     }
   }
+
+
+
+
+  public getNext(s:string):number[]{
+
+    let next=[];
+
+    next[0]=0;
+
+    for(let i=1,j=0;i<s.length;i++){
+
+            while(j>0&&s[j]!=s[i]){
+
+                    j=next[j-1];
+
+                    if(s[j]==s[i]){
+
+                            j++;
+
+                    }
+
+                    next[i]=j;
+
+            }
+
+    }
+    return next;
+
+}
+
+private subStringIndexKMP(source:string,target:string):number{
+
+     if(target.length>source.length||!source||!target){
+         return -1;
+     }
+     let res=-1;
+     let i=0;
+     let next:number[]=this.getNext(source);
+     while(i<=source.length-target.length){
+         if(source[i]==target[0]){
+            let temp=true;
+            for(let j=0;j<target.length;j++){
+                if(source[i+j]!=target[j]){
+                    temp=false;
+                    i+=next[j+1];    //i向前移动j+1跳过哨兵
+                    break;
+                }
+            }
+            if(temp){
+                res=i;
+                return res
+            }
+        }else{
+            i++;
+        }
+     }
+     return res;
+ }
 }

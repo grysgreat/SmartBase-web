@@ -24,6 +24,7 @@ import { JobListComponent } from 'share/customize/job-list/job-list.component';
 import { JobCheckpointsComponent } from './checkpoints/job-checkpoints.component';
 import { JobConfigurationComponent } from './configuration/job-configuration.component';
 import { JobExceptionsComponent } from './exceptions/job-exceptions.component';
+import { FlowdrawComponent } from './flowdraw/flowdraw.component';
 import { JobComponent } from './job.component';
 import { JobTimelineComponent } from './timeline/job-timeline.component';
 
@@ -82,6 +83,14 @@ const routes: Routes = [
         data: {
           path: 'configuration'
         }
+      },
+      {
+        path: 'flowdraw',
+        component: FlowdrawComponent,
+        data:{
+          path: 'flowdraw'
+        }
+
       },
       { path: '**', redirectTo: 'overview', pathMatch: 'full' }
     ]

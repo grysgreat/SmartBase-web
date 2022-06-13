@@ -57,6 +57,11 @@ import { DataflowlistComponent } from './dataflowlist/dataflowlist.component';
     NzIconModule,
     NzToolTipModule,
     NzListModule
+  ],
+  exports:[
+    DragbodyComponent,
+    DragoperationComponent,
+    DragableBodyComponent,
   ]
 })
 export class DataLayoutModule { }

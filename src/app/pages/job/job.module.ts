@@ -35,7 +35,7 @@ import { NzTableModule } from 'ng-zorro-antd/table';
 import { NzTabsModule } from 'ng-zorro-antd/tabs';
 import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
 import { ShareModule } from 'share/share.module';
-
+import { DataLayoutModule } from '../data-layout/data-layout.module';
 import { JobCheckpointsDetailComponent } from './checkpoints/detail/job-checkpoints-detail.component';
 import { JobCheckpointsComponent } from './checkpoints/job-checkpoints.component';
 import { JobCheckpointsSubtaskComponent } from './checkpoints/subtask/job-checkpoints-subtask.component';
@@ -45,6 +45,7 @@ import { JobRoutingModule } from './job-routing.module';
 import { JobComponent } from './job.component';
 import { JobStatusComponent } from './status/job-status.component';
 import { JobTimelineComponent } from './timeline/job-timeline.component';
+import { FlowdrawComponent } from './flowdraw/flowdraw.component';
 
 @NgModule({
   imports: [
@@ -65,7 +66,8 @@ import { JobTimelineComponent } from './timeline/job-timeline.component';
     NzIconModule,
     NzSelectModule,
     NzToolTipModule,
-    NzCodeEditorModule
+    NzCodeEditorModule,
+    DataLayoutModule
   ],
   declarations: [
     JobComponent,
@@ -75,7 +77,8 @@ import { JobTimelineComponent } from './timeline/job-timeline.component';
     JobCheckpointsComponent,
     JobCheckpointsDetailComponent,
     JobCheckpointsSubtaskComponent,
-    JobTimelineComponent
+    JobTimelineComponent,
+    FlowdrawComponent
   ]
 })
 export class JobModule {}
