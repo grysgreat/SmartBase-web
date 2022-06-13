@@ -227,13 +227,13 @@ notify(data: any) {
 
     this.GraphToJson();
     console.log(this.jsonstr);
-    if(this.subStringIndexKMP(this.jsonstr,"^photo")!==-1){//dirty code
+    if(this.subStringIndexKMP(this.jsonstr,"^Photo")!==-1){//dirty code 找到
       this.jarService
       .runJob(
-        "d593f07e-8460-41b0-9d0c-3b7fb35c69be_BaseHub-1.0-SNAPSHOT-jar-with-dependencies.jar",
+        "c57eac93-0d21-4f3b-9165-1f1183870a35_NewOpTest-1.0-SNAPSHOT-jar-with-dependencies.jar",
         "com.star.JobController",
         "1",
-        "--jobJson " + this.jsonstr + " --saveUrl hdfs://hadoop102:8020/rng/ck",
+        "",
         "",
         ""
       )
@@ -245,7 +245,7 @@ notify(data: any) {
     }else{
       this.jarService
       .runJob(
-        "d593f07e-8460-41b0-9d0c-3b7fb35c69be_BaseHub-1.0-SNAPSHOT-jar-with-dependencies.jar",
+        "fdc8ba1f-8751-40c6-8d92-d01bbbb4ddd1_BaseHub-1.0-SNAPSHOT-jar-with-dependencies.jar",
         "com.star.JobController",
         "1",
         "--jobJson " + this.jsonstr + " --saveUrl hdfs://hadoop102:8020/rng/ck",
