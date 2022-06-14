@@ -350,7 +350,7 @@ case('op-source4') : return `<div class='pa' id='{{id}}' style='top:{{top}}px;le
         ""
       )
       .subscribe(data => {
-        // this.router.navigate(['job', data.jobid]).then();
+        
         this.notify(data);
       });
   }

@@ -201,7 +201,7 @@ notify(data: any) {
       .subscribe(data => {
         // this.router.navigate(['job', data.jobid]).then();
         this.notify(data.jobid);
-
+        this.Saveflow(data.jobid);
       });
     }else{
       this.jarService
@@ -216,11 +216,47 @@ notify(data: any) {
       .subscribe(data => {
         // this.router.navigate(['job', data.jobid]).then();
         this.notify(data.jobid);
+        this.Saveflow(data.jobid);
       });
     }
    
   }
-
+    /**
+   * 将图像保存到存储
+   */
+     Saveflow(jobid:string){
+      for(let sourceitem of this.panes){
+        sourceitem.refreshPosition();
+        this.bodybaseinfo.set(sourceitem.data.id,sourceitem.localdatat);
+      }
+      for(let item of this.panes2){
+        item.refreshPosition();
+        this.opcodeinfo.set(item.data.id,item.localdata);
+      }
+  
+      let ft:OneFlowchar=new OneFlowchar();
+      ft.bodybaseinfo =  this.st.mapChangeObj(this.bodybaseinfo);
+      ft.bodymap =this.st.mapChangeObj(this.bodymap) ;
+      ft.dragbody_list = this.dragbody_list;
+      ft.dragbody_operation = this.dragbody_operation;
+      ft.linklist = this.linklist;
+      ft.opcodeinfo =this.st.mapChangeObj(this.opcodeinfo);
+  
+  
+      console.log(ft);
+      var stestjson =JSON.stringify(ft);
+      console.log(JSON.stringify(ft));
+      this.st.write(jobid,JSON.stringify(ft));
+  
+  //存储到后端数据库
+      this.sp.InsertJobs({
+        jobid:jobid,
+        jsondata:stestjson,
+        jobjson:this.jsonstr
+      }).subscribe(()=>
+        this.notify("当前图像已经存储")
+      );
+  }  
 
 
 
