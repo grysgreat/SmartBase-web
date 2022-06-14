@@ -290,6 +290,9 @@ public InsertJobs(jb:jobidflow):Observable<jobidflow>{
   if (jb.jsondata) {
     params = params.append('jsondata', jb.jsondata);
   }
+  if(jb.jobjson){
+    params = params.append('jobjson', jb.jsondata);
+  }
 
   return this.httpClient.post<jobidflow>(this.BAS_URL+'/jobflow/insert',requestParam,{ params });
 

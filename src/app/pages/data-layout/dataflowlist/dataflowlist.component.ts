@@ -3,9 +3,12 @@ import { Baseinfo, dragbody, draglink, jobidflow, OneFlowchar, opcode } from 'in
 import { Observable } from 'rxjs';
 import { SpringbootService, StorageService } from 'services';
 import { DragableBodyComponent } from '../jsplumb-flow/dragable-body/dragable-body.component';
+import { JarService } from 'services';
+import { NzNotificationService } from 'ng-zorro-antd/notification';
 import { DragoperationComponent } from '../jsplumb-flow/dragoperation/dragoperation.component';
+
 declare let jsPlumb: any;
-declare let $      : any;
+
 
 @Component({
   selector: 'flink-dataflowlist',
@@ -45,7 +48,10 @@ export class DataflowlistComponent implements OnInit {
   constructor(    
     private readonly sp: SpringbootService,
     private readonly st: StorageService,
-    private readonly changeDetector: ChangeDetectorRef
+    private readonly changeDetector: ChangeDetectorRef,
+    private readonly jarService: JarService,
+    private readonly notification: NzNotificationService,
+
     ) { 
       this.jobflow$ = this.sp.showAllJobs();
       this.jobflow$.subscribe(x =>{
@@ -66,7 +72,6 @@ export class DataflowlistComponent implements OnInit {
   {
     this.cleargraph();
     this.InitFlow(i);
-    
   }
 
 
@@ -120,6 +125,138 @@ export class DataflowlistComponent implements OnInit {
 
       setTimeout(()=>this.sdf(),500);
     }
+
+
+
+    public getNext(s:string):number[]{
+      let next=[];
+      next[0]=0;
+      for(let i=1,j=0;i<s.length;i++){
+              while(j>0&&s[j]!=s[i]){
+                      j=next[j-1];
+                      if(s[j]==s[i]){
+                              j++;
+                      }
+                      next[i]=j;
+              }
+      }
+      return next;
+  
+  }
+  
+  private subStringIndexKMP(source:string,target:string):number{
+       if(target.length>source.length||!source||!target){
+           return -1;
+       }
+       let res=-1;
+       let i=0;
+       let next:number[]=this.getNext(source);
+       while(i<=source.length-target.length){
+           if(source[i]==target[0]){
+              let temp=true;
+              for(let j=0;j<target.length;j++){
+                  if(source[i+j]!=target[j]){
+                      temp=false;
+                      i+=next[j+1];    //i向前移动j+1跳过哨兵
+                      break;
+                  }
+              }
+              if(temp){
+                  res=i;
+                  return res
+              }
+          }else{
+              i++;
+          }
+       }
+       return res;
+   }
+
+
+   //消息通知函数
+notify(data: any) {
+  this.notification.blank(
+    'Job Submit Successful!!!',
+    'clink the left buttom to know' + data.toString()
+  );
+}
+
+
+    //提交生成的json 任务
+  submitJson( i :number) {
+    
+    this.jsonstr =  this.jobflows[i].jobjson ;
+
+    console.log(this.jsonstr);
+    if(this.subStringIndexKMP(this.jsonstr,"^Photo")!==-1){//dirty code 找到
+      this.jarService
+      .runJob(
+        "c57eac93-0d21-4f3b-9165-1f1183870a35_NewOpTest-1.0-SNAPSHOT-jar-with-dependencies.jar",
+        "com.photo.PhotoSource",
+        "1",
+        "",
+        "",
+        ""
+      )
+      .subscribe(data => {
+        // this.router.navigate(['job', data.jobid]).then();
+        this.notify(data.jobid);
+        this.Saveflow(data.jobid);
+      });
+    }else{
+      this.jarService
+      .runJob(
+        "fdc8ba1f-8751-40c6-8d92-d01bbbb4ddd1_BaseHub-1.0-SNAPSHOT-jar-with-dependencies.jar",
+        "com.star.JobController",
+        "1",
+        "--jobJson " + this.jsonstr + " --saveUrl hdfs://hadoop102:8020/rng/ck",
+        "",
+        ""
+      )
+      .subscribe(data => {
+        // this.router.navigate(['job', data.jobid]).then();
+        this.notify(data.jobid);
+        this.Saveflow(data.jobid);
+      });
+    }
+   
+  }
+    /**
+   * 将图像保存到存储
+   */
+     Saveflow(jobid:string){
+      for(let sourceitem of this.panes){
+        sourceitem.refreshPosition();
+        this.bodybaseinfo.set(sourceitem.data.id,sourceitem.localdatat);
+      }
+      for(let item of this.panes2){
+        item.refreshPosition();
+        this.opcodeinfo.set(item.data.id,item.localdata);
+      }
+  
+      let ft:OneFlowchar=new OneFlowchar();
+      ft.bodybaseinfo =  this.st.mapChangeObj(this.bodybaseinfo);
+      ft.bodymap =this.st.mapChangeObj(this.bodymap) ;
+      ft.dragbody_list = this.dragbody_list;
+      ft.dragbody_operation = this.dragbody_operation;
+      ft.linklist = this.linklist;
+      ft.opcodeinfo =this.st.mapChangeObj(this.opcodeinfo);
+  
+  
+      console.log(ft);
+      var stestjson =JSON.stringify(ft);
+      console.log(JSON.stringify(ft));
+      this.st.write(jobid,JSON.stringify(ft));
+  
+  //存储到后端数据库
+      this.sp.InsertJobs({
+        jobid:jobid,
+        jsondata:stestjson,
+        jobjson:this.jsonstr
+      }).subscribe(()=>
+        this.notify("当前图像已经存储")
+      );
+  }  
 
 
 

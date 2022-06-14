@@ -5,7 +5,6 @@
           <button nz-button nzType="primary" nzShape="circle" class="add-new-btn" (click)="createconfig()">+</button>
 
           <nz-descriptions   *ngFor="let jdbcconfig of pconfiglist;let i = index;" nzTitle={{i+1}} nzBordered="true">
-            <nz-descriptions-item nzTitle="DB Type">{{jdbcconfig.connectorType}}</nz-descriptions-item>
             <nz-descriptions-item nzTitle="Url">{{jdbcconfig.url}}</nz-descriptions-item>
             <nz-descriptions-item nzTitle="Port">{{jdbcconfig.port}}</nz-descriptions-item>
             <nz-descriptions-item nzTitle="User Name">{{jdbcconfig.username}}</nz-descriptions-item>

@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-export const BASE_URL = '.';
+export const BASE_URL = 'http://localhost:8081';
 
 export type ColorKey =
   | 'TOTAL'
