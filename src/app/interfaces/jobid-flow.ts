@@ -1,5 +1,6 @@
 
 export interface jobidflow{
     jobid:string;
-    jsondata:string
+    jsondata:string;
+    jobjson:string;
 }

@@ -231,7 +231,7 @@ notify(data: any) {
       this.jarService
       .runJob(
         "c57eac93-0d21-4f3b-9165-1f1183870a35_NewOpTest-1.0-SNAPSHOT-jar-with-dependencies.jar",
-        "com.star.JobController",
+        "com.photo.PhotoSource",
         "1",
         "",
         "",
@@ -566,7 +566,8 @@ console.log(this.dragbody_operation);
 //存储到后端数据库
     this.sp.InsertJobs({
       jobid:jobid,
-      jsondata:stestjson
+      jsondata:stestjson,
+      jobjson:this.jsonstr
     }).subscribe(()=>
       this.notify("当前图像已经存储")
     );
