@@ -225,6 +225,7 @@ notify(data: any) {
    * 将图像保存到存储
    */
      Saveflow(jobid:string){
+      console.log("保存图像中——————————")
       for(let sourceitem of this.panes){
         sourceitem.refreshPosition();
         this.bodybaseinfo.set(sourceitem.data.id,sourceitem.localdatat);
