@@ -194,6 +194,8 @@
         </span> -->
         <nz-divider nzType="vertical"></nz-divider>
         <span [hidden]="(online$ | async) === false">
+          <flink-login></flink-login>
+          
           <strong>Message:</strong>
           <nz-badge
             (click)="showMessage()"

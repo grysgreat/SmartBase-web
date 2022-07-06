@@ -42,6 +42,9 @@ import { PipeModule } from 'share/pipes/pipe.module';
 import { AutoResizeDirective } from './common/editor/auto-resize.directive';
 import { BackpressureBadgeComponent } from './customize/backpressure-badge/backpressure-badge.component';
 import { FlameGraphComponent } from './customize/flame-graph/flame-graph.component';
+import { LoginComponent } from './login/login.component';
+import { NzFormModule } from 'ng-zorro-antd/form';
+import { NzModalModule } from 'ng-zorro-antd/modal';
 
 @NgModule({
   imports: [
@@ -55,7 +58,9 @@ import { FlameGraphComponent } from './customize/flame-graph/flame-graph.compone
     NzToolTipModule,
     NzMessageModule,
     NzTabsModule,
-    NzIconModule
+    NzIconModule,
+    NzFormModule,
+    NzModalModule
   ],
   declarations: [
     JobBadgeComponent,
@@ -69,7 +74,8 @@ import { FlameGraphComponent } from './customize/flame-graph/flame-graph.compone
     CheckpointBadgeComponent,
     BackpressureBadgeComponent,
     FlameGraphComponent,
-    AutoResizeDirective
+    AutoResizeDirective,
+    LoginComponent
   ],
   exports: [
     JobListComponent,
@@ -85,7 +91,8 @@ import { FlameGraphComponent } from './customize/flame-graph/flame-graph.compone
     CheckpointBadgeComponent,
     BackpressureBadgeComponent,
     FlameGraphComponent,
-    AutoResizeDirective
+    AutoResizeDirective,
+    LoginComponent
   ]
 })
 export class ShareModule {}

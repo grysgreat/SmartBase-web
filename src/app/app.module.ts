@@ -25,7 +25,8 @@ import { FormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { Router } from '@angular/router';
-
+import { ShareModule } from 'share/share.module';
+import { NzFormModule } from 'ng-zorro-antd/form';
 import {
   BarsOutline,
   BuildOutline,
@@ -120,7 +121,9 @@ const ngZorroConfig: NzConfig = {
     NzBadgeModule,
     NzDrawerModule,
     NzAlertModule,
-    NzNotificationModule
+    NzNotificationModule,
+    ShareModule,
+    NzFormModule
  
   ],
   /**
