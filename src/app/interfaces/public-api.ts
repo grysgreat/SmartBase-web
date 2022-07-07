@@ -52,3 +52,4 @@ export * from './OneFlow';
 export * from './drag/draglink';
 export * from './jobid-flow';
 export * from './Table';
+export * from './user-info/flink-user'

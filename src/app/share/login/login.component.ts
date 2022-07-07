@@ -1,5 +1,6 @@
 import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { StorageService } from 'services';
+import { flinkUser } from 'interfaces';
 @Component({
   selector: 'flink-login',
   templateUrl: './login.component.html',
@@ -7,9 +8,16 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class LoginComponent implements OnInit {
-  constructor() {}
-  private fb: FormBuilder = new FormBuilder;
+  constructor(private readonly st:StorageService) {}
+  public tset:number =2;
+  public currentuser:flinkUser;
   ngOnInit(): void {
+    this.currentuser={
+      id :0,
+      name: "",
+      pwd:"",
+      priority:-1
+    };
 
   }
   isVisible:boolean =false;
@@ -18,30 +26,14 @@ export class LoginComponent implements OnInit {
     this.isVisible=false;
   }
   handleOk():void{
-    this.isVisible=false;
+    this.st.set("user-info",this.currentuser);
+    console.log(this.currentuser);
   }
   login():void{
     this.isVisible=true;
-    this.validateForm = this.fb.group({
-      userName: [null, [Validators.required]],
-      password: [null, [Validators.required]],
-      remember: [true]
-    });
+   
   }
-  validateForm!: FormGroup;
 
-  submitForm(): void {
-    if (this.validateForm.valid) {
-      console.log('submit', this.validateForm.value);
-    } else {
-      Object.values(this.validateForm.controls).forEach(control => {
-        if (control.invalid) {
-          control.markAsDirty();
-          control.updateValueAndValidity({ onlySelf: true });
-        }
-      });
-    }
-  }
 
 
 }
