@@ -192,9 +192,10 @@
           <strong>Commit:</strong>
           {{ statusService.configuration['flink-revision'] }}
         </span> -->
+<flink-login></flink-login>  
         <nz-divider nzType="vertical"></nz-divider>
         <span [hidden]="(online$ | async) === false">
-          <flink-login></flink-login>
+         
           
           <strong>Message:</strong>
           <nz-badge

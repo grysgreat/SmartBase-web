@@ -1,6 +1,8 @@
 import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
-import { StorageService } from 'services';
+import { SpringbootService, StorageService } from 'services';
 import { flinkUser } from 'interfaces';
+import { Observable } from 'rxjs';
+import { NzMessageService } from 'ng-zorro-antd/message';
 @Component({
   selector: 'flink-login',
   templateUrl: './login.component.html',
@@ -8,13 +10,16 @@ import { flinkUser } from 'interfaces';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class LoginComponent implements OnInit {
-  constructor(private readonly st:StorageService) {}
-  public tset:number =2;
+  constructor(private readonly st:StorageService,
+    private readonly sp:SpringbootService,
+    private message: NzMessageService) {}
+  public flag :boolean =false;
   public currentuser:flinkUser;
+  private httpuser:Observable<flinkUser>;
   ngOnInit(): void {
     this.currentuser={
-      id :0,
-      name: "",
+      id:0,
+      name:"",
       pwd:"",
       priority:-1
     };
@@ -26,8 +31,21 @@ export class LoginComponent implements OnInit {
     this.isVisible=false;
   }
   handleOk():void{
-    this.st.set("user-info",this.currentuser);
-    console.log(this.currentuser);
+    this.httpuser=this.sp.VarifyUserinfo(this.currentuser.name,this.currentuser.pwd);
+    this.httpuser.subscribe({
+      next: x=>{
+          this.currentuser = x;
+          this.st.set("user-info",this.currentuser);
+          if(x.id!==-1){
+            this.message.create('success', `Login in Success. Hello! ${this.currentuser.name}`);
+          }else{
+            this.message.create('error', `Login in Fails. Please Check your account. `);
+          }
+        },
+      error: ()=>  this.message.create('error', `Login Request Fail!`)
+    }
+     
+    )
   }
   login():void{
     this.isVisible=true;

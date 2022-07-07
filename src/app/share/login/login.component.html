@@ -1,4 +1,8 @@
-<button nz-button class="login-form-button login-form-margin" [nzType]="'primary'" (click)="login()">Log in</button>
+<span>
+   <strong>User:|  </strong><strong *ngIf="currentuser.id>0;else elseBlock" >{{currentuser.name}}</strong>
+   <ng-template #elseBlock>not login in yet</ng-template>
+    <button nz-button class="login-form-button login-form-margin" [nzType]="'primary'" (click)="login()">Log in</button>
+</span>
 
 <nz-modal [(nzVisible)]="isVisible" nzTitle="The first Modal" (nzOnCancel)="handleCancel()" (nzOnOk)="handleOk()">
   <ng-container *nzModalContent>

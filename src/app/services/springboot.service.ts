@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 //import { catchError, map } from 'rxjs/operators';
-import { JdbcConfig, jobidflow } from '../interfaces';
+import { flinkUser, JdbcConfig, jobidflow } from '../interfaces';
 import { HttpParams } from '@angular/common/http';
 import { Kafka } from '../interfaces/config/Kafka';
 import { Hdfs } from '../interfaces/config/Hdfs';
@@ -269,6 +269,23 @@ public updateRedis(redis:redis): Observable<redis>{
 
 
 
+//#region 用户登录与相关信息
+public VarifyUserinfo(name:string,pwd :string ):Observable<flinkUser>{
+  let params = new HttpParams();
+  if (name) {
+    params = params.append('name', name);
+  } 
+  if(pwd){
+    params = params.append('pwd',pwd);
+  }
+  let postparater = {
+    "name":name,
+    "pwd":pwd
+  }
+  return this.httpClient.post<flinkUser>(this.BAS_URL+'/UserConfig/login',postparater,{ params });
+}
+
+//#endregion
 
 
 
