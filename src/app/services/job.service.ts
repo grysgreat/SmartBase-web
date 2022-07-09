@@ -22,11 +22,14 @@ import { combineLatest, EMPTY, Observable, ReplaySubject } from 'rxjs';
 import { catchError, filter, map, mergeMap, tap } from 'rxjs/operators';
 
 import { BASE_URL } from 'config';
+import { SP_URL } from 'config';
+import { StorageService } from './storage.service';
 import {
   Checkpoint,
   CheckpointConfig,
   CheckpointDetail,
   CheckpointSubTask,
+  flinkUser,
   JobBackpressure,
   JobConfig,
   JobDetail,
@@ -67,7 +70,8 @@ export class JobService {
   /** Selected Metric Cache. */
   public readonly metricsCacheMap = new Map<string, string[]>();
 
-  constructor(private readonly httpClient: HttpClient) {}
+  constructor(private readonly httpClient: HttpClient,
+              private readonly st:StorageService ) {}
 
   /**
    * Uses the non REST-compliant GET yarn-cancel handler which is available in addition to the
@@ -78,7 +82,20 @@ export class JobService {
   }
 
   public loadJobs(): Observable<JobsItem[]> {
-    return this.httpClient.get<JobOverview>(`${BASE_URL}/jobs/overview`).pipe(
+    let user:flinkUser;
+    if(this.st.get("user-info")!=null){
+      console.log(this.st.get("user-info"));
+      
+      user=JSON.parse(this.st.get("user-info"));
+    }else{
+      user={
+        id:-1,
+        name:"",
+        pwd:"",
+        priority:-1
+      }
+    }
+    return this.httpClient.get<JobOverview>(`${SP_URL}/UserConfig/joblist?userid=${user.id}`).pipe(
       map(data => {
         data.jobs.forEach(job => {
           for (const key in job.tasks) {

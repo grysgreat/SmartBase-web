@@ -35,9 +35,10 @@ export class LoginComponent implements OnInit {
     this.httpuser.subscribe({
       next: x=>{
           this.currentuser = x;
-          this.st.set("user-info",this.currentuser);
+          this.st.set("user-info",JSON.stringify(this.currentuser));
           if(x.id!==-1){
             this.message.create('success', `Login in Success. Hello! ${this.currentuser.name}`);
+            this.isVisible=false;
           }else{
             this.message.create('error', `Login in Fails. Please Check your account. `);
           }
