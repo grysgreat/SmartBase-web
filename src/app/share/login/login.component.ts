@@ -17,13 +17,16 @@ export class LoginComponent implements OnInit {
   public currentuser:flinkUser;
   private httpuser:Observable<flinkUser>;
   ngOnInit(): void {
-    this.currentuser={
-      id:0,
-      name:"",
-      pwd:"",
-      priority:-1
-    };
-
+    if(this.st.get("user-info")!==undefined){
+      this.currentuser = JSON.parse(this.st.get("user-info"));
+    }else{
+      this.currentuser={
+        id:0,
+        name:"",
+        pwd:"",
+        priority:-1
+      };
+    }
   }
   isVisible:boolean =false;
 
