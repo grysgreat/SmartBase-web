@@ -95,6 +95,22 @@ export class JobService {
         priority:-1
       }
     }
+    if(user.priority==2){
+      return this.httpClient.get<JobOverview>(`${BASE_URL}/jobs/overview`).pipe(
+        map(data => {
+          data.jobs.forEach(job => {
+            for (const key in job.tasks) {
+              const upperCaseKey = key.toUpperCase() as keyof TaskStatus;
+              job.tasks[upperCaseKey] = job.tasks[key as keyof TaskStatus];
+              delete job.tasks[key as keyof TaskStatus];
+            }
+            job.completed = ['FINISHED', 'FAILED', 'CANCELED'].indexOf(job.state) > -1;
+          });
+          return data.jobs || [];
+        }),
+        catchError(() => EMPTY)
+      );
+    }else{
     return this.httpClient.get<JobOverview>(`${SP_URL}/UserConfig/joblist?userid=${user.id}`).pipe(
       map(data => {
         data.jobs.forEach(job => {
@@ -108,7 +124,7 @@ export class JobService {
         return data.jobs || [];
       }),
       catchError(() => EMPTY)
-    );
+    );}
   }
 
   public loadJobConfig(jobId: string): Observable<JobConfig> {
