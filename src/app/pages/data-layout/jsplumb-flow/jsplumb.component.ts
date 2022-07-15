@@ -241,6 +241,7 @@ notify(data: any) {
         // this.router.navigate(['job', data.jobid]).then();
         this.notify(data.jobid);
         this.Saveflow(data.jobid);
+        this.AddUserJobs(data.jobid);
       });
     }else{
       this.jarService
@@ -256,6 +257,7 @@ notify(data: any) {
         // this.router.navigate(['job', data.jobid]).then();
         this.notify(data.jobid);
         this.Saveflow(data.jobid);
+        this.AddUserJobs(data.jobid);
       });
     }
    
@@ -577,6 +579,9 @@ console.log(this.dragbody_operation);
 
   }
 
+  AddUserJobs(jobid:string){
+    this.sp.AddUserid(jobid).subscribe(() => console.log("已经存储ok"));
+  }
 
 
 

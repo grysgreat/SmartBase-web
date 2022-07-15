@@ -9,6 +9,7 @@ import { Hdfs } from '../interfaces/config/Hdfs';
 import { Socket } from '../interfaces/config/Socket';
 import { redis } from '../interfaces/config/redis';
 import { Table } from '../interfaces';
+import { StorageService } from './storage.service';
 // import { HttpClient } from '@angular/common/http';
 // private httpClient: HttpClient
 @Injectable({
@@ -16,7 +17,7 @@ import { Table } from '../interfaces';
 })
 export class SpringbootService {
   private readonly BAS_URL: string = 'http://localhost:8082';
-  constructor(private readonly httpClient: HttpClient) { }
+  constructor(private readonly httpClient: HttpClient,private readonly st:StorageService) { }
 
 //#region ---------------------- JDBC ----------------------
   public SearchAllJdbc(): Observable<JdbcConfig[]>{
@@ -285,6 +286,30 @@ public VarifyUserinfo(name:string,pwd :string ):Observable<flinkUser>{
   return this.httpClient.post<flinkUser>(this.BAS_URL+'/UserConfig/login',postparater,{ params });
 }
 
+public AddUserid(jobid:string):Observable<boolean>
+{
+  let user:flinkUser;
+    if(this.st.get("user-info")!=null){
+      console.log(this.st.get("user-info"));
+      
+      user=JSON.parse(this.st.get("user-info"));
+    }else{
+      user={
+        id:-1,
+        name:"",
+        pwd:"",
+        priority:-1
+      }
+    }
+  let params = new HttpParams();
+  if (jobid) {
+    params = params.append('jobid', jobid);
+  } 
+  params = params.append('userid', user.id);
+
+
+  return this.httpClient.post<boolean>(this.BAS_URL+'/UserConfig/login',null,{ params });
+}
 //#endregion
 
 
