@@ -1,8 +1,8 @@
 
 export interface modbus{
-      port:number;
+      port?:number;
       types:string,
       id :number,
       url:string,
-      data:string
+      data?:string
 }

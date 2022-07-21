@@ -28,6 +28,9 @@
               <a class="btn btn-success btn-controler" data-template="rtsp" data-opcode="source" role="button">
                 <i class="fa fa-navicon" aria-hidden="true"></i>
                   源数据Rtsp</a><br>
+                  <a class="btn btn-success btn-controler" data-template="modbus" data-opcode="source" role="button">
+                    <i class="fa fa-navicon" aria-hidden="true"></i>
+                      源数据Modbus</a><br>
             </nz-collapse-panel>
             <nz-collapse-panel nzHeader="目的数据源">
               <a class="btn btn-success btn-controler" data-template="Redis" data-opcode="target" role="button">
@@ -97,6 +100,7 @@
         [hdfslist]="Hdfslist"
         [rtmplist]="RtmpList"
         [rtsplist]="RtspList"
+        [modbuslist]="ModbusList"
         (close)="shutDownComp($event)"> </flink-dragable-body>
         
         <flink-dragoperation *ngFor="let item of dragbody_operation;;let i = index" [(data)]="dragbody_operation[i]" (close)="shutDownComp($event)">

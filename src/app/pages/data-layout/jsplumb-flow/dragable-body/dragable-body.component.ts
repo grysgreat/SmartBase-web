@@ -15,7 +15,6 @@ export class DragableBodyComponent implements OnInit {
   @Output() dataChange =new EventEmitter<dragbody>();
   @Input() singleconfig:Baseinfo;
   configlist:Baseinfo[];
-
   //直接传入所有配置源
   @Input() redislist:Baseinfo[];
   @Input() kafkalist:Baseinfo[];
@@ -24,6 +23,7 @@ export class DragableBodyComponent implements OnInit {
   @Input() hdfslist:Baseinfo[];
   @Input() rtmplist:Baseinfo[];
   @Input() rtsplist:Baseinfo[];
+  @Input() modbuslist:Baseinfo[] ;
   @Output() close=new EventEmitter<string>();
   types:string|undefined="";
   localdatat:Baseinfo;
@@ -124,6 +124,7 @@ export class DragableBodyComponent implements OnInit {
       case "Kafka": this.configlist=this.kafkalist; break;
       case "rtmp": this.configlist = this.rtmplist; break;
       case "rtsp": this.configlist = this.rtsplist; break;
+      case "modbus": this.configlist = this.modbuslist;break;
     }
     if(this.singleconfig){
       this.localdatat=this.singleconfig;
