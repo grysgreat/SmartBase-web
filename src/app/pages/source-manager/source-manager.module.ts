@@ -28,6 +28,7 @@ import { JdbcDynamicComponent } from './dynamic-class/jdbc/jdbc.component';
 import { NzSelectModule } from 'ng-zorro-antd/select';
 import { RtspComponent } from './source-config/rtsp/rtsp.component';
 import { RtmpComponent } from './source-config/rtmp/rtmp.component';
+import { ModbusComponent } from './source-config/modbus/modbus.component';
 @NgModule({
   declarations: [
     SourceManagerComponent,
@@ -42,7 +43,8 @@ import { RtmpComponent } from './source-config/rtmp/rtmp.component';
     DynamicClassComponent,
     JdbcDynamicComponent,
     RtspComponent,
-    RtmpComponent
+    RtmpComponent,
+    ModbusComponent
   ],
   imports: [
     CommonModule,

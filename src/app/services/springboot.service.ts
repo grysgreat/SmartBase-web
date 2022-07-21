@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 //import { catchError, map } from 'rxjs/operators';
-import { flinkUser, JdbcConfig, jobidflow } from '../interfaces';
+import { flinkUser, JdbcConfig, jobidflow, modbus } from '../interfaces';
 import { HttpParams } from '@angular/common/http';
 import { Kafka } from '../interfaces/config/Kafka';
 import { Hdfs } from '../interfaces/config/Hdfs';
@@ -331,7 +331,31 @@ public updateRtmp(rtmp:rtmprtsp): Observable<rtmprtsp>{
 
 //#endregion
 
+//#region Modbus
+public showAllModbus(): Observable<modbus[]>{
+  return this.httpClient.get<modbus[]>( this.BAS_URL+'/modbus/all');
+}
+public deleteModbus(index:number):Observable<boolean>{
+  return this.httpClient.get<boolean>(`${this.BAS_URL}/modbus/delete/${index}`);
+}
+public newModbus(item:modbus): Observable<boolean>{
+  let params = new HttpParams();
+  const requestParam = { item};
+  if (item.url) {
+    params = params.append('url', item.url);
+  } 
+  if (item.port) {
+    params = params.append('port', item.port);
+  }
+  if (item.data) {
+    params = params.append('data',item.data);
+  }
+  return this.httpClient.post<boolean>(this.BAS_URL+'/modbus/insert',requestParam,{ params });
 
+}
+
+
+//#endregion
 
 //#region 用户登录与相关信息
 public VarifyUserinfo(name:string,pwd :string ):Observable<flinkUser>{
