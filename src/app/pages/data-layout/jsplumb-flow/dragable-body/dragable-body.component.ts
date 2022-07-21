@@ -24,6 +24,7 @@ export class DragableBodyComponent implements OnInit {
   @Input() rtmplist:Baseinfo[];
   @Input() rtsplist:Baseinfo[];
   @Input() modbuslist:Baseinfo[] ;
+  @Input() opcualist:Baseinfo[] ;
   @Output() close=new EventEmitter<string>();
   types:string|undefined="";
   localdatat:Baseinfo;
@@ -125,6 +126,7 @@ export class DragableBodyComponent implements OnInit {
       case "rtmp": this.configlist = this.rtmplist; break;
       case "rtsp": this.configlist = this.rtsplist; break;
       case "modbus": this.configlist = this.modbuslist;break;
+      case "opcua":this.configlist = this.opcualist;break;
     }
     if(this.singleconfig){
       this.localdatat=this.singleconfig;

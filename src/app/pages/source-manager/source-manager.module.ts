@@ -29,6 +29,7 @@ import { NzSelectModule } from 'ng-zorro-antd/select';
 import { RtspComponent } from './source-config/rtsp/rtsp.component';
 import { RtmpComponent } from './source-config/rtmp/rtmp.component';
 import { ModbusComponent } from './source-config/modbus/modbus.component';
+import { OpcuaComponent } from './source-config/opcua/opcua.component';
 @NgModule({
   declarations: [
     SourceManagerComponent,
@@ -44,7 +45,8 @@ import { ModbusComponent } from './source-config/modbus/modbus.component';
     JdbcDynamicComponent,
     RtspComponent,
     RtmpComponent,
-    ModbusComponent
+    ModbusComponent,
+    OpcuaComponent
   ],
   imports: [
     CommonModule,

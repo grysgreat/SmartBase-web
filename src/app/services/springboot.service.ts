@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 //import { catchError, map } from 'rxjs/operators';
-import { flinkUser, JdbcConfig, jobidflow, modbus } from '../interfaces';
+import { flinkUser, JdbcConfig, jobidflow, modbus, opcua } from '../interfaces';
 import { HttpParams } from '@angular/common/http';
 import { Kafka } from '../interfaces/config/Kafka';
 import { Hdfs } from '../interfaces/config/Hdfs';
@@ -355,6 +355,38 @@ public newModbus(item:modbus): Observable<boolean>{
 }
 
 
+//#endregion
+
+
+//#retgion    OPC UA
+
+public showAllOPCUA(): Observable<opcua[]>{
+  return this.httpClient.get<modbus[]>( this.BAS_URL+'/OpcUa/all');
+}
+public deleteOPCUA(index:number):Observable<boolean>{
+  return this.httpClient.get<boolean>(`${this.BAS_URL}/OpcUa/delete/${index}`);
+}
+public newOPCUA(item:opcua): Observable<boolean>{
+  let params = new HttpParams();
+  const requestParam = { item};
+  if (item.ServerUrl) {
+    params = params.append('serverUrl', item.ServerUrl);
+  } 
+  if (item.userName) {
+    params = params.append('userName', item.userName);
+  }
+  if (item.password) {
+    params = params.append('password',item.password);
+  }
+  if (item.inAnonymous) {
+    params = params.append('isAnonymous',item.inAnonymous);
+  }
+  if (item.identifier) {
+    params = params.append('identifier',item.identifier);
+  }
+  return this.httpClient.post<boolean>(this.BAS_URL+'/OpcUa/insert',requestParam,{ params });
+
+}
 //#endregion
 
 //#region 用户登录与相关信息

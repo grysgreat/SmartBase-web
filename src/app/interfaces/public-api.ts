@@ -46,6 +46,8 @@ export * from './config/Kafka';
 export * from './config/modbus';
 export * from './config/modbusdata';
 export * from './config/rtmprtsp';
+export * from './config/opcua';
+
 export * from './dragbody';
 export * from './drag/draginfo';
 export * from './config/opcode';

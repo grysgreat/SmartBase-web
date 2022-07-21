@@ -1,0 +1,71 @@
+<nz-collapse>
+    <nz-collapse-panel [nzHeader]="'OPCUA info'">
+      <button nz-button nzType="primary" nzShape="circle" class="add-new-btn"
+      (click)="createconfig()">+</button>
+      <nz-descriptions *ngFor="let v of pconfiglist;let i = index;" nzTitle={{i+1}} nzBordered="true">
+        <nz-descriptions-item nzTitle="ID">{{v.id}}</nz-descriptions-item>
+        <nz-descriptions-item nzTitle="ServerUrl">{{v.ServerUrl}}</nz-descriptions-item>
+        <nz-descriptions-item nzTitle="userName">{{v.userName}}</nz-descriptions-item>
+        <nz-descriptions-item nzTitle="password">{{v.password}}</nz-descriptions-item>
+        <nz-descriptions-item nzTitle="inAnonymous">{{v.inAnonymous}}</nz-descriptions-item>
+        <nz-descriptions-item nzTitle="Topic">{{v.identifier}}</nz-descriptions-item>
+        <nz-descriptions-item nzTitle="删除"><button nz-button nzType="primary" (click)="deleteconfig(i)">&nbsp;&nbsp;</button></nz-descriptions-item>
+    </nz-descriptions>
+    </nz-collapse-panel>
+  </nz-collapse>
+<nz-modal [(nzVisible)]="isVisible" nzTitle="The first Modal" (nzOnCancel)="handleCancel()" (nzOnOk)="handleOk()">
+<ng-container *nzModalContent>
+<nz-card [nzBordered]="false" [nzTitle]="' OPCUA source '" [nzLoading]="false">    
+    <form nz-form class="login-form">
+        
+
+        <nz-form-item>
+            <nz-input-group>
+                <input type="text" class="form-item" name="ServerUrl" nz-input 
+                    placeholder="ServerUrl"   [(ngModel)]="newconfig.ServerUrl"/>
+            </nz-input-group>
+        </nz-form-item>
+
+
+        <nz-form-item>
+            <nz-input-group>
+                <input type="text" class="form-item" nz-input name="OPCUA userName"
+                    placeholder="userName" [(ngModel)]="newconfig.userName"/>
+            </nz-input-group>
+        </nz-form-item>
+        <nz-form-item>
+            <nz-input-group>
+                <input type="text" class="form-item" nz-input name="OPCUA password"
+                    placeholder="password" [(ngModel)]="newconfig.password"/>
+            </nz-input-group>
+        </nz-form-item>
+        <nz-form-item>
+            <nz-input-group>
+                <nz-select [(ngModel)]="newconfig.inAnonymous" [ngModelOptions]="{standalone: true}">
+                    <nz-option nzValue="" nzLabel="UNKNOW"></nz-option>
+                    <nz-option nzValue="{{false}}" nzLabel="false"></nz-option>
+                    <nz-option nzValue="{{true}}" nzLabel="true"></nz-option>
+                  </nz-select>
+            </nz-input-group>
+        </nz-form-item>
+        <nz-form-item>
+            <nz-input-group>
+                <input type="text" class="form-item" nz-input name="OPCUA identifier"
+                    placeholder="identifier" [(ngModel)]="newconfig.identifier"/>
+            </nz-input-group>
+        </nz-form-item>
+
+
+        <button nz-button nzType="dashed" class="login-form-button login-form-margin "
+        (click)="createnewconfig()"
+        >
+            <i nz-icon nzType="download"></i>SubMit A Job
+            <br>
+             kafka
+        </button>
+
+    </form>
+
+</nz-card>
+</ng-container>
+</nz-modal>
