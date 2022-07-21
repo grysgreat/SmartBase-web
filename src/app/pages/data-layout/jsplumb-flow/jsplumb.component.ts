@@ -4,7 +4,7 @@ import {
 } from '@angular/core';
 import * as uuid from 'uuid'; //随机数的生成
 import { NzNotificationService } from 'ng-zorro-antd/notification';
-import { Baseinfo, dragbody, Hdfs, jobidflow, Kafka, OneFlowchar, opcode, redis, Socket } from 'interfaces';
+import { Baseinfo, dragbody, Hdfs, jobidflow, Kafka, OneFlowchar, opcode, redis, rtmprtsp, Socket } from 'interfaces';
 import {  JarService, SpringbootService, StorageService } from 'services';
 import { DragableBodyComponent } from './dragable-body/dragable-body.component';
 import { DragoperationComponent } from './dragoperation/dragoperation.component';
@@ -46,6 +46,11 @@ export class JsplumbComponent2 implements OnInit {
   public Redislist: redis[];
   public Socketlist$: Observable<Socket[]>;
   public Socketlist: Socket[];
+  public RtmpList:rtmprtsp[];
+  public RtspList:rtmprtsp[];
+  public RtmpList$:Observable<rtmprtsp[]>;
+  public RtspList$:Observable<rtmprtsp[]>;
+
 
   public jobflow$:Observable<jobidflow[]> ;
   public jobflows:jobidflow[];
@@ -344,6 +349,15 @@ console.log(this.dragbody_operation);
     this.jobflow$ = this.sp.showAllJobs();
     this.jobflow$.subscribe(x =>
       this.jobflows = x
+    );
+
+    this.RtmpList$ = this.sp.showRtmp();
+    this.RtmpList$.subscribe(
+      x=>this.RtmpList=x
+    );
+    this.RtspList$ = this.sp.showRtsp();
+    this.RtspList$.subscribe(
+      x=>this.RtspList=x
     );
   }
 

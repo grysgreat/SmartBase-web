@@ -22,6 +22,8 @@ export class DragableBodyComponent implements OnInit {
   @Input() jdbclist :Baseinfo[];
   @Input() socketlist:Baseinfo[];
   @Input() hdfslist:Baseinfo[];
+  @Input() rtmplist:Baseinfo[];
+  @Input() rtsplist:Baseinfo[];
   @Output() close=new EventEmitter<string>();
   types:string|undefined="";
   localdatat:Baseinfo;
@@ -120,6 +122,8 @@ export class DragableBodyComponent implements OnInit {
       case "Jdbc": this.configlist=this.jdbclist; break;
       case "Socket": this.configlist=this.socketlist; break;
       case "Kafka": this.configlist=this.kafkalist; break;
+      case "rtmp": this.configlist = this.rtmplist; break;
+      case "rtsp": this.configlist = this.rtsplist; break;
     }
     if(this.singleconfig){
       this.localdatat=this.singleconfig;

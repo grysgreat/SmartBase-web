@@ -10,6 +10,7 @@ import { Socket } from '../interfaces/config/Socket';
 import { redis } from '../interfaces/config/redis';
 import { Table } from '../interfaces';
 import { StorageService } from './storage.service';
+import { rtmprtsp } from '../interfaces/config/rtmprtsp';
 // import { HttpClient } from '@angular/common/http';
 // private httpClient: HttpClient
 @Injectable({
@@ -267,6 +268,68 @@ public updateRedis(redis:redis): Observable<redis>{
 }
 //#endregion
 
+//#region Rtmp & Rtsp
+public showRtsp(): Observable<rtmprtsp[]>{
+  return this.httpClient.get<rtmprtsp[]>( this.BAS_URL+'/rtsp/all');
+}
+public deleteRtsp(index:number):Observable<boolean>{
+  return this.httpClient.get<boolean>(`${this.BAS_URL}/rtsp/delete/${index}`);
+}
+public newRtsp(hdfs:rtmprtsp): Observable<boolean>{
+  let params = new HttpParams();
+  const requestParam = { hdfs};
+  if (hdfs.url) {
+    params = params.append('url', hdfs.url);
+  }
+  return this.httpClient.post<boolean>(this.BAS_URL+'/rtsp/insert',requestParam,{ params });
+
+}
+public updateRtsp(rtmp:rtmprtsp): Observable<rtmprtsp>{
+  let params = new HttpParams();
+  const requestParam = {rtmp};
+  if(rtmp.id){
+    params = params.append('id', rtmp.id);
+  }
+  if (rtmp.url) {
+    params = params.append('url', rtmp.url);
+  }
+  return this.httpClient.post<rtmprtsp>(this.BAS_URL+'/rtsp/update',requestParam,{ params });
+
+}
+/////////////////////////
+
+public showRtmp(): Observable<rtmprtsp[]>{
+  return this.httpClient.get<rtmprtsp[]>( this.BAS_URL+'/rtmp/all');
+}
+public deleteRtmp(index:number):Observable<boolean>{
+  return this.httpClient.get<boolean>(`${this.BAS_URL}/rtmp/delete/${index}`);
+}
+public newRtmp(hdfs:rtmprtsp): Observable<boolean>{
+  let params = new HttpParams();
+  const requestParam = { hdfs};
+  if (hdfs.url) {
+    params = params.append('url', hdfs.url);
+  }
+  return this.httpClient.post<boolean>(this.BAS_URL+'/rtmp/insert',requestParam,{ params });
+
+}
+public updateRtmp(rtmp:rtmprtsp): Observable<rtmprtsp>{
+  let params = new HttpParams();
+  const requestParam = {rtmp};
+  if(rtmp.id){
+    params = params.append('id', rtmp.id);
+  }
+  if (rtmp.url) {
+    params = params.append('url', rtmp.url);
+  }
+  return this.httpClient.post<rtmprtsp>(this.BAS_URL+'/rtmp/update',requestParam,{ params });
+
+}
+
+
+
+
+//#endregion
 
 
 
