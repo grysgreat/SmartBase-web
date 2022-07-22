@@ -267,7 +267,7 @@ notify(data: any) {
         this.JarID,
         "com.star.Job.RtmpPics",
         "1",
-        "--config "+ rtmpstr,
+        "--sorceIp "+ rtmpstr,
         "",
         ""
       )
@@ -279,7 +279,7 @@ notify(data: any) {
         this.JarID,
         "com.star.Job.RtspPics",
         "1",
-        "--config "+ rtspstr,
+        "--sorceIp "+ rtspstr,
         "",
         ""
       )
