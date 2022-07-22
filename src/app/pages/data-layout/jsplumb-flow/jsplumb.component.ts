@@ -14,13 +14,6 @@ import { draglink } from 'interfaces';
 declare let jsPlumb: any;
 declare let $      : any;
 
-/**
- * TODO: 
- * 1. 整理出新的移动组件逻辑 抛弃不同类型需要不同数组的特性
- * 2. 对数组存储的单一性
- * 3. 存储绘图信息
- * 4. 重现
- */
 @Component({
   selector: 'flink-jsplumb2',
   templateUrl: './jsplumb.component.html',
@@ -31,6 +24,8 @@ export class JsplumbComponent2 implements OnInit {
   @ViewChildren(DragableBodyComponent) panes!: QueryList<DragableBodyComponent>;
   @ViewChildren(DragoperationComponent) panes2!: QueryList<DragoperationComponent>;
 
+  //TODO: 针对jar包id修改这里
+  private JarID :string ="c57eac93-0d21-4f3b-9165-1f1183870a35_NewOpTest-1.0-SNAPSHOT-jar-with-dependencies.jar";
   area = 'drop-bg';
   areaId = '#' + this.area;
   public htmldragpan:string="";
@@ -50,7 +45,6 @@ export class JsplumbComponent2 implements OnInit {
   public RtspList:rtmprtsp[];
   public RtmpList$:Observable<rtmprtsp[]>;
   public RtspList$:Observable<rtmprtsp[]>;
-
   public ModbusList$:Observable<modbus[]>;
   public ModbusList:modbus[];
   public Opcualist$:Observable<opcua[]>;
@@ -68,7 +62,7 @@ export class JsplumbComponent2 implements OnInit {
   public bodybaseinfo :Map<string,Baseinfo>;//⭐
   public opcodeinfo: Map<string,opcode>;//⭐
 //#endregion
-
+  jobrunc:Observable<{jobid:string}>;
 
 
 
@@ -236,38 +230,78 @@ notify(data: any) {
     this.GraphToJson();
     console.log(this.jsonstr);
     if(this.subStringIndexKMP(this.jsonstr,"^Photo")!==-1){//dirty code 找到
-      this.jarService
-      .runJob(
+      this.jobrunc = this.jarService.runJob(
         "c57eac93-0d21-4f3b-9165-1f1183870a35_NewOpTest-1.0-SNAPSHOT-jar-with-dependencies.jar",
         "com.photo.PhotoSource",
         "1",
         "",
         "",
         ""
-      )
-      .subscribe(data => {
-        // this.router.navigate(['job', data.jobid]).then();
-        this.notify(data.jobid);
-        this.Saveflow(data.jobid);
-        this.AddUserJobs(data.jobid);
-      });
-    }else{
-      this.jarService
+      );
+    }else if(this.subStringIndexKMP(this.jsonstr,"modbus")!==-1){
+      this.jobrunc = this.jarService
       .runJob(
-        "fdc8ba1f-8751-40c6-8d92-d01bbbb4ddd1_BaseHub-1.0-SNAPSHOT-jar-with-dependencies.jar",
+        this.JarID,
+        "com.star.Job.Modbus",
+        "1",
+        "--config "+ JSON.stringify(this.jobdataflow[0].source),
+        "",
+        ""
+      )
+    }
+    else if(this.subStringIndexKMP(this.jsonstr,"opcua")!==-1){
+      this.jobrunc = this.jarService
+      .runJob(
+        this.JarID,
+        "com.star.Job.OpcUa",
+        "1",
+        "--config "+ JSON.stringify(this.jobdataflow[0].source),
+        "",
+        ""
+      )
+    }
+    else if(this.subStringIndexKMP(this.jsonstr,"rtmp")!==-1){
+      var rtmpstr:string =this.jobdataflow[0].source.url;
+      this.jobrunc = this.jarService
+      .runJob(
+        this.JarID,
+        "com.star.Job.RtmpPics",
+        "1",
+        "--config "+ rtmpstr,
+        "",
+        ""
+      )
+    }
+    else if(this.subStringIndexKMP(this.jsonstr,"rtsp")!==-1){
+      var rtspstr:string =this.jobdataflow[0].source.url;
+      this.jobrunc = this.jarService
+      .runJob(
+        this.JarID,
+        "com.star.Job.RtspPics",
+        "1",
+        "--config "+ rtspstr,
+        "",
+        ""
+      )
+    }
+    else{
+      this.jobrunc = this.jarService
+      .runJob(
+        this.JarID,
         "com.star.JobController",
         "1",
         "--jobJson " + this.jsonstr + " --saveUrl hdfs://hadoop102:8020/rng/ck",
         "",
         ""
       )
-      .subscribe(data => {
-        // this.router.navigate(['job', data.jobid]).then();
-        this.notify(data.jobid);
-        this.Saveflow(data.jobid);
-        this.AddUserJobs(data.jobid);
-      });
     }
+
+    this.jobrunc.subscribe(data => {
+      // this.router.navigate(['job', data.jobid]).then();
+      this.notify(data.jobid);
+      this.Saveflow(data.jobid);
+      this.AddUserJobs(data.jobid);
+    });
    
   }
 
