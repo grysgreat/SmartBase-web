@@ -229,51 +229,19 @@ notify(data: any) {
 
     this.GraphToJson();
     console.log(this.jsonstr);
-    if(this.subStringIndexKMP(this.jsonstr,"^Photo")!==-1){//dirty code 找到
-      this.jobrunc = this.jarService.runJob(
-        "c57eac93-0d21-4f3b-9165-1f1183870a35_NewOpTest-1.0-SNAPSHOT-jar-with-dependencies.jar",
-        "com.photo.PhotoSource",
-        "1",
-        "",
-        "",
-        ""
-      );
-    }else if(this.subStringIndexKMP(this.jsonstr,"modbus")!==-1){
-      this.jobrunc = this.jarService
-      .runJob(
-        this.JarID,
-        "com.star.Job.Modbus",
-        "1",
-        "--config "+ JSON.stringify(this.jobdataflow[0].source),
-        "",
-        ""
-      )
-    }
-    else if(this.subStringIndexKMP(this.jsonstr,"opcua")!==-1){
-      this.jobrunc = this.jarService
-      .runJob(
-        this.JarID,
-        "com.star.Job.OpcUa",
-        "1",
-        "--config "+ JSON.stringify(this.jobdataflow[0].source),
-        "",
-        ""
-      )
-    }
-    else if(this.subStringIndexKMP(this.jsonstr,"rtmp")!==-1){
-      var rtmpstr:string =this.jobdataflow[0].source.url;
-      this.jobrunc = this.jarService
-      .runJob(
+    switch(this.jobdataflow[0].source.types){
+      case "rtmp":   var rtmpstr:string =this.jobdataflow[0].source.url;
+        this.jobrunc = this.jarService.runJob(
         this.JarID,
         "com.star.Job.RtmpPics",
         "1",
         "--sorceIp "+ rtmpstr,
         "",
         ""
-      )
-    }
-    else if(this.subStringIndexKMP(this.jsonstr,"rtsp")!==-1){
-      var rtspstr:string =this.jobdataflow[0].source.url;
+      );break;
+
+
+      case "rtsp": var rtspstr:string =this.jobdataflow[0].source.url;
       this.jobrunc = this.jarService
       .runJob(
         this.JarID,
@@ -282,10 +250,27 @@ notify(data: any) {
         "--sorceIp "+ rtspstr,
         "",
         ""
-      )
-    }
-    else{
-      this.jobrunc = this.jarService
+      );break;
+
+
+      case "modbus":this.jobrunc = this.jarService.runJob(
+        this.JarID,
+        "com.star.Job.Modbus",
+        "1",
+        "--config "+ JSON.stringify(this.jobdataflow[0].source),
+        "",
+        ""
+      );break;
+
+      case "opcua": this.jobrunc = this.jarService.runJob(
+        this.JarID,
+        "com.star.Job.OpcUa",
+        "1",
+        "--config "+ JSON.stringify(this.jobdataflow[0].source),
+        "",
+        ""
+      );break;
+      default: this.jobrunc = this.jarService
       .runJob(
         this.JarID,
         "com.star.JobController",
@@ -293,9 +278,10 @@ notify(data: any) {
         "--jobJson " + this.jsonstr + " --saveUrl hdfs://hadoop102:8020/rng/ck",
         "",
         ""
-      )
-    }
+      );
 
+    }
+  
     this.jobrunc.subscribe(data => {
       // this.router.navigate(['job', data.jobid]).then();
       this.notify(data.jobid);
