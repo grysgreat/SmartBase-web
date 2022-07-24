@@ -25,7 +25,7 @@ export class JsplumbComponent2 implements OnInit {
   @ViewChildren(DragoperationComponent) panes2!: QueryList<DragoperationComponent>;
 
   //TODO: 针对jar包id修改这里
-  private JarID :string ="c57eac93-0d21-4f3b-9165-1f1183870a35_NewOpTest-1.0-SNAPSHOT-jar-with-dependencies.jar";
+  private JarID :string ="d6e2f29a-1cff-4562-9bd4-775e7b0b2c09_BaseHub-1.0-SNAPSHOT-jar-with-dependencies.jar";
   area = 'drop-bg';
   areaId = '#' + this.area;
   public htmldragpan:string="";
@@ -678,59 +678,6 @@ console.log(this.dragbody_operation);
 
 
 
-  public getNext(s:string):number[]{
-
-    let next=[];
-
-    next[0]=0;
-
-    for(let i=1,j=0;i<s.length;i++){
-
-            while(j>0&&s[j]!=s[i]){
-
-                    j=next[j-1];
-
-                    if(s[j]==s[i]){
-
-                            j++;
-
-                    }
-
-                    next[i]=j;
-
-            }
-
-    }
-    return next;
-
 }
 
-private subStringIndexKMP(source:string,target:string):number{
 
-     if(target.length>source.length||!source||!target){
-         return -1;
-     }
-     let res=-1;
-     let i=0;
-     let next:number[]=this.getNext(source);
-     while(i<=source.length-target.length){
-         if(source[i]==target[0]){
-            let temp=true;
-            for(let j=0;j<target.length;j++){
-                if(source[i+j]!=target[j]){
-                    temp=false;
-                    i+=next[j+1];    //i向前移动j+1跳过哨兵
-                    break;
-                }
-            }
-            if(temp){
-                res=i;
-                return res
-            }
-        }else{
-            i++;
-        }
-     }
-     return res;
- }
-}
