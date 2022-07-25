@@ -6,9 +6,41 @@
 
 
 
-*--------------developing-------------*
+## 开发笔记
 ----
+## 部署方式
+目前最简单的方式就是通过tomcat静态服务器来部署
+测试通过的版本号：`tomcat 9.0.65 RELEASE`
 
+`src\index.html:34行`
+ 需要更改为
+ ```html
+ <base href="./"/>
+ ```
+
+`src\app\app.config.ts:5 行`
+```typescript
+export const BASE_URL = '.';
+```
+需要更改为对应的flink端口地址
+
+
+之后运行 命令 
+```
+ng build --configuration production
+```
+然后将生成的web文件复制到tomcat的对应文件夹内即可
+
+
+### 连接flink8082端口
+在主目录下的`proxy.conf.json` 文件中设置`target`=flink的8082端口
+
+在开发中通过一下命令启动
+```cmd
+npm run proxy 
+```
+
+### angular组件的创建与使用
 去到对应文件夹
 创建新模块  ng g m （） --routing  
 创建新模块的静态文件 ng g c （）
@@ -25,9 +57,9 @@ import {
 
 ### 隐藏bug 
 关于Cancel job小按钮 在添加一些小的其他功能后出现了消失的情况 ，但更改下业务逻辑后得到改善 但只是权衡之计 可以在做完后再研究一下
-//但屈指西风几时来，又不道流年暗中偷换。 --洞仙歌·冰肌玉骨
 
-## 关于流程图
+
+### 关于流程图
 
   流程图采用了jsplumb库，在ts库中
 
@@ -96,7 +128,4 @@ jsPlumb库的使用问题。需要密切关注组件的生命周期问题，因�
 ```
 
 
-
-# 部署
-<base href="./"/> 需要更改
 
