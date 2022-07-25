@@ -25,7 +25,7 @@ export class JsplumbComponent2 implements OnInit {
   @ViewChildren(DragoperationComponent) panes2!: QueryList<DragoperationComponent>;
 
   //TODO: 针对jar包id修改这里
-  private JarID :string ="c57eac93-0d21-4f3b-9165-1f1183870a35_NewOpTest-1.0-SNAPSHOT-jar-with-dependencies.jar";
+  private JarID :string ="d6e2f29a-1cff-4562-9bd4-775e7b0b2c09_BaseHub-1.0-SNAPSHOT-jar-with-dependencies.jar";
   area = 'drop-bg';
   areaId = '#' + this.area;
   public htmldragpan:string="";
@@ -679,3 +679,5 @@ console.log(this.dragbody_operation);
 
 
 }
+
+
