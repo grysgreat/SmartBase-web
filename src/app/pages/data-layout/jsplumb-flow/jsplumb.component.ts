@@ -24,8 +24,8 @@ export class JsplumbComponent2 implements OnInit {
   @ViewChildren(DragableBodyComponent) panes!: QueryList<DragableBodyComponent>;
   @ViewChildren(DragoperationComponent) panes2!: QueryList<DragoperationComponent>;
 
-  //TODO: 针�?�jar包id�?改这�?
-  private JarID :string ="72f113b5-3140-4946-8553-40ae161f151c_9th.jar";
+  //TODO: 针�?�jar包id�??改这�??
+  private JarID :string ="00a02105-f7c7-4734-b1e6-090f8edafffb_11.jar";
   area = 'drop-bg';
   areaId = '#' + this.area;
   public htmldragpan:string="";
@@ -53,26 +53,26 @@ export class JsplumbComponent2 implements OnInit {
   public jobflows:jobidflow[];
 
 //#region 图形存储
-  public dragbody_operation: dragbody[] = []; //�?
-  public dragbody_list:dragbody[]=[];          //�?
-  //存储连线的列�? �?增加不删除就�?�?
-  public linklist:draglink[] = [];                 //�?
-  //dragbody 的map 用uuid来标�?
-  public bodymap: Map<string, dragbody>;        //�?
-  public bodybaseinfo :Map<string,Baseinfo>;//�?
-  public opcodeinfo: Map<string,opcode>;//�?
+  public dragbody_operation: dragbody[] = []; //�??
+  public dragbody_list:dragbody[]=[];          //�??
+  //存储连线的列�?? �??增加不删除就�??�??
+  public linklist:draglink[] = [];                 //�??
+  //dragbody 的map 用uuid来标�??
+  public bodymap: Map<string, dragbody>;        //�??
+  public bodybaseinfo :Map<string,Baseinfo>;//�??
+  public opcodeinfo: Map<string,opcode>;//�??
 //#endregion
   jobrunc:Observable<{jobid:string}>;
 
 
 
 
-//#region 以下数据结构�?在�?�算图结构时更新并使�?
-      //记录所有的头节�?
+//#region 以下数据结构�??�?�??�算图结构时更新并使�??
+      //记录所有的头节�??
       public sourcelist: dragbody[] = [];
-      //图结�?
+      //图结�??
       public bodyGraph: Map<string, string[]>;
-      //存储计算好的数据�?
+      //存储计算好的数据�??
       public joblist: dragbody[][] = [[]];
       //生成工作流�?�象
       public jobdataflow:JobDataFlow[]=[];
@@ -82,11 +82,11 @@ export class JsplumbComponent2 implements OnInit {
 
 
 
-  //在构造函�? 进�?�相应组件的注入
+  //在构造函�?? 进�?�相应组件的注入
   constructor(
     private readonly jarService: JarService,
     private readonly notification: NzNotificationService,
-    private readonly changeDetector: ChangeDetectorRef,// changeDetector 用于强制更新的注�?
+    private readonly changeDetector: ChangeDetectorRef,// changeDetector 用于强制更新的注�??
     private readonly sp: SpringbootService,
     private readonly st: StorageService
   ) { }
@@ -102,7 +102,7 @@ export class JsplumbComponent2 implements OnInit {
       helper: 'clone',
       scope: 'ss'
     })
-    //设定�?仍的区域
+    //设定�??仍的区域
     $(this.areaId).droppable({
       scope: 'ss',
       drop: (event: any, ui: any) => {
@@ -117,7 +117,7 @@ export class JsplumbComponent2 implements OnInit {
       originalEvent;
     })
 
-    // 当链接建�?
+    // 当链接建�??
     jsPlumb.bind('beforeDrop', (info: any) => {
       return this.connectionBeforeDropCheck(info)
     })
@@ -125,7 +125,7 @@ export class JsplumbComponent2 implements OnInit {
     jsPlumb.importDefaults({
       ConnectionsDetachable: true
     })
-    // 获取所有配�?信息
+    // 获取所有配�??信息
 
 
 
@@ -134,14 +134,14 @@ export class JsplumbComponent2 implements OnInit {
   //#endregion
 
   deleteLine(conn: any) {
-    if (confirm('�?定删除所点击的链接吗�?')) {
+    if (confirm('�??定删除所点击的链接吗�??')) {
       jsPlumb.detach(conn)
     }
   }
   //#endregion
 
   /**
-   * 包�?�好的连接函�? �?需要id�?
+   * 包�?�好的连接函�?? �??需要id�??
    * @param from ba
    * @param to 
    */
@@ -173,7 +173,7 @@ export class JsplumbComponent2 implements OnInit {
     }else{
       this.dragbody_list.push(sdf);
     }
-    this.changeDetector.detectChanges();//标�?�更�?
+    this.changeDetector.detectChanges();//标�?�更�??
   }
 
 
@@ -182,7 +182,7 @@ export class JsplumbComponent2 implements OnInit {
   //   console.log(this.panes.get(0)?.data.top);
   //  // this.st.set("test",this)
 
-//# �?换工作流
+//# �??换工作流
   // this.GraphToJson();
   // this.listconvertojson();
   //   console.log(this.joblist)
@@ -201,14 +201,14 @@ export class JsplumbComponent2 implements OnInit {
 // this.Saveflow();
 // this.InitFlow();
   }
-  // 链接建立后的检�?
-  // 当出现自连接的情况后，�?�将链接�?开
+  // 链接建立后的检�??
+  // 当出现自连接的情况后，�?�将链接�??开
   connectionBeforeDropCheck(info: any) {
 
     this.linklist.push({
       source:info.sourceId,
       target:info.targetId
-    });//将连线信�?加入到linklist数组�?
+    });//将连线信�??加入到linklist数组�??
     //console.log(info);
     if (!info.connection.source.dataset.pid) {
       return true
@@ -292,11 +292,11 @@ notify(data: any) {
   }
 
   /**
-   * @param id 将�?�关�?的可拖动组件的id�?
+   * @param id 将�?�关�??的可拖动组件的id�??
    */
   shutDownComp(id: string) {
 
-    this.bodymap.delete(id);//将组件从map�?删除
+    this.bodymap.delete(id);//将组件从map�??删除
 
 
     this.dragbody_list = this.dragbody_list.filter(
@@ -327,7 +327,7 @@ console.log(this.dragbody_operation);
       /**
      * 
      * @param uuid id
-     * @returns 返回组件�?
+     * @returns 返回组件�??
      */
        GetBodyById(uuid:string):DragableBodyComponent|DragoperationComponent|undefined{
         for(let sourceitem of this.panes){
@@ -344,7 +344,7 @@ console.log(this.dragbody_operation);
 
 
   /**
-   * 通过后�??获取所有信�?源数�?
+   * 通过后�??获取所有信�??源数�??
    */
   getdatasourcelist() {
     this.Jdbclist$ = this.sp.SearchAllJdbc();
@@ -393,7 +393,7 @@ console.log(this.dragbody_operation);
 
 
 
-  //#region 图像�?化的相关过程
+  //#region 图像�??化的相关过程
 
   /**
    * 将图像转化为json
@@ -410,9 +410,9 @@ console.log(this.dragbody_operation);
         this.sourcelist.push(value);
       }
     }
-    //其�?�维�?bodyGraph:map (string,string[]) 生成图结�?
+    //其�?�维�??bodyGraph:map (string,string[]) 生成图结�??
     for (var link of this.linklist) {
-      //�?保连线的两�?�都有效
+      //�??保连线的两�?�都有效
       if (this.valid_body(link.source) && this.valid_body(link.target)) {
         let temps = this.bodyGraph.get(link.source);
         if (temps == undefined) {
@@ -433,16 +433,16 @@ console.log(this.dragbody_operation);
 
   }
   /**
-   * 判断组件�?不是target
-   * @parma uuid 组件id�?
+   * 判断组件�??不是target
+   * @parma uuid 组件id�??
    */
   validTarget_body(uuid: string): boolean {
     let tempbody = this.bodymap.get(uuid);
     return tempbody !== undefined && tempbody.opcode == 'target';
   }
   /**
-   * 判断组件�?不是sourcebody
-   * @parma uuid 组件id�?
+   * 判断组件�??不是sourcebody
+   * @parma uuid 组件id�??
    */
   validSource_body(uuid: string): boolean {
     let tempbody = this.bodymap.get(uuid);
@@ -450,8 +450,8 @@ console.log(this.dragbody_operation);
   }
   /**
    * 
-   * @param uuid dragbody 的id�?
-   * @returns 判断�?否是有效�? dragbody
+   * @param uuid dragbody 的id�??
+   * @returns 判断�??否是有效�?? dragbody
    */
   valid_body(uuid: string): boolean {
     return this.bodymap.has(uuid);
@@ -459,7 +459,7 @@ console.log(this.dragbody_operation);
 
 
   /**
- * 对用户绘就的单向图进行dfs,提取出有效的工作数据�?
+ * 对用户绘就的单向图进行dfs,提取出有效的工作数据�??
  * @param uuid 当前父亲组件uudi
  * @param joblist_temp  dfs经过节点的dragbody列表
  */
@@ -469,21 +469,21 @@ console.log(this.dragbody_operation);
     var tempbodylist:dragbody[] = this.clonearray(joblist_temp);
     //先查看是否是有效节点
     if (!this.valid_body(uuid)) return;
-    //然后获取�?body 并将节点放入list
+    //然后获取�??body 并将节点放入list
     var tempbody = this.bodymap.get(uuid);
     if (tempbody !== undefined) {
       tempbodylist.push( tempbody.cloneD());
     }
-    //检察是不是target节点 如果�?则将产生的list添加进joblist
+    //检察是不是target节点 如果�??则将产生的list添加进joblist
     if (this.validTarget_body(uuid)) {
       
       this.joblist.push(this.clonearray(tempbodylist));
       return;
     }
-    //如果当前节点没有子节点信�?就不需要继�?执�?�了
+    //如果当前节点没有子节点信�??就不需要继�??执�?�了
     if (!(this.bodyGraph.has(uuid))) {
       return;
-    } else {//否则查找子节�?
+    } else {//否则查找子节�??
       templist = this.bodyGraph.get(uuid);
     }
     if (templist !== undefined)
@@ -536,8 +536,8 @@ console.log(this.dragbody_operation);
   }
 
   /**
-   * 通过id获取数据源信�?
-   * @param uuid 相应组件的id�?
+   * 通过id获取数据源信�??
+   * @param uuid 相应组件的id�??
    */
   GetSourceByuuid(uuid:string):Baseinfo{
     let newbaseinfo:Baseinfo={
@@ -608,7 +608,7 @@ console.log(this.dragbody_operation);
     console.log(JSON.stringify(ft));
     this.st.write(jobid,JSON.stringify(ft));
 
-//存储到后�?数据�?
+//存储到后�??数据�??
     this.sp.InsertJobs({
       jobid:jobid,
       jsondata:stestjson,
