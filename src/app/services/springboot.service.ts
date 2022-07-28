@@ -427,7 +427,7 @@ public AddUserid(jobid:string):Observable<boolean>
   params = params.append('userid', user.id);
 
 
-   return this.httpClient.post<boolean>(this.BAS_URL+'/UserJobConfig/addjobid',null,{ params });
+  return this.httpClient.post<boolean>(this.BAS_URL+'/UserJobConfig/addjobid',null,{ params });
 }
 //#endregion
 
