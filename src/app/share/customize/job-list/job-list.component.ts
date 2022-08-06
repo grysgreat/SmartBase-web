@@ -67,6 +67,7 @@ export class JobListComponent implements OnInit, OnDestroy {
     private activatedRoute: ActivatedRoute,
     private cdr: ChangeDetectorRef,
     private router: Router
+   
   ) {}
 
   ngOnInit(): void {
@@ -89,6 +90,7 @@ export class JobListComponent implements OnInit, OnDestroy {
       this.listOfJob = data.filter(item => item.completed === this.completed);
       this.cdr.markForCheck();
     });
+    
   }
 
   ngOnDestroy(): void {

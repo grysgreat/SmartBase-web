@@ -33,6 +33,7 @@
         <th [nzSortFn]="sortEndTimeFn">End Time</th>
         <th>Tasks</th>
         <th [nzSortFn]="sortStateFn">Status</th>
+        <th>UserId</th>
       </tr>
     </thead>
     <tbody>
@@ -50,6 +51,9 @@
         </td>
         <td>
           <flink-job-badge [state]="job.state"></flink-job-badge>
+        </td>
+        <td>
+          {{2}}
         </td>
       </tr>
     </tbody>

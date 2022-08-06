@@ -358,7 +358,7 @@ public newModbus(item:modbus): Observable<boolean>{
 //#endregion
 
 
-//#retgion    OPC UA
+//#region    OPC UA
 
 public showAllOPCUA(): Observable<opcua[]>{
   return this.httpClient.get<modbus[]>( this.BAS_URL+'/OpcUa/all');
@@ -428,6 +428,14 @@ public AddUserid(jobid:string):Observable<boolean>
 
 
   return this.httpClient.post<boolean>(this.BAS_URL+'/UserJobConfig/addjobid',null,{ params });
+}
+
+public findjobsuser(jobid:string):Observable<number>{
+  let params = new HttpParams();
+  if (jobid) {
+    params = params.append('jobid', jobid);
+  } 
+  return this.httpClient.post<number>(this.BAS_URL+'/UserJobConfig/userid',null,{ params });
 }
 //#endregion
 
