@@ -30,6 +30,7 @@ export interface JobsItem {
   'last-modification': number;
   tasks: TaskStatus;
   completed?: boolean;
+  userid?:number;
 }
 
 export interface TaskStatus {

@@ -1,0 +1,96 @@
+<nz-collapse>
+    <nz-collapse-panel [nzHeader]="'Modbus info'">
+      <button nz-button nzType="primary" nzShape="circle" class="add-new-btn"
+      (click)="createconfig()">+</button>
+      <nz-descriptions *ngFor="let v of pconfiglist;let i = index;" nzTitle={{i+1}} nzBordered="true">
+        <nz-descriptions-item nzTitle="ID">{{v.id}}</nz-descriptions-item>
+        <nz-descriptions-item nzTitle="URL">{{v.url}}</nz-descriptions-item>
+        <nz-descriptions-item nzTitle="port">{{v.port}}</nz-descriptions-item>
+
+        <nz-descriptions-item nzTitle="删除"><button nz-button nzType="primary" (click)="deleteconfig(i)">&nbsp;&nbsp;</button></nz-descriptions-item>
+     
+    </nz-descriptions>
+    </nz-collapse-panel>
+  </nz-collapse>
+<nz-modal [(nzVisible)]="isVisible" nzTitle="The first Modal" (nzOnCancel)="handleCancel()" (nzOnOk)="handleOk()" nzWidth="1000px">
+<ng-container *nzModalContent>
+
+<nz-card [nzBordered]="false" [nzTitle]="' Modbus source '" [nzLoading]="false">
+    <form nz-form style="max-width: 1600px">
+      <nz-form-item>
+        <nz-form-label>url</nz-form-label>
+        <input nz-input [(ngModel)]="newconfig.url" [ngModelOptions]="{standalone: true}"/>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-label [nzSm]="6" [nzXs]="24">Port</nz-form-label>
+        <nz-input-number class="form-item form-item-count" name="type" [nzMin]="0"  [nzStep]="1"
+           placeholder="type"
+           [(ngModel)]="newconfig.port"
+           ></nz-input-number>
+      </nz-form-item>
+
+
+    <nz-form-item>
+       <button nz-button nzType="dashed" class="add-button" (click)="addField($event)">
+         <i nz-icon nzType="plus"></i>
+         Add field
+       </button>
+   </nz-form-item>
+
+   <nz-form-item *ngFor="let fields of fieldlist;let i =index">
+
+
+    <nz-input-group>
+        <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired>type</nz-form-label>
+        <nz-input-number class="form-item form-item-count" name="type" [nzMin]="0"  [nzStep]="1"
+           placeholder="type"
+           [(ngModel)]="fieldlist[i].type"
+           [ngModelOptions]="{standalone: true}"
+           ></nz-input-number>
+
+        <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired>slave_id</nz-form-label>
+        <nz-input-number class="form-item form-item-count" name="slave_id" [nzMin]="0" [nzStep]="1"
+           placeholder="slave_id"
+           [(ngModel)]="fieldlist[i].slave_id"
+           [ngModelOptions]="{standalone: true}"
+           ></nz-input-number>
+
+        <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired>offset</nz-form-label>
+        <nz-input-number class="form-item form-item-count" name="offset" [nzMin]="0"  [nzStep]="1"
+           placeholder="offset"
+           [(ngModel)]="fieldlist[i].offset"
+           [ngModelOptions]="{standalone: true}"
+           ></nz-input-number>
+
+        <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired>datatype</nz-form-label>
+        <nz-input-number class="form-item form-item-count" name="datatype" [nzMin]="0"  [nzStep]="1"
+           placeholder="datatype"
+           [(ngModel)]="fieldlist[i].datatype"
+           [ngModelOptions]="{standalone: true}"
+           ></nz-input-number>
+    </nz-input-group>
+
+     <i nz-icon nzType="minus-circle-o" class="dynamic-delete-button" (click)="removeField(i, $event)"></i>
+   
+   
+   
+    </nz-form-item>
+
+
+
+
+
+   <nz-form-item>
+     <nz-form-control [nzXs]="{ span: 24, offset: 0 }" [nzSm]="{ span: 20, offset: 4 }">
+       <button nz-button nzType="primary" (click)="createnewconfig()">Submit</button>
+     </nz-form-control>
+   </nz-form-item>
+
+
+ </form>
+</nz-card>
+</ng-container>
+</nz-modal>
+
+
+

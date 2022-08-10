@@ -132,7 +132,7 @@ export class JsplumbComponent implements OnInit {
     // 单点击了连接线上的X号 对组件进行删除
     jsPlumb.bind('dblclick', (conn: any, originalEvent: any) => {
       this.deleteLine(conn);
-      originalEvent;//TODO:
+      originalEvent;//
     })
 
     // 当链接建立

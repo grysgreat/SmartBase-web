@@ -43,6 +43,11 @@ export * from './config/Hdfs';
 export * from './config/redis';
 export * from './config/Socket';
 export * from './config/Kafka';
+export * from './config/modbus';
+export * from './config/modbusdata';
+export * from './config/rtmprtsp';
+export * from './config/opcua';
+
 export * from './dragbody';
 export * from './drag/draginfo';
 export * from './config/opcode';
@@ -52,3 +57,4 @@ export * from './OneFlow';
 export * from './drag/draglink';
 export * from './jobid-flow';
 export * from './Table';
+export * from './user-info/flink-user'

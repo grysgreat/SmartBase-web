@@ -16,8 +16,8 @@
  * limitations under the License.
  */
 
-export const BASE_URL = 'http://localhost:8081';
-
+export const BASE_URL = '.';
+export const SP_URL ='http://localhost:8082';
 export type ColorKey =
   | 'TOTAL'
   | 'RUNNING'

@@ -153,6 +153,7 @@
   },
   "defaultProject": "flink",
   "cli": {
+    "analytics": "3d0e20f5-1cc8-439d-a245-da8fd6927538",
     "defaultCollection": "@angular-eslint/schematics"
   }
 }

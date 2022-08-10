@@ -1,8 +1,7 @@
 [
   {
     "context": ["/"],
-   "target": "http://localhost:8081",
-   ///"target": "http://192.168.0.101:12316",
+   "target": "http://100.132.0.91:8081",
     "secure": false
   }
 ]

@@ -26,6 +26,10 @@ import { NzIconModule } from 'ng-zorro-antd/icon';
 import { DynamicClassComponent } from './dynamic-class/dynamic-class.component';
 import { JdbcDynamicComponent } from './dynamic-class/jdbc/jdbc.component';
 import { NzSelectModule } from 'ng-zorro-antd/select';
+import { RtspComponent } from './source-config/rtsp/rtsp.component';
+import { RtmpComponent } from './source-config/rtmp/rtmp.component';
+import { ModbusComponent } from './source-config/modbus/modbus.component';
+import { OpcuaComponent } from './source-config/opcua/opcua.component';
 @NgModule({
   declarations: [
     SourceManagerComponent,
@@ -38,7 +42,11 @@ import { NzSelectModule } from 'ng-zorro-antd/select';
     SocketComponent,
     CsvComponent,
     DynamicClassComponent,
-    JdbcDynamicComponent
+    JdbcDynamicComponent,
+    RtspComponent,
+    RtmpComponent,
+    ModbusComponent,
+    OpcuaComponent
   ],
   imports: [
     CommonModule,

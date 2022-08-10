@@ -2,13 +2,15 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 //import { catchError, map } from 'rxjs/operators';
-import { JdbcConfig, jobidflow } from '../interfaces';
+import { flinkUser, JdbcConfig, jobidflow, modbus, opcua } from '../interfaces';
 import { HttpParams } from '@angular/common/http';
 import { Kafka } from '../interfaces/config/Kafka';
 import { Hdfs } from '../interfaces/config/Hdfs';
 import { Socket } from '../interfaces/config/Socket';
 import { redis } from '../interfaces/config/redis';
 import { Table } from '../interfaces';
+import { StorageService } from './storage.service';
+import { rtmprtsp } from '../interfaces/config/rtmprtsp';
 // import { HttpClient } from '@angular/common/http';
 // private httpClient: HttpClient
 @Injectable({
@@ -16,7 +18,7 @@ import { Table } from '../interfaces';
 })
 export class SpringbootService {
   private readonly BAS_URL: string = 'http://localhost:8082';
-  constructor(private readonly httpClient: HttpClient) { }
+  constructor(private readonly httpClient: HttpClient,private readonly st:StorageService) { }
 
 //#region ---------------------- JDBC ----------------------
   public SearchAllJdbc(): Observable<JdbcConfig[]>{
@@ -266,9 +268,176 @@ public updateRedis(redis:redis): Observable<redis>{
 }
 //#endregion
 
+//#region Rtmp & Rtsp
+public showRtsp(): Observable<rtmprtsp[]>{
+  return this.httpClient.get<rtmprtsp[]>( this.BAS_URL+'/rtsp/all');
+}
+public deleteRtsp(index:number):Observable<boolean>{
+  return this.httpClient.get<boolean>(`${this.BAS_URL}/rtsp/delete/${index}`);
+}
+public newRtsp(hdfs:rtmprtsp): Observable<boolean>{
+  let params = new HttpParams();
+  const requestParam = { hdfs};
+  if (hdfs.url) {
+    params = params.append('url', hdfs.url);
+  }
+  return this.httpClient.post<boolean>(this.BAS_URL+'/rtsp/insert',requestParam,{ params });
+
+}
+public updateRtsp(rtmp:rtmprtsp): Observable<rtmprtsp>{
+  let params = new HttpParams();
+  const requestParam = {rtmp};
+  if(rtmp.id){
+    params = params.append('id', rtmp.id);
+  }
+  if (rtmp.url) {
+    params = params.append('url', rtmp.url);
+  }
+  return this.httpClient.post<rtmprtsp>(this.BAS_URL+'/rtsp/update',requestParam,{ params });
+
+}
+/////////////////////////
+
+public showRtmp(): Observable<rtmprtsp[]>{
+  return this.httpClient.get<rtmprtsp[]>( this.BAS_URL+'/rtmp/all');
+}
+public deleteRtmp(index:number):Observable<boolean>{
+  return this.httpClient.get<boolean>(`${this.BAS_URL}/rtmp/delete/${index}`);
+}
+public newRtmp(hdfs:rtmprtsp): Observable<boolean>{
+  let params = new HttpParams();
+  const requestParam = { hdfs};
+  if (hdfs.url) {
+    params = params.append('url', hdfs.url);
+  }
+  return this.httpClient.post<boolean>(this.BAS_URL+'/rtmp/insert',requestParam,{ params });
+
+}
+public updateRtmp(rtmp:rtmprtsp): Observable<rtmprtsp>{
+  let params = new HttpParams();
+  const requestParam = {rtmp};
+  if(rtmp.id){
+    params = params.append('id', rtmp.id);
+  }
+  if (rtmp.url) {
+    params = params.append('url', rtmp.url);
+  }
+  return this.httpClient.post<rtmprtsp>(this.BAS_URL+'/rtmp/update',requestParam,{ params });
+
+}
 
 
 
+
+//#endregion
+
+//#region Modbus
+public showAllModbus(): Observable<modbus[]>{
+  return this.httpClient.get<modbus[]>( this.BAS_URL+'/modbus/all');
+}
+public deleteModbus(index:number):Observable<boolean>{
+  return this.httpClient.get<boolean>(`${this.BAS_URL}/modbus/delete/${index}`);
+}
+public newModbus(item:modbus): Observable<boolean>{
+  let params = new HttpParams();
+  const requestParam = { item};
+  if (item.url) {
+    params = params.append('url', item.url);
+  } 
+  if (item.port) {
+    params = params.append('port', item.port);
+  }
+  if (item.data) {
+    params = params.append('data',item.data);
+  }
+  return this.httpClient.post<boolean>(this.BAS_URL+'/modbus/insert',requestParam,{ params });
+
+}
+
+
+//#endregion
+
+
+//#region    OPC UA
+
+public showAllOPCUA(): Observable<opcua[]>{
+  return this.httpClient.get<modbus[]>( this.BAS_URL+'/OpcUa/all');
+}
+public deleteOPCUA(index:number):Observable<boolean>{
+  return this.httpClient.get<boolean>(`${this.BAS_URL}/OpcUa/delete/${index}`);
+}
+public newOPCUA(item:opcua): Observable<boolean>{
+  let params = new HttpParams();
+  const requestParam = { item};
+  if (item.ServerUrl) {
+    params = params.append('serverUrl', item.ServerUrl);
+  } 
+  if (item.userName) {
+    params = params.append('userName', item.userName);
+  }
+  if (item.password) {
+    params = params.append('password',item.password);
+  }
+  if (item.inAnonymous) {
+    params = params.append('isAnonymous',item.inAnonymous);
+  }
+  if (item.identifier) {
+    params = params.append('identifier',item.identifier);
+  }
+  return this.httpClient.post<boolean>(this.BAS_URL+'/OpcUa/insert',requestParam,{ params });
+
+}
+//#endregion
+
+//#region 用户登录与相关信息
+public VarifyUserinfo(name:string,pwd :string ):Observable<flinkUser>{
+  let params = new HttpParams();
+  if (name) {
+    params = params.append('name', name);
+  } 
+  if(pwd){
+    params = params.append('pwd',pwd);
+  }
+  let postparater = {
+    "name":name,
+    "pwd":pwd
+  }
+  return this.httpClient.post<flinkUser>(this.BAS_URL+'/UserConfig/login',postparater,{ params });
+}
+
+public AddUserid(jobid:string):Observable<boolean>
+{
+  let user:flinkUser;
+    if(this.st.get("user-info")!=null){
+      console.log(this.st.get("user-info"));
+      
+      user=JSON.parse(this.st.get("user-info"));
+    }else{
+      user={
+        id:-1,
+        name:"",
+        pwd:"",
+        priority:-1
+      }
+    }
+  let params = new HttpParams();
+  if (jobid) {
+    params = params.append('jobid', jobid);
+  } 
+  params = params.append('userid', user.id);
+
+
+  return this.httpClient.post<boolean>(this.BAS_URL+'/UserJobConfig/addjobid',null,{ params });
+}
+
+public findjobsuser(jobid:string):Observable<number>{
+  let params = new HttpParams();
+  if (jobid) {
+    params = params.append('jobid', jobid);
+  } 
+  return this.httpClient.post<number>(this.BAS_URL+'/UserJobConfig/userid',null,{ params });
+}
+//#endregion
 
 
 
