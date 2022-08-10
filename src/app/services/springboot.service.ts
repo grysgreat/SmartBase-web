@@ -405,6 +405,10 @@ public VarifyUserinfo(name:string,pwd :string ):Observable<flinkUser>{
   return this.httpClient.post<flinkUser>(this.BAS_URL+'/UserConfig/login',postparater,{ params });
 }
 
+public ShowAllUser():Observable<flinkUser[]>{
+  return this.httpClient.get<flinkUser[]>(this.BAS_URL+'/UserConfig/listAllUser');
+}
+
 public AddUserid(jobid:string):Observable<boolean>
 {
   let user:flinkUser;
@@ -443,6 +447,27 @@ public findjobsuserName(jobid:string):Observable<string>{
   return this.httpClient.get(`${this.BAS_URL}/UserJobConfig/jobUsername?jobid=${jobid}`,{
     responseType: 'text',
   });
+}
+
+public newFlinkUser(item:flinkUser): Observable<boolean>{
+  let params = new HttpParams();
+  const requestParam = { item};
+  if (item.name) {
+    params = params.append('name', item.name);
+  } 
+
+  if (item.pwd) {
+    params = params.append('pwd',item.pwd);
+  }
+  if(item.priority){
+    params = params.append('priority',item.priority);
+  }
+  return this.httpClient.post<boolean>(this.BAS_URL+'/UserConfig/insertUser',requestParam,{ params });
+
+}
+
+public deleteFlinkUser(index:number):Observable<boolean>{
+  return this.httpClient.get<boolean>(`${this.BAS_URL}/UserConfig/delete/${index}`);
 }
 //#endregion
 

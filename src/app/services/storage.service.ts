@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { dragbody, draglink } from 'interfaces';
+import { dragbody, draglink, flinkUser } from 'interfaces';
 
 @Injectable({
   providedIn: 'root'
@@ -86,6 +86,25 @@ ObjectTodraglink(obj:any):draglink{
     target : obj.target
   }
   return dt;
+}
+
+GetAdminPrority():boolean{
+  let user:flinkUser;
+    if(this.get("user-info")!=null){
+      console.log(this.get("user-info"));
+      
+      user=JSON.parse(this.get("user-info"));
+    }else{
+      user={
+        id:-1,
+        name:"",
+        pwd:"",
+        priority:-1
+      }
+    }
+
+  if(user.priority>1) return true;
+  else return false;
 }
 }
 

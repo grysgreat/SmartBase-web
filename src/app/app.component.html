@@ -146,6 +146,17 @@
           <span>Data Layout</span>
         </span>
       </li>
+
+      <div *ngIf="prority">
+        <li  nz-menu-item routerLinkActive="ant-menu-item-selected" 
+        [routerLink]="['/user-manager']">
+          <span>
+            <i nz-icon nzType="build"></i>
+            <span>User Manager</span>
+          </span>
+        </li>
+      </div>
+
       
 
             
@@ -181,7 +192,7 @@
         (click)="toggleCollapse()"
       ></i>
       <div class="right">
-        <button nz-button (click)="fuck()" ></button>
+        
         
         <!-- <span>
           <strong>Version:</strong>TPDO

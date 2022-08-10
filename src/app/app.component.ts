@@ -19,7 +19,7 @@
 import { Component } from '@angular/core';
 import { fromEvent, merge } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
-import { StatusService } from 'services';
+import { StatusService, StorageService } from 'services';
 
 @Component({
   selector: 'flink-root',
@@ -29,6 +29,7 @@ import { StatusService } from 'services';
 export class AppComponent {
   collapsed = false;
   visible = false;
+  prority = this.st.GetAdminPrority();
   online$ = merge(
     fromEvent(window, 'offline').pipe(map(() => false)),
     fromEvent(window, 'online').pipe(map(() => true))
@@ -51,8 +52,8 @@ export class AppComponent {
     this.collapsed = !this.collapsed;
   }
 
-  constructor(public statusService: StatusService) {}
-  fuck(){
-    console.log("FUCK U SOFTWARE ENG!!!!!!!!!");
-  }
+  constructor(public statusService: StatusService,
+    public st:StorageService
+    ) {}
+
 }
