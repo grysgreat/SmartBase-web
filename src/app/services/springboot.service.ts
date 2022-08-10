@@ -437,6 +437,13 @@ public findjobsuser(jobid:string):Observable<number>{
   } 
   return this.httpClient.post<number>(this.BAS_URL+'/UserJobConfig/userid',null,{ params });
 }
+
+public findjobsuserName(jobid:string):Observable<string>{
+
+  return this.httpClient.get(`${this.BAS_URL}/UserJobConfig/jobUsername?jobid=${jobid}`,{
+    responseType: 'text',
+  });
+}
 //#endregion
 
 

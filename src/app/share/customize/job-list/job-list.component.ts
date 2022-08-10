@@ -23,9 +23,10 @@ import { flatMap, takeUntil } from 'rxjs/operators';
 
 import { NzMessageService } from 'ng-zorro-antd/message';
 
-import { JobsItem } from 'interfaces';
-import { JobService, StatusService } from 'services';
+import { flinkUser, JobsItem } from 'interfaces';
+import { JobService, SpringbootService, StatusService, StorageService } from 'services';
 import { isNil } from 'utils';
+
 
 @Component({
   selector: 'flink-job-list',
@@ -35,6 +36,7 @@ import { isNil } from 'utils';
 })
 export class JobListComponent implements OnInit, OnDestroy {
   listOfJob: JobsItem[] = [];
+  listUsename:string[]=[];
   isLoading = true;
   destroy$ = new Subject();
   sortName = 'start-time';
@@ -47,6 +49,7 @@ export class JobListComponent implements OnInit, OnDestroy {
   sortDurationFn = (pre: JobsItem, next: JobsItem): number => pre.duration - next.duration;
   sortEndTimeFn = (pre: JobsItem, next: JobsItem): number => pre['end-time'] - next['end-time'];
   sortStateFn = (pre: JobsItem, next: JobsItem): number => pre.state.localeCompare(next.state);
+  user:flinkUser;
 
   trackJobBy(_: number, node: JobsItem): string {
     return node.jid;
@@ -66,11 +69,25 @@ export class JobListComponent implements OnInit, OnDestroy {
     private nzMessageService: NzMessageService,
     private activatedRoute: ActivatedRoute,
     private cdr: ChangeDetectorRef,
-    private router: Router
+    private router: Router,
+    private st:StorageService,
+    private sp:SpringbootService
    
   ) {}
 
   ngOnInit(): void {
+    if(this.st.get("user-info")!=null){
+      console.log(this.st.get("user-info"));
+      this.user=JSON.parse(this.st.get("user-info"));
+    }else{
+      this.user={
+        id:-1,
+        name:"",
+        pwd:"",
+        priority:-1
+      }
+    }
+
     if (this.activatedRoute.snapshot.data) {
       this.completed = isNil(this.activatedRoute.snapshot.data.completed)
         ? this.completed
@@ -89,8 +106,17 @@ export class JobListComponent implements OnInit, OnDestroy {
       this.isLoading = false;
       this.listOfJob = data.filter(item => item.completed === this.completed);
       this.cdr.markForCheck();
+      this.initUsername();
     });
     
+  }
+
+  initUsername():void{
+    for( let item in this.listOfJob ){
+      this.sp.findjobsuserName(this.listOfJob[item].jid).subscribe(
+        data => this.listUsename[item]=data
+      );
+    }
   }
 
   ngOnDestroy(): void {
